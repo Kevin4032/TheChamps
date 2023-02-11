@@ -4,7 +4,7 @@ _Opdracht INFPRJ23B (Hogeschool Rotterdam)_
 
 ## Inleiding
 Het fictieve Depot Beunmans Van Boijingen is het eerste publiek toegankelijk kunstdepot ter wereld. Het depot staat naast
-Museum Beunmans Van Boijingen in Museumpark in Rotterdam. Bezoekers zien het resultaat van 173 jaar
+Museum Beunmans Van Boijingen in het Museumpark in Rotterdam. Bezoekers zien het resultaat van 173 jaar
 verzamelen. Meer dan 151.000 verzamelde kunstwerken opgeslagen bij elkaar, gerangschikt en gestructureerd
 in veertien depotruimten met vijf klimaten. Naast de objecten zijn alle werkzaamheden die komen kijken bij het
 beheer en onderhoud van een collectie te zien.
@@ -25,7 +25,7 @@ van 11:00 tot 17:30.
 - **Het lijkt wenselijk dat deze gegevens (aantal rondleidingen en bezoekers, tijdstippen van rondleidingen) ergens in een instellingen-bestand opgeslagen worden, zodat deze in de toekomst gewijzigd kunnen worden (uit de tekst onder *Afdelingshoofd* blijkt dat dat nodig kan zijn). Klopt dit, en is er een voorkeur voor een bepaald bestandsformaat/schema? (Indien geen duidelijke voorkeur: dan bepalen wij.)**
     - Bijvoorbeeld een bestand "instellingen.json" in de Working Directory van de applicatie.
     - Het bieden van een interface om zulke instellingen aan te passen valt wat mij betreft NIET binnen de scope van het project. Het is dus aan het Afdelingshoofd om wanneer nodig het bestand met instellingen aan te passen of te vervangen.
-- **Hoe kunnen we controleren of een unieke code een geldige code is (en niet iets willekeurigs dat een bezoeker zomaar invult)? Hebben de codes een bepaald formaat?**
+- **Hoe kunnen we controleren of een unieke code een geldige code is (geen typfouten en niet iets willekeurigs dat een bezoeker zomaar invult)? Hebben de codes een bepaald formaat?**
     - Het kopen van een entreebewijs en genereren van unieke codes valt buiten de scope van het project. De applicatie gaat ervan uit dat bezoekers al een unieke code hebben ontvangen.
 
 
