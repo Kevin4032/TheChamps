@@ -41,6 +41,8 @@ annuleren en, als ze dat willen, een nieuwe reservering maken.
 - **Moeten volgeboekte rondleidingen worden weergegeven, of kunnen deze worden verborgen?**
 - **Zijn er beperkingen op annuleren/wijzigen? Bijvoorbeeld: tot een bepaalde tijd vantevoren?**
     - Dit kan een aanpasbare instelling zijn.
+- **Moeten we überhaupt de systeemklok hiervoor gebruiken?**
+    - Of zeggen we simpelweg dat reserveringen mogelijk zijn totdat een gids de rondleiding gestart heeft?
 
 
 ## Gidsen
