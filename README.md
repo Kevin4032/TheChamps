@@ -1,2 +1,2 @@
 # ProjectB - Team C
-This is where the magic happens
+This is where the magic happens (denk ik)
