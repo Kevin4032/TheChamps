@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            UserInterface.StartUi();
+          UserInterface.StartUi();
         }
     }
 }
