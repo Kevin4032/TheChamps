@@ -22,6 +22,7 @@ public static class UserInterface
 
     private static void DisplayMainMenu()
     {
+        // Get an array of tours to display, should be moved to a .json structure
         Tour[] tours =
         {
             new(new DateTime(2023, 02, 20, 11, 15, 00)),
@@ -30,6 +31,8 @@ public static class UserInterface
             new(new DateTime(2023, 02, 20, 12, 00, 00)),
         };
 
+        // Map the array of tours to a List of UiTableRows
+        // With the time and the remaining spots as columns
         List<UiTableRow> mmRows = tours.Select(tour =>
             new UiTableRow(new []
             {
@@ -37,19 +40,27 @@ public static class UserInterface
                 tour.availableSpots + " " + (tour.availableSpots == 1 ? "plek" : "plekken")
             }, () => { DisplayOptionsForTour(tour); })).ToList();
 
+        // Adds the "reservering wijzigen optie"
         mmRows.Add(new UiTableRow(new [] { "Een reservering wijzigen" }, () => {}));
 
+        // Creates a UiTable instance with title "Het depot rondleidingen overzicht" and with the
+        // rows (mmRows) created above
         UiTable mmTable = new(
             "Het Depot - Rondleidingen overzicht",
-            mmRows, new List<UiTableHiddenOption>
+            mmRows, 
+            // Defines a list with hidden options for the table
+            new List<UiTableHiddenOption>
             {
                 new (ConsoleKey.S, () =>
                 {
-                    
+                    Console.WriteLine("GIDS MENU");
+                    return;
                 })
             },
+            // Defines a row that will be used as table header, this is optional and onSelect will never be called
             new UiTableRow(new [] { "Tijd", "Beschikbare plaatsen" }, () => { }));
 
+        // Gives the created table object to the renderer
         DisplaySelectableTable(mmTable);
     }
 
@@ -108,6 +119,7 @@ public static class UserInterface
 
     private static void DisplayOptionsForTour(Tour tour)
     {
+        // Creates the 2 option rows for the tour overview
         UiTableRow[] tourRows =
         {
             new(new [] {"Aanmelden voor deze rondleiding"}, () =>
@@ -120,27 +132,31 @@ public static class UserInterface
             }),
         };
         
+        // Created the table for the tour overview with title "Rondleiding om {tour.GetTime()}"
         UiTable tourTable = new(
             "Rondleiding om " + tour.GetTime(),
-            tourRows.ToList(), new List<UiTableHiddenOption>());
+            tourRows.ToList(), // Transforms the array to a list
+            new List<UiTableHiddenOption>()); // Gives empty list for hidden options
         
+        // Gives the created table object for Tour overview to the renderer
         DisplaySelectableTable(tourTable);
     }
 
     private static void DisplaySelectableTable(UiTable table)
     {
-        int activeRow = 0;
-        bool selectionMade = false;
-        int optionsLength = table.Rows.Count;
+        int activeRow = 0; // Used for highlighting row and getting selection
+        bool selectionMade = false; // Used to stop the loop when selection is made
+        int optionsLength = table.Rows.Count; // Used for up and down functions
 
         while (!selectionMade)
         {
-            Console.Clear();
-            DisplayTitle(table.Title);
-            BuildTable(table, activeRow);
+            Console.Clear(); // Clears the console
+            DisplayTitle(table.Title); // Passes the table title to the display title methopd
+            BuildTable(table, activeRow); // Builds the table for the first time and passes the table instance and the activeRow
 
-            ConsoleKey key = Console.ReadKey().Key;
+            ConsoleKey key = Console.ReadKey().Key; // This reads the pressed key on the keyboard by the user
 
+            // Checks if the key pressed exists in the hidden options, is so call the OnKey action
             UiTableHiddenOption? hiddenOption = table.HiddenOptions.Find(option => option.Key == key);
 
             if (null != hiddenOption)
@@ -149,10 +165,11 @@ public static class UserInterface
                 return;
             }
             
-            switch (key)
+            switch (key) // Handles the keypresses
             {
                 case ConsoleKey.Enter:
                     selectionMade = true;
+                    // After the selection is made exit the loop
                     break;
                 case ConsoleKey.DownArrow:
                     if (activeRow == optionsLength - 1)
@@ -162,6 +179,7 @@ public static class UserInterface
                     }
 
                     activeRow++;
+                    // After the key is pressed change activeRow and go to line 149
                     break;
                 case ConsoleKey.UpArrow:
                     if (activeRow == 0)
@@ -171,10 +189,12 @@ public static class UserInterface
                     }
 
                     activeRow--;
+                    // After the key is pressed change activeRow and go to line 149
                     break;
             }
         }
 
+        // Find the selected option and call the onSelect action
         table.Rows[activeRow].OnSelect();
     }
 
@@ -185,6 +205,8 @@ public static class UserInterface
 
     private static void BuildTable(UiTable table, int activeRow)
     {
+        // This function writes the table to the console and highlights the given active row
+        
         if (table.Headers != null)
         {
             PrintLine();
@@ -228,6 +250,7 @@ public static class UserInterface
 
     private static string AlignCentre(string text, int width, bool onlyStart = false)
     {
+        // Used for aligning text in the center of a col or row
         text = text.Length > width ? text.Substring(0, width - 3) + "..." : text;
 
         if (string.IsNullOrEmpty(text))
