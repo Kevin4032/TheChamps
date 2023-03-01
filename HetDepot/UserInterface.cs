@@ -73,6 +73,8 @@ public static class UserInterface
         Console.WriteLine();
         // TODO Implement max length with https://stackoverflow.com/a/5557919
         Console.Write(AlignCentre("Uw unieke code: ", TableWidth - codeLength, true));
+
+        Console.CursorVisible = true;
         
         string? code = Console.ReadLine();
 
@@ -98,6 +100,7 @@ public static class UserInterface
     private static void DisplayError(string text)
     {
         Console.Clear();
+        Console.CursorVisible = false;
         Console.BackgroundColor = ConsoleColor.Red;
         Console.ForegroundColor = ConsoleColor.Black;
         Console.WriteLine("\n" + AlignCentre(" ", TableWidth) + 
@@ -110,6 +113,7 @@ public static class UserInterface
     private static void DisplaySuccess(string text)
     {
         Console.Clear();
+        Console.CursorVisible = false;
         Console.BackgroundColor = ConsoleColor.Green;
         Console.ForegroundColor = ConsoleColor.Black;
         Console.WriteLine("\n" + AlignCentre(text, TableWidth) + "\n");
@@ -145,16 +149,27 @@ public static class UserInterface
     private static void DisplaySelectableTable(UiTable table)
     {
         int activeRow = 0; // Used for highlighting row and getting selection
+        int previousActiveRow = -1; // Used to know what row to redraw when selection changes
         bool selectionMade = false; // Used to stop the loop when selection is made
+        bool redraw = true;
         int optionsLength = table.Rows.Count; // Used for up and down functions
+
+        Console.CursorVisible = false;
 
         while (!selectionMade)
         {
-            Console.Clear(); // Clears the console
-            DisplayTitle(table.Title); // Passes the table title to the display title methopd
-            BuildTable(table, activeRow); // Builds the table for the first time and passes the table instance and the activeRow
+            if (redraw) // Re-draw table only when necessary
+            {
+                if (previousActiveRow == -1)
+                {
+                    Console.Clear(); // Clears the console
+                    DisplayTitle(table.Title); // Passes the table title to the display title method
+                }
+                BuildTable(table, activeRow, previousActiveRow); // Builds the table and passes the table instance and the activeRow and previousActiveRow (if any)
+                redraw = false;
+            }
 
-            ConsoleKey key = Console.ReadKey().Key; // This reads the pressed key on the keyboard by the user
+            ConsoleKey key = Console.ReadKey(true).Key; // This reads the pressed key on the keyboard by the user
 
             // Checks if the key pressed exists in the hidden options, is so call the OnKey action
             UiTableHiddenOption? hiddenOption = table.HiddenOptions.Find(option => option.Key == key);
@@ -172,6 +187,8 @@ public static class UserInterface
                     // After the selection is made exit the loop
                     break;
                 case ConsoleKey.DownArrow:
+                    previousActiveRow = activeRow;
+                    redraw = true;
                     if (activeRow == optionsLength - 1)
                     {
                         activeRow = 0;
@@ -182,6 +199,8 @@ public static class UserInterface
                     // After the key is pressed change activeRow and go to line 149
                     break;
                 case ConsoleKey.UpArrow:
+                    previousActiveRow = activeRow;
+                    redraw = true;
                     if (activeRow == 0)
                     {
                         activeRow = optionsLength - 1;
@@ -203,10 +222,32 @@ public static class UserInterface
         Console.WriteLine("\n" + AlignCentre(title, TableWidth));
     }
 
-    private static void BuildTable(UiTable table, int activeRow)
+    private static void BuildTable(UiTable table, int activeRow, int previousActiveRow = -1)
     {
         // This function writes the table to the console and highlights the given active row
         
+        if (previousActiveRow != -1)
+        {
+            // The table was already drawn, draw only the parts that have changed
+            int headerSize = table.Headers == null ? 3 : 5; // Number of lines that the header takes up (including the title)
+            
+            // Remember cursor position
+            int cursorX, cursorY;
+            (cursorX, cursorY) = Console.GetCursorPosition();
+
+            // Redraw previous active row as inactive
+            Console.SetCursorPosition(0, headerSize + previousActiveRow);
+            PrintRow(table.Rows[previousActiveRow], false);
+
+            // Redraw new active row as active
+            Console.SetCursorPosition(0, headerSize + activeRow);
+            PrintRow(table.Rows[activeRow], true);
+
+            // Restore cursor position
+            Console.SetCursorPosition(cursorX, cursorY);
+            return;
+        }
+
         if (table.Headers != null)
         {
             PrintLine();
