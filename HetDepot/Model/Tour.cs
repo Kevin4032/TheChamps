@@ -16,6 +16,13 @@ namespace HetDepot.Model
 
         public long Id { get; private set; }
         public DateTime StartTime { get; private set; }
-        public Guide Guide { get; private set; }
+        public Guide? Guide { get; private set; }
+        public int availableSpots { get { return 13; } }
+        public string GetTime()
+        {
+            return StartTime.ToString("H:mm");
+        }
+
+        public override string ToString() => GetTime();
     }
 }

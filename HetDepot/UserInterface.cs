@@ -1,8 +1,9 @@
 using System.Drawing;
+using System.Linq;
+using HetDepot.Model;
+using HetDepot.Service;
 
 namespace HetDepot;
-
-using System.Linq;
 
 public static class UserInterface
 {
@@ -22,21 +23,20 @@ public static class UserInterface
 
     private static void DisplayMainMenu()
     {
+        var settingService = new SettingService();
+        var tourService = new TourService(settingService);
+
+        
+
         // Get an array of tours to display, should be moved to a .json structure
-        Tour[] tours =
-        {
-            new(new DateTime(2023, 02, 20, 11, 15, 00)),
-            new(new DateTime(2023, 02, 20, 11, 30, 00)),
-            new(new DateTime(2023, 02, 20, 11, 45, 00)),
-            new(new DateTime(2023, 02, 20, 12, 00, 00)),
-        };
+        var tours = tourService.GetTours();
 
         // Map the array of tours to a List of UiTableRows
         // With the time and the remaining spots as columns
         List<UiTableRow> mmRows = tours.Select(tour =>
             new UiTableRow(new []
             {
-                tour.StartsAt.ToString("H:mm"),
+                tour.ToString(),
                 tour.availableSpots + " " + (tour.availableSpots == 1 ? "plek" : "plekken")
             }, () => { DisplayOptionsForTour(tour); })).ToList();
 

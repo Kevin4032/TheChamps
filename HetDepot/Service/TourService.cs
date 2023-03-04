@@ -17,14 +17,14 @@ namespace HetDepot.Service
 
         public IEnumerable<Tour> GetTours()
         {         
-            var tussen = _settingService.GetTours();
+            //var tussen = _settingService.GetTours();
             
-            foreach (var t in tussen)
-            {
-                Console.WriteLine($"Tour: {t.StartTime}");
-            }
+            //foreach (var t in tussen)
+            //{
+            //    Console.WriteLine($"Tour: {t.StartTime}");
+            //}
 
-            return tussen;
+            return _settingService.GetTours();
         }
     }
 }
