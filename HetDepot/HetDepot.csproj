@@ -11,4 +11,10 @@
     <ProjectReference Include="..\JsonFile\JsonFile.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="ExampleFile\ExampleFile.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
