@@ -1,0 +1,90 @@
+[
+  {
+    "Name": "maxPersonPerTour",
+    "Value": "13"
+  },
+  {
+    "Name": "startTimeTour1",
+    "Value": "11:00"
+  },
+  {
+    "Name": "startTimeTour2",
+    "Value": "11:20"
+  },
+  {
+    "Name": "startTimeTour3",
+    "Value": "11:40"
+  },
+  {
+    "Name": "startTimeTour4",
+    "Value": "12:00"
+  },
+  {
+    "Name": "startTimeTour5",
+    "Value": "12:20"
+  },
+  {
+    "Name": "startTimeTour6",
+    "Value": "12:40"
+  },
+  {
+    "Name": "startTimeTour7",
+    "Value": "13:00"
+  },
+  {
+    "Name": "startTimeTour8",
+    "Value": "13:20"
+  },
+  {
+    "Name": "startTimeTour9",
+    "Value": "13:40"
+  },
+  {
+    "Name": "startTimeTour10",
+    "Value": "14:00"
+  },
+  {
+    "Name": "startTimeTour11",
+    "Value": "14:20"
+  },
+  {
+    "Name": "startTimeTour12",
+    "Value": "14:40"
+  },
+  {
+    "Name": "startTimeTour13",
+    "Value": "15:00"
+  },
+  {
+    "Name": "startTimeTour14",
+    "Value": "15:20"
+  },
+  {
+    "Name": "startTimeTour15",
+    "Value": "15:40"
+  },
+  {
+    "Name": "startTimeTour16",
+    "Value": "16:00"
+  },
+  {
+    "Name": "startTimeTour17",
+    "Value": "16:20"
+  },
+  {
+    "Name": "startTimeTour18",
+    "Value": "16:40"
+  },
+  {
+    "Name": "startTimeTour19",
+    "Value": "17:00"
+  },
+  {
+    "Name": "rejectConsoleAdmission_ticketNotToday",
+    "Value": "Your ticket is not valid today. Please buy a ticket"
+  },
+  {
+    "Name": "rejectTourAdmission_ticketNoReservation",
+    "Value": "You have not made reservation. All your base are belong to us."
+  }
+]

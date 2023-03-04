@@ -1,4 +1,6 @@
-﻿namespace HetDepot
+﻿using HetDepot.Service;
+
+namespace HetDepot
 {
     internal class Program
     {
