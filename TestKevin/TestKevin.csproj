@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DatabaseSql\DatabaseSql.csproj" />
+    <ProjectReference Include="..\HetDepot\HetDepot.csproj" />
+    <ProjectReference Include="..\Service.FileReader\Service.FileReader.csproj" />
   </ItemGroup>
 
 </Project>

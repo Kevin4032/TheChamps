@@ -7,4 +7,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DatabaseSql\DatabaseSql.csproj" />
+    <ProjectReference Include="..\Service.DepotObjectMapper\Service.DepotObjectMapper.csproj" />
+    <ProjectReference Include="..\Service.FileReader\Service.FileReader.csproj" />
+  </ItemGroup>
+
 </Project>

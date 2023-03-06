@@ -4,7 +4,7 @@ using SQLitePCL;
 
 namespace DatabaseSql
 {
-    public class DbController
+    public class DbController : IPersistence
     {
         public DbController()
         {
@@ -54,7 +54,12 @@ namespace DatabaseSql
 
         }
 
-        public void Echt()
+		public bool CheckObjectPersonnel()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Echt()
         {
 
             using (var connection = new SqliteConnection("Data Source=HetDepot.db"))

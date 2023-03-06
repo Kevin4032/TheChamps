@@ -7,13 +7,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HetDepot", "HetDepot\HetDep
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repository", "Repository", "{7F1A92F3-5E5C-4599-A9F0-ED79607BEC69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseSql", "DatabaseSql\DatabaseSql.csproj", "{543C5641-ACDB-4C87-B3C8-1D6D33F33CDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatabaseSql", "DatabaseSql\DatabaseSql.csproj", "{543C5641-ACDB-4C87-B3C8-1D6D33F33CDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestKevin", "TestKevin\TestKevin.csproj", "{CD1B7CAB-EBA3-4A28-9C52-1967C3D0C769}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestKevin", "TestKevin\TestKevin.csproj", "{CD1B7CAB-EBA3-4A28-9C52-1967C3D0C769}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Service", "Service", "{8EA568FD-6523-4937-A4E3-1A25339F0927}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.FileReader", "Service.FileReader\Service.FileReader.csproj", "{49267C52-AB8B-4B29-A144-352C376C8A04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service.FileReader", "Service.FileReader\Service.FileReader.csproj", "{49267C52-AB8B-4B29-A144-352C376C8A04}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExampleFiles", "ExampleFiles", "{123BB750-D1F3-4DE0-BDC1-3BF3983C5BF1}"
+	ProjectSection(SolutionItems) = preProject
+		BoughtTickets.json = BoughtTickets.json
+		Personnel.json = Personnel.json
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service.DepotObjectMapper", "Service.DepotObjectMapper\Service.DepotObjectMapper.csproj", "{3253EF84-492B-4732-BC7F-249DDCBA5DE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +45,10 @@ Global
 		{49267C52-AB8B-4B29-A144-352C376C8A04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49267C52-AB8B-4B29-A144-352C376C8A04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49267C52-AB8B-4B29-A144-352C376C8A04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3253EF84-492B-4732-BC7F-249DDCBA5DE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3253EF84-492B-4732-BC7F-249DDCBA5DE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3253EF84-492B-4732-BC7F-249DDCBA5DE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3253EF84-492B-4732-BC7F-249DDCBA5DE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +56,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{543C5641-ACDB-4C87-B3C8-1D6D33F33CDB} = {7F1A92F3-5E5C-4599-A9F0-ED79607BEC69}
 		{49267C52-AB8B-4B29-A144-352C376C8A04} = {8EA568FD-6523-4937-A4E3-1A25339F0927}
+		{3253EF84-492B-4732-BC7F-249DDCBA5DE5} = {8EA568FD-6523-4937-A4E3-1A25339F0927}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B75558AB-236A-4968-9220-0A8F079F0927}

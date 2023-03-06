@@ -1,0 +1,35 @@
+[
+  {
+    "DatePurchase": "2023-03-03T20:13:47.1404576Z",
+    "DateVisit": "2023-03-04T20:13:47.1404967Z",
+    "Visitor": {
+      "Name": "PersoonNaam",
+      "PostalCode": "1111AA",
+      "HouseNumber": 1,
+      "EmailAddress": "PersoonNaam@email.adres"
+    },
+    "Id": "E0000000001"
+  },
+  {
+    "DatePurchase": "2023-03-03T20:13:47.1405375Z",
+    "DateVisit": "2023-03-04T20:13:47.1405376Z",
+    "Visitor": {
+      "Name": "PersoonNaam",
+      "PostalCode": "1111AA",
+      "HouseNumber": 1,
+      "EmailAddress": "PersoonNaamTwee@email.adres"
+    },
+    "Id": "E0000000002"
+  },
+  {
+    "DatePurchase": "2023-03-03T20:13:47.1405379Z",
+    "DateVisit": "2023-03-04T20:13:47.140538Z",
+    "Visitor": {
+      "Name": "PersoonNaam",
+      "PostalCode": "2222AA",
+      "HouseNumber": 4,
+      "EmailAddress": "PersoonNaamDrie@email.adres"
+    },
+    "Id": "E0000000003"
+  }
+]
