@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace DatabaseSql.Tables
 {
-    internal class DbPersonType : ITableInit
+    internal class DbPersonType : ITableCreate
     {
         internal DbPersonType()
         {
@@ -15,12 +15,12 @@ namespace DatabaseSql.Tables
         }
 
         public string CreateTable { get { return @"
-                        CREATE TABLE personType
+                        create table personType
                         (
-                            id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                            name TEXT NOT NULL
-                            dateAdded TEXT NOT NULL,
-                            dateDeleted TEXT NULL
+                            id integer not null primary key autoincrement,
+                            name text not null
+                            dateAdded text not null,
+                            dateDeleted text null
                         );"; } }
 
         public string InsertData { get { return @"

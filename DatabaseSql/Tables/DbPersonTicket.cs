@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DatabaseSql.Tables
 {
-    internal class DbPersonTicket : ITableInit
+    internal class DbPersonTicket : ITableCreate
     {
         internal DbPersonTicket()
         {
@@ -14,11 +14,9 @@ namespace DatabaseSql.Tables
         }
 
         public string CreateTable { get { return @"
-                     CREATE TABLE personTicket (
-                        person INTEGER NOT NULL,
-                        ticket INTEGER NOT NULL,
-                        dateAdded TEXT NOT NULL,
-                        dateDeleted TEXT NULL
+                    create table personTicket (
+                        person integer not null,
+                        ticket integer not null
                     );"; } }
 
         public string InsertData => throw new NotImplementedException();

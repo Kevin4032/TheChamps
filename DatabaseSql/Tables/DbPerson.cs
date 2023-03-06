@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DatabaseSql.Tables
 {
-    internal class DbPerson : ITableInit
+    internal class DbPerson : ITableCreate
     {
         internal DbPerson()
         {
@@ -15,11 +15,17 @@ namespace DatabaseSql.Tables
 
         public string InsertData { get { return @"";  } }
 
-        public string CreateTable { get { return @" CREATE TABLE person (
-                        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                        personType INTEGER NOT NULL,
-                        dateAdded TEXT NOT NULL,
-                        dateDeleted TEXT NULL
+        public string CreateTable { get { return @"
+                        create table person (
+                        id integer not null primary key autoincrement,
+                        personId text not null,
+                        personType integer not null,
+                        name text not null,
+                        postalCode text null,
+                        houseNumber integer null,
+                        emailAddress text null,
+                        dateAdded text not null,
+                        dateDeleted text null
                             );"; } }
 
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DatabaseSql.Tables
 {
-    internal class DbTourRejectReason : ITableInit
+    internal class DbTourRejectReason : ITableCreate
     {
         internal DbTourRejectReason()
         {

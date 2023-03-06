@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DatabaseSql.Tables
 {
-    internal class DbTicket : ITableInit
+    internal class DbTicket : ITableCreate
     {
         internal DbTicket()
         {
@@ -14,12 +14,13 @@ namespace DatabaseSql.Tables
         }
 
         public string CreateTable { get { return @"
-                    CREATE TABLE ticket (
-                        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-                        ticket TEXT NULL,
-                        issueDate TEXT NULL,
-                        dateAdded TEXT NOT NULL,
-                        dateDeleted TEXT NULL
+                    create table ticket (
+                        id integer not null primary key autoincrement,
+                        ticket text not null,
+                        datePurchased text not null,
+                        dateVisit text not null,
+                        dateAdded text not null,
+                        dateDeleted text null
                     );"; } }
 
         public string InsertData { get { return @"";  } }

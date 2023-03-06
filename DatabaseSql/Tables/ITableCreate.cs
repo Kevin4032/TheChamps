@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DatabaseSql.Tables
 {
-    internal interface ITableInit
+    internal interface ITableCreate
     {
         string CreateTable { get; }
         string InsertData { get; }
