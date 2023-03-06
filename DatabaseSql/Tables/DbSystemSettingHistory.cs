@@ -8,10 +8,10 @@ namespace DatabaseSql.Tables
 {
 	internal class DbSystemSettingHistory : ITableCreate
 	{
-		internal DbSystemSettingHistory()
-		{
+		private const string _tableName = "systemSettingHistory";
+		public DbSystemSettingHistory() { }
+		public string TableName { get { return _tableName; } }
 
-		}
 
 		public string CreateTable { get { return @"
                         create table systemSettingHistory (

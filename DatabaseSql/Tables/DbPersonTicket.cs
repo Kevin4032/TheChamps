@@ -8,12 +8,11 @@ namespace DatabaseSql.Tables
 {
     internal class DbPersonTicket : ITableCreate
     {
-        internal DbPersonTicket()
-        {
+		private const string _tableName = "personTicket";
+		public DbPersonTicket() { }
+		public string TableName { get { return _tableName; } }
 
-        }
-
-        public string CreateTable { get { return @"
+		public string CreateTable { get { return @"
                     create table personTicket (
                         person integer not null,
                         ticket integer not null

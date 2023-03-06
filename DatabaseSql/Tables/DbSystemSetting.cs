@@ -8,12 +8,11 @@ namespace DatabaseSql.Tables
 {
     internal class DbSystemSetting : ITableCreate
     {
-        internal DbSystemSetting()
-        {
+		private const string _tableName = "systemSetting";
+		public DbSystemSetting() { }
+		public string TableName { get { return _tableName; } }
 
-        }
-
-        public string CreateTable { get { return @"
+		public string CreateTable { get { return @"
                         create table systemSetting (
                         id integer not null primary key autoincrement,
                         name text not null,

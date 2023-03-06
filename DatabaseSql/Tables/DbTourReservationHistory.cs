@@ -8,6 +8,9 @@ namespace DatabaseSql.Tables
 {
 	internal class DbTourReservationHistory : ITableCreate
 	{
+		private const string _tableName = "tourReservationHistory";
+		public DbTourReservationHistory() { }
+		public string TableName { get { return _tableName; } }
 		public string CreateTable { get { return @"
                         create table tourReservationHistory (
                         id integer not null primary key,

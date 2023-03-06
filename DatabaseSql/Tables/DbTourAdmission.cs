@@ -8,6 +8,9 @@ namespace DatabaseSql.Tables
 {
 	internal class DbTourAdmission : ITableCreate
 	{
+		private const string _tableName = "tourAdmission";
+		public DbTourAdmission() { }
+		public string TableName { get { return _tableName; } }
 		public string CreateTable { get { return @"
                         create table tourAdmission (
                         id integer not null primary key autoincrement,

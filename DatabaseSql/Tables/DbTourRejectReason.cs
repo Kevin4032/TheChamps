@@ -8,12 +8,11 @@ namespace DatabaseSql.Tables
 {
     internal class DbTourRejectReason : ITableCreate
     {
-        internal DbTourRejectReason()
-        {
+		private const string _tableName = "tourRejectReasons";
+		public DbTourRejectReason() { }
+		public string TableName { get { return _tableName; } }
 
-        }
-
-        public string CreateTable { get { return @"
+		public string CreateTable { get { return @"
                     CREATE TABLE tourRejectReasons (
                         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                         reason TEXT NOT NULL,

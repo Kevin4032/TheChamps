@@ -8,6 +8,9 @@ namespace DatabaseSql.Tables
 {
 	internal class DbErrorLog : ITableCreate
 	{
+		private const string _tableName = "errorlog";
+		public DbErrorLog() { }
+		public string TableName { get { return _tableName; } }
 		public string CreateTable { get { return @"
                         create table errorLog (
                         id integer not null primary key,

@@ -9,12 +9,11 @@ namespace DatabaseSql.Tables
 {
     internal class DbPersonType : ITableCreate
     {
-        internal DbPersonType()
-        {
+		private const string _tableName = "personType";
+		public DbPersonType() { }
+		public string TableName { get { return _tableName; } }
 
-        }
-
-        public string CreateTable { get { return @"
+		public string CreateTable { get { return @"
                         create table personType
                         (
                             id integer not null primary key autoincrement,

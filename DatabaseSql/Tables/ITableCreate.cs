@@ -8,6 +8,7 @@ namespace DatabaseSql.Tables
 {
     internal interface ITableCreate
     {
+        string TableName { get; }
         string CreateTable { get; }
         string InsertData { get; }
 

@@ -8,6 +8,7 @@ namespace DatabaseSql
 {
 	public interface IPersistence
 	{
-		bool CheckObjectPersonnel();
+		bool ExistsObjectPersonnelType(string name);
+		bool ExistsObjectPersonnelType(int id);
 	}
 }

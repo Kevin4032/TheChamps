@@ -39,7 +39,7 @@ namespace HetDepot.Controllers
 				Console.WriteLine(personnel.Job);
 			}
 
-
+			Console.WriteLine($" DIt is status van job: {_database.ExistsObjectPersonnelType(allPersonnel[0].Job)} -- NB job = {allPersonnel[0].Job}");
 
 			return true;
 		}

@@ -1,19 +1,40 @@
 ﻿using DatabaseSql.Tables;
 using Microsoft.Data.Sqlite;
 using SQLitePCL;
+using System.Reflection.Metadata;
 
 namespace DatabaseSql
 {
     public class DbController : IPersistence
     {
-        public DbController()
-        {
+        private const string _databasePath = "Data Source=poging20230306_004.db";
+        private List<ITableCreate> _tables;
+			
 
-        }
+
+		public DbController()
+        {
+            _tables = new List<ITableCreate>{
+			  new DbErrorLog()
+			, new DbPerson()
+			, new DbPersonTicket()
+			, new DbPersonType()
+			, new DbSystemSetting()
+			, new DbSystemSettingHistory()
+			, new DbTicket()
+			, new DbTour()
+			, new DbTourHistory()
+			, new DbTourAdmission()
+			, new DbTourAdmissionHistory()
+			, new DbTourRejectReason()
+			, new DbTourReservation()
+			, new DbTourReservationHistory()
+			};
+		}
 
         public void CheckData()
         {
-            using (var connection = new SqliteConnection("Data Source=poging20230306_001.db"))
+            using (var connection = new SqliteConnection(_databasePath))
             {
                 connection.Open();
 
@@ -54,15 +75,52 @@ namespace DatabaseSql
 
         }
 
-		public bool CheckObjectPersonnel()
+		public bool ExistsObjectPersonnelType(string name)
 		{
-			throw new NotImplementedException();
+            using (var connection = new SqliteConnection(_databasePath))
+            {
+                connection.Open();
+
+				var command = connection.CreateCommand();
+				command.CommandText =
+				@"
+                    select id, name from personType where name = @name;
+                ";
+                command.Parameters.AddWithValue("@name", name);
+
+				using var reader = command.ExecuteReader();
+				if (reader.HasRows)
+					return true;
+			}
+
+			return false;
+		}
+
+		public bool ExistsObjectPersonnelType(int id)
+		{
+			using (var connection = new SqliteConnection(_databasePath))
+			{
+				connection.Open();
+
+				var command = connection.CreateCommand();
+				command.CommandText =
+				@"
+                    select id, name from personType where id = @id;
+                ";
+                command.Parameters.AddWithValue("id", id);
+
+				using var reader = command.ExecuteReader();
+				if (reader.HasRows)
+					return true;
+			}
+
+			return false;
 		}
 
 		public void Echt()
         {
 
-            using (var connection = new SqliteConnection("Data Source=HetDepot.db"))
+            using (var connection = new SqliteConnection(_databasePath))
             {
                 connection.Open();
 
@@ -93,7 +151,7 @@ namespace DatabaseSql
         {
             //var kevin = Batteries.Init();
 
-            using (var connection = new SqliteConnection("Data Source=hello.db"))
+            using (var connection = new SqliteConnection(_databasePath))
             {
                 connection.Open();
 
@@ -133,5 +191,72 @@ namespace DatabaseSql
 
             
         }
+
+        public void KevinInit()
+        {
+            //InitAllTables();
+            CheckTableInit();
+        }
+
+        private void CheckTableInit()
+        {
+			using (var connection = new SqliteConnection(_databasePath))
+			{
+				connection.Open();
+
+				var command = connection.CreateCommand();
+
+				foreach (var table in _tables)
+				{
+					command.CommandText = @$"
+                        select * from {table.TableName};
+                    ";
+
+                    command.CommandText = @"SELECT name FROM sqlite_master WHERE type='table';";
+
+					using var reader = command.ExecuteReader();
+                    if (reader.HasRows)
+                        Console.WriteLine($"Table {table} bestaat !");
+				}
+			}
+		}
+
+        private void InitAllTables()
+        {
+            using (var connection = new SqliteConnection(_databasePath))
+            {
+                connection.Open();
+
+                var command = connection.CreateCommand();
+
+                foreach (var table in _tables)
+                {
+                    command.CommandText = table.CreateTable;
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        private void FillPersonTypeBaseTable()
+        {
+			using (var connection = new SqliteConnection(_databasePath))
+			{
+				connection.Open();
+
+				var command = connection.CreateCommand();
+
+				command.CommandText =
+				@"
+                    insert into personType (name)
+                    values ('Bezoeker');
+                    insert into personType (name)
+                    values ('Gids');
+                    insert into personType (name)
+                    values ('Afdelingshoofd');
+                ";
+				command.ExecuteNonQuery();
+			}
+		}
+
     }
 }
