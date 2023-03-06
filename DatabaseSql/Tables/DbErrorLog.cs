@@ -19,6 +19,4 @@ namespace DatabaseSql.Tables
 
 		public string InsertData { get { return @""; } }
 	}
-	{
-	}
 }

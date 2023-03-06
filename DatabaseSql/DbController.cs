@@ -1,5 +1,4 @@
-﻿
-
+﻿using DatabaseSql.Tables;
 using Microsoft.Data.Sqlite;
 using SQLitePCL;
 
@@ -14,25 +13,44 @@ namespace DatabaseSql
 
         public void CheckData()
         {
-            using (var connection = new SqliteConnection("Data Source=hello.db"))
+            using (var connection = new SqliteConnection("Data Source=poging20230306_001.db"))
             {
                 connection.Open();
 
+                var personTypeTable = new DbPersonType();
                 var command = connection.CreateCommand();
-                command.CommandText = @"
-                    select * from user;";
+                command.CommandText = personTypeTable.CreateTable;
+                //command.CommandText = @"
+                //                select * from user;";
 
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read()) 
-                    {
-                        Console.WriteLine(reader.GetInt32(0));
-                        Console.WriteLine(reader.GetString(1));
-                    }
-                }
+                //command.ExecuteNonQuery();
+
+                //            var nu = DateTime.UtcNow;
+                //            command.CommandText = $"insert into personType (name, dateAdded) values (\"Afdelingshoofd\", \"{nu.ToString()}\")";
+                //command.ExecuteNonQuery();
+
+                //var nu = DateTime.UtcNow;
+                //command.CommandText = $"insert into personType (name, dateAdded) values (\"Gids\", \"{nu}\")";
+                //command.ExecuteNonQuery();
+
+                //nu = DateTime.UtcNow;
+                //command.CommandText = $"insert into personType (name, dateAdded) values (\"Bezoeker\", \"{nu}\")";
+                //command.ExecuteNonQuery();
+
+                command.CommandText = personTypeTable.InsertData;
+				command.ExecuteNonQuery();
+
+				command.CommandText = "select id, name, dateAdded from personType";
+				using var reader = command.ExecuteReader();
+				while (reader.Read())
+				{
+					Console.WriteLine(reader.GetInt32(0));
+					Console.WriteLine(reader.GetString(1));
+					Console.WriteLine(reader.GetString(2));
+				}
 
 
-            }
+			}
 
         }
 
