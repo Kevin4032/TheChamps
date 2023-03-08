@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HetDepot", "HetDepot\HetDepot.csproj", "{6D92DAEC-0FB8-44C2-9F34-5B877D80D9DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HetDepotUnitTests", "HetDepotUnitTests\HetDepotUnitTests.csproj", "{086461A2-ABC2-4AF7-A7D4-6575C3B6FC4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{6D92DAEC-0FB8-44C2-9F34-5B877D80D9DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D92DAEC-0FB8-44C2-9F34-5B877D80D9DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D92DAEC-0FB8-44C2-9F34-5B877D80D9DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{086461A2-ABC2-4AF7-A7D4-6575C3B6FC4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{086461A2-ABC2-4AF7-A7D4-6575C3B6FC4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{086461A2-ABC2-4AF7-A7D4-6575C3B6FC4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{086461A2-ABC2-4AF7-A7D4-6575C3B6FC4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
