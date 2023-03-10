@@ -8,7 +8,8 @@ class TourList
 
 	public List<string> Tours;
 	public List<int> TourSpaces;
-	public int SelectedTour; // Selected tour index
+	public int SelectedTour; // Selected tour index (0 = first in list)
+	public int SelectedItem; // Selected item index (0 = first on screen)
 	public string Title = "Welkom bij Het Depot";
 
 
@@ -45,6 +46,7 @@ class TourList
 			TourSpaces.Add(r.Next(13));
 
 		SelectedTour = 0;
+		SelectedItem = 0;
 	}
 
 	public void ShowScreen()
@@ -54,7 +56,9 @@ class TourList
 		bool showScreen = true;
 		bool redraw = true;
 		int firstSelectableItemPos = 0; // Cursor position of first selectable item
-		int previousSelection = -1; // Previously selected tour
+		int previousSelection = -1; // Previously selected item (on this page)
+		int maxItemsOnScreen = 0;
+		int itemOffset = 0; // Amount of items to skip (shown on earlier pages)
 		ConsoleKeyInfo pressedKey;
 
 		while (showScreen)
@@ -65,6 +69,7 @@ class TourList
 			{
 				// Make sure we start with an empty console screen
 				ResetConsole(false);
+				Console.Title = Title;
 
 				// Write the title and a line of '=' characters under it
 				ConsoleWrite(Title);
@@ -73,22 +78,47 @@ class TourList
 				ConsoleNewline();
 
 				firstSelectableItemPos = Console.GetCursorPosition().Top;
+				if (itemOffset < 0)
+					itemOffset = 0;
+				if (itemOffset >= Tours.Count)
+					itemOffset = Tours.Count - 1;
 
 				// List all tours
-				for (int i = 0; i < Tours.Count; i++)
-					WriteTour(Tours[i], TourSpaces[i], SelectedTour == i);
+				for (int i = itemOffset; i < Tours.Count; i++)
+				{
+					if (firstSelectableItemPos + i - itemOffset == ConsoleHeight - 1)
+					{
+						// Reached max. number of lines on the screen
+						ConsoleWrite("...", 0, 10);
+						ConsoleWrite("...", 10, ConsoleWidth - 11); // Console will scroll if screen is filled completely; prevent that
+						break;
+					}
+					WriteTour(Tours[i], TourSpaces[i], SelectedItem + itemOffset == i);
+				}
+				maxItemsOnScreen = ConsoleHeight - firstSelectableItemPos - 1;
 			}
 			else if (previousSelection > -1)
 			{
 				// Selection has changed and console has not moved, redraw only the parts of the screen that have changed
 				int cursorPos = Console.GetCursorPosition().Top;
-				Console.SetCursorPosition(0, firstSelectableItemPos + previousSelection);
-				WriteTour(Tours[previousSelection], TourSpaces[previousSelection], false);
-				Console.SetCursorPosition(0, firstSelectableItemPos + SelectedTour);
-				WriteTour(Tours[SelectedTour], TourSpaces[SelectedTour], true);
+				if (previousSelection + itemOffset >= 0 && previousSelection + itemOffset < Tours.Count)
+				{
+					Console.SetCursorPosition(0, firstSelectableItemPos + previousSelection);
+					WriteTour(Tours[previousSelection + itemOffset], TourSpaces[previousSelection + itemOffset], false);
+				}
+				if (SelectedItem + itemOffset >= 0 && SelectedItem + itemOffset < Tours.Count)
+				{
+					Console.SetCursorPosition(0, firstSelectableItemPos + SelectedItem);
+					WriteTour(Tours[SelectedItem + itemOffset], TourSpaces[SelectedItem + itemOffset], true);
+				}
 				Console.SetCursorPosition(0, cursorPos);
 				previousSelection = -1;
 			}
+
+			// Console.Title = $"selectedItem: {SelectedItem}, itemOffset: {itemOffset}, maxItems {maxItemsOnScreen}, redraw: {(redraw || HasConsoleMoved() ? "TRUE" : "FALSE")}"; // Debug
+
+			if (maxItemsOnScreen <= 0)
+				return; // Forget it, there is no room to display anything at all
 
 			// Wait for the user to press a key
 			pressedKey = Console.ReadKey(true);
@@ -97,6 +127,9 @@ class TourList
 			switch (pressedKey.Key)
 			{
 				case ConsoleKey.Enter:
+					SelectedTour = SelectedItem + itemOffset;
+					if (SelectedTour < 0 || SelectedTour >= Tours.Count)
+						break;
 					if (TourSpaces[SelectedTour] > 0)
 					{
 						// We've selected a tour! Go to next screen
@@ -104,14 +137,45 @@ class TourList
 					}
 					break;
 				case ConsoleKey.UpArrow:
-					previousSelection = SelectedTour;
-					SelectedTour = (SelectedTour <= 0 ? Tours.Count - 1 : SelectedTour - 1);
+					previousSelection = SelectedItem;
+					SelectedItem--;
+					if (SelectedItem < 0 && itemOffset > 0)
+					{
+						SelectedItem = maxItemsOnScreen - 1;
+						itemOffset -= maxItemsOnScreen;
+						redraw = true;
+					}
 					break;
 				case ConsoleKey.DownArrow:
-					previousSelection = SelectedTour;
-					SelectedTour = (SelectedTour >= Tours.Count - 1 ? 0 : SelectedTour + 1);
+					previousSelection = SelectedItem;
+					SelectedItem++;
+					if (SelectedItem >= maxItemsOnScreen)
+					{
+						SelectedItem = 0;
+						itemOffset += maxItemsOnScreen;
+						redraw = true;
+					}
 					break;
 			};
+
+			if (SelectedItem + itemOffset >= Tours.Count)
+			{
+				// Wrap around to first item
+				SelectedItem = 0;
+				redraw = itemOffset != 0;
+				itemOffset = 0;
+			}
+
+			if (SelectedItem >= maxItemsOnScreen)
+				SelectedItem = maxItemsOnScreen - 1;
+
+			if (SelectedItem < 0)
+			{
+				// Wrap around to last item
+				redraw = itemOffset != maxItemsOnScreen * ((Tours.Count - 1) / maxItemsOnScreen);
+				itemOffset = maxItemsOnScreen * ((Tours.Count - 1) / maxItemsOnScreen);
+				SelectedItem = Tours.Count - itemOffset - 1;
+			}
 		}
 	}
 
@@ -130,9 +194,13 @@ class TourList
 
 		ConsoleWrite(time, 0, 10, 0, ' ', color, background);
 
-		if (spaces > 0)
+		if (spaces > 1)
 		{
 			ConsoleWrite($"{spaces} plaatsen vrij", 10, 0, 0, ' ', color, background);
+		}
+		else if (spaces == 1)
+		{
+			ConsoleWrite($"{spaces} plaats vrij", 10, 0, 0, ' ', color, background);
 		}
 		else
 		{
@@ -212,10 +280,8 @@ class TourList
 		}
 
 		// Set colors
-		if (color != null)
-			Console.ForegroundColor = (ConsoleColor)color;
-		if (background != null)
-			Console.BackgroundColor = (ConsoleColor)background;
+		Console.ForegroundColor = color ?? ConsoleColor.White;
+		Console.BackgroundColor = background ?? ConsoleColor.Black;
 
 		// Finally, write the content
 		Console.SetCursorPosition(pos, Console.GetCursorPosition().Top);
