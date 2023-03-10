@@ -1,0 +1,126 @@
+[
+  {
+    "Name": "consoleLogonOpeningWelcome",
+    "Value": "Meld u aan op de console"
+  },
+  {
+    "Name": "consoleVisitorReservationMaking",
+    "Value": "U kunt een reservering maken door een tijdstip te selecteren."
+  },
+  {
+    "Name": "consoleVisitorReservationAlreadyHavingOne",
+    "Value": "U heeft al een reservering. Als u een ander tijdstip selecteert, wordt uw reservering gewijzigd. Als u uw huidige reservering selecteert, wordt deze geannuleerd."
+  },
+  {
+    "Name": "consoleVisitorLogonCodeInvalid",
+    "Value": "De code is niet geldig. Controleer uw code en probeer het nog eens."
+  },
+  {
+    "Name": "consoleVisitorReservationGroupOption",
+    "Value": "Aanmelden groep"
+  },
+  {
+    "Name": "consoleVisitorReservationNoMoreTours",
+    "Value": "Er zijn geen rondleidingen meer beschikbaar"
+  },
+  {
+    "Name": "consoleVisitorReservationConfirmation",
+    "Value": "Uw inschrijving is bevestigd"
+  },
+  {
+    "Name": "consoleVisitorReservationGroupStart",
+    "Value": "U wordt gevraagd om alle unieke codes in te voeren. De maximale grootte is {instelling maximale grootte rondleiding}. Als u klaar bent, voert u in \u201Cgereed\u201D"
+  },
+  {
+    "Name": "consoleVisitorReservationGroupEnd",
+    "Value": "De grootte van uw gezelschap is {groepsgrootte}"
+  },
+  {
+    "Name": "consoleVisitorReservationMaximumForTour",
+    "Value": "Het maximum aantal deelnemers is bereikt"
+  },
+  {
+    "Name": "consoleVisitorReservationCancellationRequestionConfirmation",
+    "Value": "Wilt u deze rondleiding annuleren? Ja/Nee."
+  },
+  {
+    "Name": "consoleVisitorReservationCancellationConfirmation",
+    "Value": "Reservering geannuleerd"
+  },
+  {
+    "Name": "consoleVisitorReservationChangeTourConfirmation",
+    "Value": "U bent uitgeschreven voor {tijdstip}\u201D. Uw nieuwe rondleiding start om {tijdstip}"
+  },
+  {
+    "Name": "consoleGuideTourVisitorValidationStart",
+    "Value": "U kunt de rondleiding starten."
+  },
+  {
+    "Name": "consoleGuideLogonCodeInvalid",
+    "Value": "Uw code is niet geldig. Werkt u hier wel?"
+  },
+  {
+    "Name": "consoleGuideTourCurrent",
+    "Value": "Huidige rondleiding {tijdstip n}"
+  },
+  {
+    "Name": "consoleGuideTourStart",
+    "Value": "Rondleiding starten?"
+  },
+  {
+    "Name": "consoleGuideTourNoToursAvailable",
+    "Value": "Er zijn geen rondleidingen meer beschikbaar"
+  },
+  {
+    "Name": "consoleGuideTourVisitorValidationStarted",
+    "Value": "Er zijn { aantal reserveringen}"
+  },
+  {
+    "Name": "consoleGuideTourVisitorValidationVisitorValidated",
+    "Value": "{aantal} van {reserveringen} aangemeld."
+  },
+  {
+    "Name": "consoleGuideTourVisitorValidationVisitorNextVisitor",
+    "Value": "Volgende aanmelding"
+  },
+  {
+    "Name": "consoleGuideTourVisitorAddWithoutReservationOption",
+    "Value": "Aanmelden zonder reservering"
+  },
+  {
+    "Name": "consoleGuideTourVisitorTourStartOption",
+    "Value": "Starten rondleiding"
+  },
+  {
+    "Name": "consoleGuideTourAllReservationsValidated",
+    "Value": "Alle deelnemers zijn aangemeld."
+  },
+  {
+    "Name": "consoleGuideTourVisitorAddWithoutReservationConfirmation",
+    "Value": "Bezoeker toegevoegd. {aantal} van {reserveringen} aangemeld."
+  },
+  {
+    "Name": "consoleManagerTicketsLoaded",
+    "Value": "Met succes entreebewijzen geladen"
+  },
+  {
+    "Name": "consoleManagerShowOptions",
+    "Value": "Laad entreebewijzen voor de dag\nLaad instellingen\nBekijk rondleidinggegevens."
+  },
+  {
+    "Name": "consoleManagerLogonCodeInvalid",
+    "Value": "Uw code is niet geldig."
+  },
+  {
+    "Name": "FileGuides",
+    "Value": "ExampleFile\\ExampleGuide.json"
+  },
+  {
+    "Name": "FileManagers",
+    "Value": "ExampleFile\\ExampleManager.json"
+  },
+  {
+    "Name": "FileVisitors",
+    "Value": "ExampleFIle\\ExampleVisitor.json"
+  }
+]

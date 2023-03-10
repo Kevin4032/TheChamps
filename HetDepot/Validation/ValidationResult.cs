@@ -13,6 +13,7 @@ namespace HetDepot.Validation
 		public bool IsSuccess { get; set; }
 		public bool IsValidForTourAdmission { get; set; }
 		public bool IsValidForTourReservation { get; set; }
+		public bool IsValidPeopleAdministration { get; set; }
 		public string Message { get; set; }
 		//public Person PersonType { get; set; }
 
