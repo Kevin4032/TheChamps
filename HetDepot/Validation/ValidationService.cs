@@ -29,11 +29,6 @@ namespace HetDepot.Validation
 			var validVisitorId = _visitorCheckId.IsMatch(dataToValidate.Id);
 			var validEmployeeId = _employeeCheckId.IsMatch(dataToValidate.Id);
 
-			var isValidId = validEmployeeId || validVisitorId;
-			Console.WriteLine($"{dataToValidate.Id} - Valid: {isValidId}");
-
-			Console.WriteLine($"Was dees: {dataToValidate.GetType()}");
-
 			var dataIsGuide = dataToValidate is Guide;
 			var dataIsManager = dataToValidate is Manager;
 			var dataIsVisitor = dataToValidate is Visitor;

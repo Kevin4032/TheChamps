@@ -7,7 +7,7 @@ namespace HetDepot
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            Console.WriteLine("Start lezen data");
 
             var settingService = new Settings.SettingService();
             var validationService = new Validation.ValidationService(settingService);

@@ -31,11 +31,9 @@ namespace HetDepot.Settings
 		private void Init()
 		{
 			var localPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleSettings.json");
-
-			Console.WriteLine($"Kevin: {localPath}");
 			
 			//TODO: Lege settings
-			_settings = JsonHelper.ReadJson<List<Setting>>(localPath);
+			_settings = JsonHelper.Read<List<Setting>>(localPath);
 
 		}
 	}

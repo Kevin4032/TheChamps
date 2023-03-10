@@ -11,7 +11,7 @@ namespace HetDepot.JsonReader
 	public static class JsonHelper
 	{
 
-		public static T ReadJson<T>(string filePath)
+		public static T Read<T>(string filePath)
 		{
 			T result;
 
