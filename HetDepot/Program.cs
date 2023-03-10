@@ -1,4 +1,5 @@
-﻿using HetDepot.People.Model;
+﻿using HetDepot.JsonReader;
+using HetDepot.People.Model;
 using HetDepot.Tour;
 
 namespace HetDepot
@@ -11,8 +12,10 @@ namespace HetDepot
 
             var settingService = new Settings.SettingService();
             var validationService = new Validation.ValidationService(settingService);
-			var peopleService = new People.PeopleService(settingService, validationService);
+			var repository = new Repository(settingService, validationService);
+			var peopleService = new People.PeopleService(repository);
 
+			peopleService.WritePeopleToConsole();
 			//var person1 = new Visitor("E0000000001");
 			//var person2 = new Visitor("E000000000x");
 			//var person3 = new Manager("D0001040700");
