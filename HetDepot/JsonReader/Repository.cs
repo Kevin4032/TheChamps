@@ -37,11 +37,6 @@ namespace HetDepot.JsonReader
 			return result;
 		}
 
-		private void Init()
-		{
-			
-		}
-
 		private List<T> AddToPeople<T>(string path) where T : Person
 		{
 			var result = new List<T>();
