@@ -21,6 +21,8 @@ namespace HetDepot.People
 		private string _managerFile;
 		private string _visitorFile;
 
+		private Dictionary<Type, string> _peopleDefinition;
+
 		public PeopleService(SettingService settingsService, ValidationService validationService)
 		{
 			//TODO: ioc
@@ -31,15 +33,16 @@ namespace HetDepot.People
 			_managerFile = Path.Combine(Directory.GetCurrentDirectory(), _settingService.GetSettingValue("FileManagers"));
 			_visitorFile = Path.Combine(Directory.GetCurrentDirectory(), _settingService.GetSettingValue("FileVisitors"));
 
+			_peopleDefinition = new Dictionary<Type, string>(3) {
+				{ typeof(Guide), Path.Combine(Directory.GetCurrentDirectory(), _settingService.GetSettingValue("FileGuides")) }
+				, { typeof(Manager), Path.Combine(Directory.GetCurrentDirectory(), _settingService.GetSettingValue("FileManagers")) }
+				, { typeof(Visitor), Path.Combine(Directory.GetCurrentDirectory(), _settingService.GetSettingValue("FileVisitors")) }
+				};
+
 			Init();
 
-			/*
-			 			_files = new List<string>(3) {
-				  Path.Combine(Directory.GetCurrentDirectory(), _settingService.GetSettingValue("FileGuides"))
-				, Path.Combine(Directory.GetCurrentDirectory(), _settingService.GetSettingValue("FileManagers"))
-				, Path.Combine(Directory.GetCurrentDirectory(), _settingService.GetSettingValue("FileVisitors"))
-				};
-			*/
+
+
 		}
 
 		public IEnumerable<Visitor> GetVisitors()
@@ -90,16 +93,30 @@ namespace HetDepot.People
 			foreach (var type in types)
 			{
 				Console.WriteLine($"ditte: {type}");
+
+				if (type == typeof(Manager))
+					Console.WriteLine("lekker man");
 			}
 
 			//TODO: Verkeerde type
-			var guides = JsonHelper.ReadJson<List<Guide>>(_guideFile);
-			var managers = JsonHelper.ReadJson<List<Manager>>(_managerFile);
-			var visitors = JsonHelper.ReadJson<List<Visitor>>(_visitorFile);
+			//var guides = JsonHelper.ReadJson<List<Manager>>(_guideFile);
+			//var managers = JsonHelper.ReadJson<List<Manager>>(_managerFile);
+			//var visitors = JsonHelper.ReadJson<List<Visitor>>(_visitorFile);
 
-			AddToPeople(guides);
-			AddToPeople(managers);
-			AddToPeople(visitors);
+			//AddToPeople(guides);
+			//AddToPeople(managers);
+			//AddToPeople(visitors);
+
+			foreach (var person in _peopleDefinition)
+			{
+				if (person.Key == typeof(Manager))
+					AddToPeople<Manager>(person.Value);
+				if (person.Key == typeof(Guide))
+					AddToPeople<Guide>(person.Value);
+				if (person.Key == typeof(Visitor))
+					AddToPeople<Visitor>(person.Value);
+			}
+
 
 			WritePeople();
 
@@ -136,6 +153,35 @@ namespace HetDepot.People
 
 		private void AddToPeople<T>(IEnumerable<T> people) where T : Person
 		{
+
+
+			foreach (var person in people)
+			{
+				if (_validationService.ValidForAdministration(person))
+					_people.Add(person);
+				else
+					Console.WriteLine($"Lekker bezig {person}");
+			}
+		}
+
+		private void AddToPeople<T>(string path) where T : Person
+		{
+			var people = JsonHelper.ReadJson<List<T>>(path);
+
+			foreach (var person in people)
+			{
+				if (_validationService.ValidForAdministration(person))
+					_people.Add(person);
+				else
+					Console.WriteLine($"Lekker bezig {person}");
+			}
+		}
+
+
+		private void AddToPeople<T>(T type, string path) where T : Person
+		{
+			var people = JsonHelper.ReadJson<List<T>>(path);
+
 			foreach (var person in people)
 			{
 				if (_validationService.ValidForAdministration(person))
