@@ -91,7 +91,7 @@ class TourList
 			}
 
 			// Wait for the user to press a key
-			pressedKey = Console.ReadKey(false);
+			pressedKey = Console.ReadKey(true);
 			redraw = false;
 
 			switch (pressedKey.Key)
