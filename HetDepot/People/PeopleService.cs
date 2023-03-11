@@ -1,6 +1,5 @@
 ﻿using HetDepot.Persistence;
 using HetDepot.People.Model;
-using System.Text.RegularExpressions;
 
 namespace HetDepot.People
 {
