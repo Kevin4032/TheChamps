@@ -8,13 +8,11 @@ namespace HetDepot.Validation
 	{
 		private Regex _employeeCheckId;
 		private Regex _visitorCheckId;
-		private RegistrationService _registrationService;
 
-		public ValidationService(RegistrationService registrationService)
+		public ValidationService()
 		{
 			_employeeCheckId = new Regex(@"^[dD]\d{10}");
 			_visitorCheckId = new Regex(@"^[eE]\d{10}");
-			_registrationService = registrationService;
 		}
 
 		public bool ValidForAdministration<T>(T dataToValidate) where T : Person
@@ -33,9 +31,6 @@ namespace HetDepot.Validation
 
 			return false;
 		}
-
-		public bool VisitorHasReservation(string visitor) => _registrationService.HasTourReservation(visitor);
-		public bool VisitorHasAdmission(string visitor) => _registrationService.HasTourAdmission(visitor);
 	}
 }
 

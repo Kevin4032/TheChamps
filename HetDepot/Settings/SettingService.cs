@@ -4,25 +4,18 @@ namespace HetDepot.Settings
 {
 	public class SettingService
 	{
-		private List<Setting> _settings;
+		private Dictionary<string, string> _settings;
+		private Repository _repository;
 
-		public SettingService()
+		public SettingService(Repository repository)
 		{
-			Init();
+			_repository = repository;
+			_settings = _repository.GetSettings();
 		}
 
 		public string GetSettingValue(string name)
 		{
-			return _settings.FirstOrDefault(s => s.Name == name)?.Value;
-		}
-
-		private void Init()
-		{
-			var localPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleSettings.json");
-			
-			//TODO: Lege settings
-			_settings = JsonHelper.Read<List<Setting>>(localPath);
-
+			return _settings[name];
 		}
 	}
 }

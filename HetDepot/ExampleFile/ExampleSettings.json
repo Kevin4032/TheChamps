@@ -122,5 +122,18 @@
   {
     "Name": "FileVisitors",
     "Value": "ExampleFIle\\ExampleVisitor.json"
+  },
+  {
+    "Name": "maxPersonPerTour",
+    "Value": "13"
+  },
+  {
+    "Name": "guideLunchbreakStart",
+    "Value": "12:00"
+  },
+  {
+    "Name": "guideLunchbreakEnd",
+    "Value": "13:00"
   }
+
 ]

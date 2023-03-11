@@ -6,28 +6,43 @@ namespace HetDepot.JsonReader
 {
 	public class Repository
 	{
-		private SettingService _settingService;
 		private ValidationService _validationService;
 
-		public Repository(SettingService settingService, ValidationService validationService)
+		public Repository(ValidationService validationService)
 		{
-			_settingService = settingService;
 			_validationService = validationService;
 		}
 
 		public List<Person> GetPeople()
 		{
-			var guides = Path.Combine(Directory.GetCurrentDirectory(), _settingService.GetSettingValue("FileGuides"));
-			var managers = Path.Combine(Directory.GetCurrentDirectory(), _settingService.GetSettingValue("FileManagers"));
-			var visitors = Path.Combine(Directory.GetCurrentDirectory(), _settingService.GetSettingValue("FileVisitors"));
+			var guidesPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleGuide.json");
+			var managersPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleManager.json");
+			var visitorsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFIle\\ExampleVisitor.json");
 
 			var result = new List<Person>();
 
 			//TODO: Verkeerde type
 			//TODO: Ombouwen lijst
-			result.AddRange(AddToPeople<Manager>(managers));
-			result.AddRange(AddToPeople<Guide>(guides));
-			result.AddRange(AddToPeople<Visitor>(visitors));
+			result.AddRange(AddToPeople<Manager>(managersPath));
+			result.AddRange(AddToPeople<Guide>(guidesPath));
+			result.AddRange(AddToPeople<Visitor>(visitorsPath));
+
+			return result;
+		}
+
+		public Dictionary<string, string> GetSettings()
+		{
+			var settingsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleSettings.json");
+
+			//TODO: Lege settings
+			var settings = JsonHelper.Read<List<Setting>>(settingsPath);
+
+			var result = new Dictionary<string, string>();
+
+			foreach (var setting in settings)
+			{
+				result[setting.Name] = setting.Value;
+			}
 
 			return result;
 		}

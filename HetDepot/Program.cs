@@ -13,14 +13,30 @@ namespace HetDepot
 			//TODO: Invalid data meldingen in systeemsettings.
 			//TODO: 
 
-            var settingService = new SettingService();
+            
 			var registrationService = new RegistrationService();
-			var validationService = new ValidationService(registrationService);
-			var repository = new Repository(settingService, validationService);
+			var validationService = new ValidationService();
+			var repository = new Repository(validationService);
 			var peopleService = new PeopleService(repository);
-			
+			var settingService = new SettingService(repository);
 
-			settingService.GetSettingValue("consoleVisitorLogonCodeInvalid");
+
+			Console.WriteLine(settingService.GetSettingValue("consoleVisitorLogonCodeInvalid"));
+			Console.WriteLine(settingService.GetSettingValue("maxPersonPerTour"));
+			Console.WriteLine(settingService.GetSettingValue("guideLunchbreakStart"));
+			Console.WriteLine(settingService.GetSettingValue("guideLunchbreakEnd"));
+
+			Console.WriteLine($"Gids: - {peopleService.GetGuide().Id}");
+			Console.WriteLine($"Manager: - {peopleService.GetManager().Id}");
+
+			var visitors = peopleService.GetVisitors();
+			foreach (var visitor in visitors)
+			{ 
+				Console.WriteLine(visitor.Id);
+			}
+
+			//Onderstaand geeft dictionary error
+			//Console.WriteLine(settingService.GetSettingValue("consoleVisitorLogonCodeIasdffdsnvalid"));
 
 		}
     }

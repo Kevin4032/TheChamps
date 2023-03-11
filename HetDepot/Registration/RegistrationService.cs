@@ -1,12 +1,4 @@
-﻿using HetDepot.JsonReader;
-using HetDepot.People;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HetDepot.Registration
+﻿namespace HetDepot.Registration
 {
 	public class RegistrationService
 	{
