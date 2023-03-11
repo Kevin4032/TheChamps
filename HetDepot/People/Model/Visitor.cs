@@ -13,5 +13,6 @@ namespace HetDepot.People.Model
         }
 
         public string Tour { get; set; }
+        public bool TourTaken { get; set; } //TODO: Verplaatsen naar file.
     }
 }

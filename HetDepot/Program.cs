@@ -1,6 +1,8 @@
 ﻿using HetDepot.JsonReader;
-using HetDepot.People.Model;
-using HetDepot.Tour;
+using HetDepot.Validation;
+using HetDepot.Settings;
+using HetDepot.Registration;
+using HetDepot.People;
 
 namespace HetDepot
 {
@@ -8,38 +10,17 @@ namespace HetDepot
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Start lezen data");
+			//TODO: Invalid data meldingen in systeemsettings.
+			//TODO: 
 
-            var settingService = new Settings.SettingService();
-            var validationService = new Validation.ValidationService(settingService);
+            var settingService = new SettingService();
+			var registrationService = new RegistrationService();
+			var validationService = new ValidationService(registrationService);
 			var repository = new Repository(settingService, validationService);
-			var peopleService = new People.PeopleService(repository);
+			var peopleService = new PeopleService(repository);
+			
 
-			peopleService.WritePeopleToConsole();
-			//var person1 = new Visitor("E0000000001");
-			//var person2 = new Visitor("E000000000x");
-			//var person3 = new Manager("D0001040700");
-			//validationService.IsValid(person1);
-			//validationService.IsValid(person2);
-			//validationService.IsValid(person3);
-
-
-			//settingService.WriteSettings();
-
-			//Console.WriteLine(settingService.GetSettingValue("consoleVisitorLogonCodeInvalid"));
-
-			//var visitors = peopleService.GetVisitor();
-
-			//foreach (var visitor in visitors)
-			//{
-			//	Console.WriteLine($"{visitor.Id} - {visitor.GetType()}");
-			//}
-
-			//peopleService.WritePeople();
-			//var guide = peopleService.GetGuide();
-
-
-			//Console.WriteLine($"Guide: {guide.Id}");
+			settingService.GetSettingValue("consoleVisitorLogonCodeInvalid");
 
 		}
     }

@@ -1,10 +1,4 @@
 ﻿using HetDepot.JsonReader;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HetDepot.Settings
 {
@@ -14,18 +8,12 @@ namespace HetDepot.Settings
 
 		public SettingService()
 		{
-			//TODO: IoC?
 			Init();
 		}
 
 		public string GetSettingValue(string name)
 		{
 			return _settings.FirstOrDefault(s => s.Name == name)?.Value;
-		}
-
-		public void WriteSettings()
-		{
-			foreach (var setting in _settings) { Console.WriteLine($"{setting.Name} - {setting.Value}"); }
 		}
 
 		private void Init()

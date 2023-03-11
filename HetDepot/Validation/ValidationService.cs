@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
-using System.Runtime.CompilerServices;
+﻿using System.Text.RegularExpressions;
 using HetDepot.People.Model;
-using HetDepot.Settings;
+using HetDepot.Registration;
 
 namespace HetDepot.Validation
 {
@@ -15,13 +8,13 @@ namespace HetDepot.Validation
 	{
 		private Regex _employeeCheckId;
 		private Regex _visitorCheckId;
-		private SettingService _settingService;
+		private RegistrationService _registrationService;
 
-		public ValidationService(SettingService settingservice)
+		public ValidationService(RegistrationService registrationService)
 		{
 			_employeeCheckId = new Regex(@"^[dD]\d{10}");
 			_visitorCheckId = new Regex(@"^[eE]\d{10}");
-			_settingService = settingservice;
+			_registrationService = registrationService;
 		}
 
 		public bool ValidForAdministration<T>(T dataToValidate) where T : Person
@@ -40,6 +33,9 @@ namespace HetDepot.Validation
 
 			return false;
 		}
+
+		public bool VisitorHasReservation(string visitor) => _registrationService.HasTourReservation(visitor);
+		public bool VisitorHasAdmission(string visitor) => _registrationService.HasTourAdmission(visitor);
 	}
 }
 
