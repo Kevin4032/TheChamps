@@ -1,43 +1,61 @@
 ﻿using HetDepot.People.Model;
 using HetDepot.Persistence;
-using HetDepot.Validation;
+using HetDepot.Registration.Model;
 
 namespace HetDepot.Registration
 {
 	public class RegistrationService
 	{
-		private HashSet<string> _admissions;
-		private HashSet<string> _reservations;
+		private Reservation _reservation;
+		private Admission _admission;
+		private Repository _repository;
 
 		public RegistrationService(Repository repository) 
-		{ 
-			_admissions = new HashSet<string>();
-			_reservations = new HashSet<string>();
+		{
+			_repository = repository;
+			_reservation = _repository.GetReservations();
+			_admission = _repository.GetAdmissions();
+		}
+
+		//TODO: verwijderen. Is voor ons team ter illustratie
+		public void TestShowAllRegistrations()
+		{
+			foreach (var admission in _admission.Admissions)
+			{
+				Console.WriteLine($"Admission - {admission}");
+			}
+			foreach (var reservation in _reservation.Reservations)
+			{
+				Console.WriteLine($"Reservation - {reservation}");
+			}
 		}
 
 		public void AddTourReservation(string visitor)
 		{
-			_reservations.Add(visitor);
+			_reservation.Reservations.Add(visitor);
+			_repository.Write(_reservation);
 		}
 
 		public void AddTourAdmission(string visitor)
-		{ 
-			_admissions.Add(visitor);
+		{
+			_admission.Admissions.Add(visitor);
+			_repository.Write(_admission);
 		}
 
 		public void RemoveTourReservation(string visitor)
-		{ 
-			_reservations.Remove(visitor);
+		{
+			_reservation.Reservations.Remove(visitor);
+			_repository.Write(_reservation);
 		}
 
 		public bool HasTourAdmission(string visitor)
 		{ 
-			return _admissions.Contains(visitor);
+			return _admission.Admissions.Contains(visitor);
 		}
 
 		public bool HasTourReservation(string visitor)
 		{
-			return _reservations.Contains(visitor);
+			return _reservation.Reservations.Contains(visitor);
 		}
 	}
 }
