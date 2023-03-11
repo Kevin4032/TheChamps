@@ -1,11 +1,15 @@
-﻿namespace HetDepot.Registration
+﻿using HetDepot.People.Model;
+using HetDepot.Persistence;
+using HetDepot.Validation;
+
+namespace HetDepot.Registration
 {
 	public class RegistrationService
 	{
 		private HashSet<string> _admissions;
 		private HashSet<string> _reservations;
 
-		public RegistrationService() 
+		public RegistrationService(Repository repository) 
 		{ 
 			_admissions = new HashSet<string>();
 			_reservations = new HashSet<string>();

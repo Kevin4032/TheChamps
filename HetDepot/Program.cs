@@ -1,4 +1,4 @@
-﻿using HetDepot.JsonReader;
+﻿using HetDepot.Persistence;
 using HetDepot.Validation;
 using HetDepot.Settings;
 using HetDepot.Registration;
@@ -11,14 +11,11 @@ namespace HetDepot
         static void Main(string[] args)
         {
 			//TODO: Invalid data meldingen in systeemsettings.
-			//TODO: 
-
-            
-			var registrationService = new RegistrationService();
-			var validationService = new ValidationService();
-			var repository = new Repository(validationService);
+			//TODO: 			
+			var repository = new Repository(new DepotJson(), new Logger());
 			var peopleService = new PeopleService(repository);
 			var settingService = new SettingService(repository);
+			var registrationService = new RegistrationService(repository);
 
 
 			Console.WriteLine(settingService.GetSettingValue("consoleVisitorLogonCodeInvalid"));

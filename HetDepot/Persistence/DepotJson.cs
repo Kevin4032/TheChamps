@@ -1,12 +1,13 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace HetDepot.JsonReader
+namespace HetDepot.Persistence
 {
-	public static class JsonHelper
+	public class DepotJson : IDepotDataReadWrite
 	{
+		public DepotJson() { }
 
-		public static T Read<T>(string filePath)
+		public T Read<T>(string filePath)
 		{
 			T result;
 
