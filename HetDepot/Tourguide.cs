@@ -9,7 +9,7 @@ public static class Tourguide
         // Make sure the class had the latest data
         updateToursFromStorage();
         
-        Console.Clear(); ;
+        Console.Clear();
 
         // Filter the tours without reservations
         List<Tour> tours = _tours.Where(t => t.Reservations > 0).ToList(); 
