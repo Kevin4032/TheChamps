@@ -4,7 +4,10 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            Console.WriteLine ("Voer uw code in:");
+            int code =  Convert.ToInt32 (Console.ReadLine()); 
+
+        
         }
     }
 }
