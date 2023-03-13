@@ -1,8 +1,8 @@
-﻿namespace HetDepot;
+﻿namespace HetDepot.Views;
 
 using HetDepot.Tours.Model;
 
-public static class Tourguide
+public static class TourguideView
 {
     private static List<Tour> _tours; // Populated in updateToursFromStorage
 

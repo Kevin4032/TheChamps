@@ -1,55 +1,34 @@
-namespace HetDepot;
+namespace HetDepot.Views;
 
-class TourListView
+using HetDepot.Tours.Model;
+
+static class TourListView
 {
 	// This class represents a "Tour list" screen that lists the available tours and allows the user to select one
 
 	public static int ConsoleWidth, ConsoleHeight, ConsoleLeft, ConsoleTop;
 
-	public List<string> Tours;
-	public List<int> TourSpaces;
-	public int SelectedTour; // Selected tour index (0 = first in list)
-	public int SelectedItem; // Selected item index (0 = first on screen)
-	public string Title = "Welkom bij Het Depot";
+	public static List<Tour>? Tours;
+	public static int SelectedTour; // Selected tour index (0 = first in list)
+	public static int SelectedItem; // Selected item index (0 = first on screen)
+	public static string Title = "Welkom bij Het Depot";
 
 
-	public TourListView()
+	public static Tour? SelectTour(List<Tour>? tours)
 	{
-		// Constructor
+		// Let user choose a tour from the list of tours
 		
-		// Generate some test data (to be changed and probably moved elsewhere, but for now a list of times and a random list of free spaces will do)
-		Tours = new()
-		{
-			"11:00",
-			"11:20",
-			"11:40",
-			"12:00",
-			"12:20",
-			"12:40",
-			"13:00",
-			"13:20",
-			"13:40",
-			"14:00",
-			"14:20",
-			"14:40",
-			"15:00",
-			"15:20",
-			"15:40",
-			"16:00",
-			"16:20",
-			"16:40",
-		};
+		Tours = tours;
 
-		TourSpaces = new();
-		Random r = new();
-		while (TourSpaces.Count < Tours.Count)
-			TourSpaces.Add(r.Next(13));
+		ShowScreen();
 
-		SelectedTour = 0;
-		SelectedItem = 0;
+		if (Tours == null || SelectedTour < 0 || SelectedTour >= Tours.Count)
+			return null;
+
+		return Tours[SelectedTour];
 	}
 
-	public void ShowScreen()
+	public static void ShowScreen()
 	{
 		// Show the Tour List screen: Draw it on the console and wait for the user to press a key
 
@@ -77,39 +56,50 @@ class TourListView
 				ConsoleWrite('=');
 				ConsoleNewline();
 
-				firstSelectableItemPos = Console.GetCursorPosition().Top;
-				if (itemOffset < 0)
-					itemOffset = 0;
-				if (itemOffset >= Tours.Count)
-					itemOffset = Tours.Count - 1;
 
-				// List all tours
-				for (int i = itemOffset; i < Tours.Count; i++)
+				firstSelectableItemPos = Console.GetCursorPosition().Top;
+
+				if (Tours == null || Tours.Count == 0)
 				{
-					if (firstSelectableItemPos + i - itemOffset == ConsoleHeight - 1)
+					ConsoleWrite("Er zijn geen rondleidingen beschikbaar");
+					ConsoleNewline();
+				}
+				else
+				{
+					if (itemOffset < 0)
+						itemOffset = 0;
+					if (itemOffset >= Tours.Count)
+						itemOffset = Tours.Count - 1;
+
+					// List all tours
+					for (int i = itemOffset; i < Tours.Count; i++)
 					{
-						// Reached max. number of lines on the screen
-						ConsoleWrite("...", 0, 10);
-						ConsoleWrite("...", 10, ConsoleWidth - 11); // Console will scroll if screen is filled completely; prevent that
-						break;
+						if (firstSelectableItemPos + i - itemOffset == ConsoleHeight - 1)
+						{
+							// Reached max. number of lines on the screen
+							ConsoleWrite("...", 0, 10);
+							ConsoleWrite("...", 10, ConsoleWidth - 11); // Console will scroll if screen is filled completely; prevent that
+							break;
+						}
+						WriteTour(Tours[i], SelectedItem + itemOffset == i);
 					}
-					WriteTour(Tours[i], TourSpaces[i], SelectedItem + itemOffset == i);
 				}
 				maxItemsOnScreen = ConsoleHeight - firstSelectableItemPos - 1;
 			}
 			else if (previousSelection > -1)
 			{
+
 				// Selection has changed and console has not moved, redraw only the parts of the screen that have changed
 				int cursorPos = Console.GetCursorPosition().Top;
 				if (previousSelection + itemOffset >= 0 && previousSelection + itemOffset < Tours.Count)
 				{
 					Console.SetCursorPosition(0, firstSelectableItemPos + previousSelection);
-					WriteTour(Tours[previousSelection + itemOffset], TourSpaces[previousSelection + itemOffset], false);
+					WriteTour(Tours[previousSelection + itemOffset], false);
 				}
 				if (SelectedItem + itemOffset >= 0 && SelectedItem + itemOffset < Tours.Count)
 				{
 					Console.SetCursorPosition(0, firstSelectableItemPos + SelectedItem);
-					WriteTour(Tours[SelectedItem + itemOffset], TourSpaces[SelectedItem + itemOffset], true);
+					WriteTour(Tours[SelectedItem + itemOffset], true);
 				}
 				Console.SetCursorPosition(0, cursorPos);
 				previousSelection = -1;
@@ -124,13 +114,20 @@ class TourListView
 			pressedKey = Console.ReadKey(true);
 			redraw = false;
 
+			if (Tours == null || Tours.Count == 0)
+			{
+				// Nothing to choose from, just redraw at every button press
+				redraw = true;
+				continue;
+			}
+
 			switch (pressedKey.Key)
 			{
 				case ConsoleKey.Enter:
 					SelectedTour = SelectedItem + itemOffset;
 					if (SelectedTour < 0 || SelectedTour >= Tours.Count)
 						break;
-					if (TourSpaces[SelectedTour] > 0)
+					if (Tours[SelectedTour].FreeSpaces() > 0)
 					{
 						// We've selected a tour! Go to next screen
 						showScreen = false;
@@ -179,7 +176,7 @@ class TourListView
 		}
 	}
 
-	public static void WriteTour(string time, int spaces, bool selected = false)
+	public static void WriteTour(Tour tour, bool selected = false)
 	{
 		ConsoleColor color = ConsoleColor.White;
 		ConsoleColor errorColor = ConsoleColor.Red;
@@ -191,6 +188,9 @@ class TourListView
 			errorColor = ConsoleColor.DarkRed;
 			background = ConsoleColor.White;
 		}
+
+		string time = tour.GetTime();
+		int spaces = tour.FreeSpaces();
 
 		ConsoleWrite(time, 0, 10, 0, ' ', color, background);
 
