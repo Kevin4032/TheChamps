@@ -22,6 +22,7 @@ namespace HetDepot.Persistence
 		{ 
 			_depotDataReadWrite = dataReadWrite;
 			_errorLogger = errorLogger;
+			_validator = validator;
 			_guidesPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleGuide.json");
 			_managersPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleManager.json");
 			_visitorsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleVisitor.json");
