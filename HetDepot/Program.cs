@@ -9,6 +9,13 @@ namespace HetDepot
     {
         static void Main(string[] args)
         {
+        
+            Console.WriteLine("Hello, World!");
+
+            // Tom's display tours
+            
+            Tourguide.DisplayTours();
+            
             // Kevin's validatie tests
             
             //TODO: Invalid data bij de services		
