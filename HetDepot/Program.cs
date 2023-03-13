@@ -4,6 +4,7 @@ using HetDepot.Registration;
 using HetDepot.People;
 using HetDepot.Errorlogging;
 using HetDepot.Views;
+using HetDepot.Tours.Model;
 
 namespace HetDepot
 {

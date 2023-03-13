@@ -79,7 +79,7 @@ namespace HetDepot.Persistence
 				if (_validator.ValidForAdministration(person))
 					result.Add(person);
 				else
-					_depotLogger.LogError($"Onjuiste bezoekerdata - {person.Id}");
+					_errorLogger.LogError($"Onjuiste bezoekerdata - {person.Id}");
 			}
 
 			return result;
