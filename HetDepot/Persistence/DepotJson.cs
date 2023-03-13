@@ -1,10 +1,16 @@
-﻿using System.Text.Json;
+﻿using HetDepot.Errorlogging;
+using System.Text.Json;
 
 namespace HetDepot.Persistence
 {
 	public class DepotJson : IDepotDataReadWrite
 	{
-		public DepotJson() { }
+		private IDepotErrorLogger _errorLogger;
+
+		public DepotJson(IDepotErrorLogger errorLogger)
+		{
+			_errorLogger = errorLogger;
+		}
 
 		public T Read<T>(string filePath)
 		{
@@ -17,11 +23,13 @@ namespace HetDepot.Persistence
 			}
 			catch (JsonException ex)
 			{
+				_errorLogger.LogError(ex.Message);
 				Console.WriteLine($"JSON - {ex.Message}");
 				result = default;
 			}
 			catch (Exception ex)
 			{
+				_errorLogger.LogError(ex.Message);
 				Console.WriteLine($"Andere - {ex.Message}");
 				result = default;
 			}

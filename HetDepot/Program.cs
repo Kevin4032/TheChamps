@@ -19,7 +19,7 @@ namespace HetDepot
             // Kevin's validatie tests
             
             //TODO: Invalid data bij de services		
-            var repository = new Repository(new DepotJson(), new Logger(new DepotJson()));
+            var repository = new Repository(new DepotJson(), new DepotLogger(new DepotJson()));
             var peopleService = new PeopleService(repository);
             var settingService = new SettingService(repository);
             var registrationService = new RegistrationService(repository);

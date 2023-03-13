@@ -1,5 +1,6 @@
 ﻿using HetDepot.Persistence;
 using HetDepot.People.Model;
+using HetDepot.Errorlogging;
 
 namespace HetDepot.People
 {
@@ -7,8 +8,10 @@ namespace HetDepot.People
 	{
 		private Repository _repository;
 		private List<Person> _people;
+		private IDepotErrorLogger _errorLogger;
 
-		public PeopleService(Repository repository)
+		//TODO: Errorlogging implemetnern.
+		public PeopleService(Repository repository, IDepotErrorLogger errorLogger)
 		{
 			_repository = repository;
 			_people = _repository.GetPeople();
