@@ -2,31 +2,14 @@
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] arg)
 
         
         {
-            Console.WriteLine("Voer uw code in:");
-            int code = Convert.ToInt32 (Console.ReadLine());
-
-
-
-        //     Console.WriteLine ("Voer uw code in:");
-        //     var CodeNumber = Console.ReadLine();
-
-        //     int code;
-        //     if (!int.TryParse(CodeNumber, out code))
-
-        //     {
-        //         Console.WriteLine ("Deze code is niet juist, probeer het nog een keer");
-        //         CodeNumber = Console.ReadLine();
-        //     }
-        //     else
-
-        // Console.WriteLine ("Bedankt!");
+            Console.WriteLine("Hello World");
             
-            
-            
+
+EnterCode.AskforCode();
         }
-        
-    }   }
+    }
+}
