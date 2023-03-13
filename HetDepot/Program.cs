@@ -14,12 +14,20 @@ namespace HetDepot
         
             Console.WriteLine("Hello, World!");
 
-            Console.WriteLine("Typ een naam om functies te testen (Kevin/Tom/Ruben):");
+            Console.WriteLine("Typ een naam om functies te testen (Kevin/Tom/Ruben/Ted):");
             string testName = Console.ReadLine() ?? "";
 
             switch (testName.ToLower())
             {
 
+                case "ted":
+                    List<TimesSetting> settings = new (){
+                        new("tourTimes",new () {"11:00","11:20","11:40","12:00","12:20","12:40","13:00","13:20","13:40","14:00"})
+                    };
+                    ReadJsonFile.JSONread();
+                    ReadJsonFile.JSONwrite(settings);
+                    
+                    break;
                 case "tom":
 
                     // Tom's display tours
