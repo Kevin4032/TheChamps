@@ -17,8 +17,9 @@ namespace HetDepot.Tours.Model
 		public Guide Guide { get; private set; }
 		public int Reservations = 0;
     	public static int MaxReservations = 13;
-		
+
 		public string GetTime() => StartTime.ToString("H:mm");
+		public int FreeSpaces() => Math.Max(0, MaxReservations - Reservations);
     	public override string ToString() => GetTime();
 	}
 }
