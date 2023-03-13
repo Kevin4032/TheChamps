@@ -1,6 +1,6 @@
 namespace HetDepot;
 
-class TourList
+class TourListView
 {
 	// This class represents a "Tour list" screen that lists the available tours and allows the user to select one
 
@@ -13,7 +13,7 @@ class TourList
 	public string Title = "Welkom bij Het Depot";
 
 
-	public TourList()
+	public TourListView()
 	{
 		// Constructor
 		

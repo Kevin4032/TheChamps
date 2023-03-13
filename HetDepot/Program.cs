@@ -107,10 +107,10 @@ namespace HetDepot
                     return;
                 }
 
-                TourList tours = new();
+                TourListView tours = new();
                 tours.ShowScreen();
 
-                TourList.ResetConsole();
+                TourListView.ResetConsole();
                 Console.WriteLine($"U heeft gekozen voor de rondleiding om {tours.Tours[tours.SelectedTour]} uur");
                 Console.WriteLine($"Bedankt en tot ziens bij Het Depot!");
             }
