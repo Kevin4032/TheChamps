@@ -1,4 +1,5 @@
 namespace HetDepot.Controllers;
+
 abstract class Controller
 {
     /*
