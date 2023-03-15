@@ -1,6 +1,7 @@
 namespace HetDepot;
 
 using HetDepot.Controllers;
+using HetDepot.Controllers.Tests;
 
 internal class Program
 {
@@ -15,7 +16,7 @@ internal class Program
     {
         // This creates an instance of the default controller (the "home screen")
         // It's the first screen to be shown and the program returns to it if a controller does not provide a different controller to run next
-        return new ExampleController();
+        return new TestController();
     }
 
     public static void Main(string[] args)
