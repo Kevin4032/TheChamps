@@ -14,8 +14,8 @@ abstract class Controller
             {
                 // Your code here: Load some models, call up a view
                 // Wait for the user to do something with the view
+                
                 // Decide what the next controller will be:
-
                 NextController = new SomeOtherController());
                 // If you don't do this (or use "null"), the next controller will be the default controller set in Program.cs (the "home screen")
             }
