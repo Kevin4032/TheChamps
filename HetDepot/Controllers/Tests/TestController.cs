@@ -5,7 +5,7 @@ class TestController : Controller
     /*
         All Controllers in this folder are used for testing, and should be removed in the definitive version.
         This asks to input a name, and runs the appropriate test controller next. This is based on the old contents of Program.cs
-        Individual people's test code have been moved to seperate controllers
+        Individual people's test code has been moved to seperate controllers
     */
 
     public override void Execute()

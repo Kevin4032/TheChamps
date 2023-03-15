@@ -24,7 +24,7 @@ abstract class Controller
         Feel free to add more properties, methods, constructors, etc.
     */
 
-    // The controller to run after this (read only)
+    // The controller to run after this (read only except for Controllers)
     public static Controller? NextController { get; protected set; }
 
     // Override this method to run your code (this is required because it is "abstract", there is no code to run in the class yet)

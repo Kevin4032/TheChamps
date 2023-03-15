@@ -6,7 +6,7 @@ using HetDepot.Tours.Model;
 class RubensTestController : Controller
 {
     /*
-        Tom's code from the old Program.cs
+        Ruben's code from the old Program.cs
     */
 
     public override void Execute()
