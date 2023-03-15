@@ -1,4 +1,5 @@
-﻿using HetDepot.People.Model;
+﻿using HetDepot.Errorlogging;
+using HetDepot.People.Model;
 using HetDepot.Registration.Model;
 using HetDepot.Settings;
 using System.Text.RegularExpressions;
@@ -14,27 +15,25 @@ namespace HetDepot.Persistence
 		private string _admissionsPath;
 		private string _reservationsPath;
 		private IDepotDataReadWrite _depotDataReadWrite;
-		private IDepotLogger _depotLogger;
-		private Regex _employeeCheckId;
-		private Regex _visitorCheckId;
+		private IDepotErrorLogger _errorLogger;
+		private IDepotDataValidator _validator;
 
-		public Repository(IDepotDataReadWrite dataReadWrite, IDepotLogger depotLogger)
+		public Repository(IDepotDataReadWrite dataReadWrite, IDepotErrorLogger errorLogger, IDepotDataValidator validator)
 		{ 
 			_depotDataReadWrite = dataReadWrite;
-			_depotLogger = depotLogger;
+			_errorLogger = errorLogger;
+			_validator = validator;
 			_guidesPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleGuide.json");
 			_managersPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleManager.json");
 			_visitorsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleVisitor.json");
 			_settingsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleSettings.json");
 			_admissionsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleTourAdmissions.json");
 			_reservationsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleTourReservations.json");
-			_employeeCheckId = new Regex(@"^[dD]\d{10}");
-			_visitorCheckId = new Regex(@"^[eE]\d{10}");
 		}
 
 		public void TestErrorlog()
 		{
-			_depotLogger.LogError("Test error in repository.");
+			_errorLogger.LogError("Test error in repository.");
 		}
 
 		public Admission GetAdmissions() => new Admission() { Admissions = _depotDataReadWrite.Read<HashSet<string>>(_admissionsPath) };
@@ -78,29 +77,13 @@ namespace HetDepot.Persistence
 
 			foreach (var person in people)
 			{
-				if (ValidForAdministration(person))
+				if (_validator.ValidForAdministration(person))
 					result.Add(person);
 				else
-					_depotLogger.LogError($"Onjuiste bezoekerdata - {person.Id}");
+					_errorLogger.LogError($"Onjuiste bezoekerdata - {person.Id}");
 			}
 
 			return result;
-		}
-		private bool ValidForAdministration<T>(T dataToValidate) where T : Person
-		{
-			var validVisitorId = _visitorCheckId.IsMatch(dataToValidate.Id);
-			var validEmployeeId = _employeeCheckId.IsMatch(dataToValidate.Id);
-
-			var dataIsGuide = dataToValidate is Guide;
-			var dataIsManager = dataToValidate is Manager;
-			var dataIsVisitor = dataToValidate is Visitor;
-
-			if ((dataIsGuide && validEmployeeId) || (dataIsManager && validEmployeeId) || (dataIsVisitor && validVisitorId))
-			{
-				return true;
-			}
-
-			return false;
 		}
 	}
 }

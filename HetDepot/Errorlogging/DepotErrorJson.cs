@@ -1,16 +1,17 @@
-﻿using HetDepot.Errorlogging;
+﻿using HetDepot.Persistence;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Text.Json;
+using System.Threading.Tasks;
 
-namespace HetDepot.Persistence
+namespace HetDepot.Errorlogging
 {
-	public class DepotJson : IDepotDataReadWrite
+	public class DepotErrorJson 
 	{
-		private IDepotErrorLogger _errorLogger;
+		public DepotErrorJson() { }
 
-		public DepotJson(IDepotErrorLogger errorLogger)
-		{
-			_errorLogger = errorLogger;
-		}
 
 		public T Read<T>(string filePath)
 		{
@@ -23,13 +24,13 @@ namespace HetDepot.Persistence
 			}
 			catch (JsonException ex)
 			{
-				_errorLogger.LogError(ex.Message);
+				
 				Console.WriteLine($"JSON - {ex.Message}");
 				result = default;
 			}
 			catch (Exception ex)
 			{
-				_errorLogger.LogError(ex.Message);
+				
 				Console.WriteLine($"Andere - {ex.Message}");
 				result = default;
 			}
@@ -46,9 +47,8 @@ namespace HetDepot.Persistence
 		public void Append<T>(string filePath, T objectToWrite)
 		{
 			//TODO: opleuken
-			var rawJson = JsonSerializer.Serialize(objectToWrite);			
+			var rawJson = JsonSerializer.Serialize(objectToWrite);
 			File.AppendAllLines(filePath, new List<string>() { rawJson });
 		}
-
 	}
 }

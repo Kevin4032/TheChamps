@@ -1,4 +1,5 @@
-﻿using HetDepot.People.Model;
+﻿using HetDepot.Errorlogging;
+using HetDepot.People.Model;
 using HetDepot.Persistence;
 using HetDepot.Registration.Model;
 
@@ -9,12 +10,14 @@ namespace HetDepot.Registration
 		private Reservation _reservation;
 		private Admission _admission;
 		private Repository _repository;
+		private IDepotErrorLogger _errorLogger;
 
-		public RegistrationService(Repository repository) 
+		public RegistrationService(Repository repository, IDepotErrorLogger errorLogger) 
 		{
 			_repository = repository;
 			_reservation = _repository.GetReservations();
 			_admission = _repository.GetAdmissions();
+			_errorLogger = errorLogger;
 		}
 
 		//TODO: verwijderen. Is voor ons team ter illustratie
