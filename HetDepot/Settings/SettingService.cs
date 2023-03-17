@@ -1,4 +1,5 @@
-﻿using HetDepot.Persistence;
+﻿using HetDepot.Errorlogging;
+using HetDepot.Persistence;
 
 namespace HetDepot.Settings
 {
@@ -6,11 +7,13 @@ namespace HetDepot.Settings
 	{
 		private Dictionary<string, string> _settings;
 		private Repository _repository;
+		private IDepotErrorLogger _errorLogger;
 
-		public SettingService(Repository repository)
+		public SettingService(Repository repository, IDepotErrorLogger errorLogger)
 		{
 			_repository = repository;
 			_settings = _repository.GetSettings();
+			_errorLogger = errorLogger;
 		}
 
 		public string GetSettingValue(string name)
