@@ -2,6 +2,10 @@
 
 public abstract class ListableItem
 {
+    /*
+     * This is the base class that is use for listable items in the ListView.
+     */
+    
     public readonly object Value; // Returned after selected in View
     public readonly bool Disabled;
     public readonly int TextAlignment = 0;

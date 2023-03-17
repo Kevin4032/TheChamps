@@ -1,7 +1,11 @@
 ﻿namespace HetDepot.Views;
 
-class Renderer
+public static class Renderer
 {
+	
+	/**
+	 * The render has all the rich console functions that are used within the views.
+	 */
     
 	public static int ConsoleWidth, ConsoleHeight, ConsoleLeft, ConsoleTop; // NOT Safe to use outside of Views i.e. in Models
     
@@ -68,7 +72,7 @@ class Renderer
 			// More than enough room, add padding to fill up the rest
 			content = align switch
 			{
-				1 => content.PadLeft(maxWidth / 2, padChar).PadRight(maxWidth / 2 + maxWidth % 2, padChar),
+				1 => content.PadLeft(maxWidth / 2, padChar).PadRight(maxWidth, padChar),
 				2 => content.PadLeft(maxWidth, padChar),
 				_ => content.PadRight(maxWidth, padChar),
 			};

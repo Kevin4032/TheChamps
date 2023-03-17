@@ -5,50 +5,55 @@ namespace HetDepot.Views;
 
 public class ListView
 {
-    private int SelectedItemIndex;
-    public string Title;
-    public string? Subtitle;
-    public static List<ListableItem> ListViewItems;
+	
+	/*
+	 * A ListView instance can be created. On the creation it needs to be given listable items.
+	 * With ShowAndGetResult() the list will be displayed in the console and the user selection will be returned
+	 * by the function.
+	 */
+	
+    private int _selectedItemIndex;
+    private readonly string _title;
+    private readonly string? _subtitle;
+    private readonly List<ListableItem> _listViewItems;
 
     public ListView(string title, List<ListableItem> listViewItems)
     {
-	    Title = title;
-	    ListViewItems = listViewItems;
+	    _title = title;
+	    _listViewItems = listViewItems;
     }
 
     public ListView(string title, string subtitle, List<ListableItem> listViewItems)
     {
-	    Title = title;
-	    Subtitle = subtitle;
-	    ListViewItems = listViewItems;
+	    _title = title;
+	    _subtitle = subtitle;
+	    _listViewItems = listViewItems;
     }
 
     public ListView(string title, List<IListableObject> listViewItems)
     {
-	    Title = title;
-	    ListViewItems = listViewItems.Select(x => x.ToListableItem()).ToList();
+	    _title = title;
+	    _listViewItems = listViewItems.Select(x => x.ToListableItem()).ToList();
     }
 
     public ListView(string title, string subtitle ,List<IListableObject> listViewItems)
     {
-	    Title = title;
-	    Subtitle = subtitle;
-	    ListViewItems = listViewItems.Select(x => x.ToListableItem()).ToList();
+	    _title = title;
+	    _subtitle = subtitle;
+	    _listViewItems = listViewItems.Select(x => x.ToListableItem()).ToList();
     }
     
     public object ShowAndGetResult()
 	{
 		// Show the Tour List screen: Draw it on the console and wait for the user to press a key
-
-		bool showScreen = true;
 		bool redraw = true;
 		int firstSelectableItemPos = 0; // Cursor position of first selectable item
 		int previousSelection = -1; // Previously selected item (on this page)
 		int maxItemsOnScreen = 0;
 		int itemOffset = 0; // Amount of items to skip (shown on earlier pages)
 		ConsoleKeyInfo pressedKey;
-
-		while (showScreen)
+		
+		while (true) // Loop until the code inside of this loop breaks the loop
 		{
 
 			// Decide if we need to redraw the whole screen
@@ -56,13 +61,13 @@ public class ListView
 			{
 				// Make sure we start with an empty console screen
 				Renderer.ResetConsole(false);
-				Console.Title = Title;
+				Console.Title = _title;
 
 				// Write the title and a line of '=' characters under it
-				Renderer.ConsoleWrite(Title);
-				if (null != Subtitle)
+				Renderer.ConsoleWrite(_title);
+				if (null != _subtitle)
 				{
-					Renderer.ConsoleWrite(Subtitle, 0,0,0,' ', ConsoleColor.Gray);
+					Renderer.ConsoleWrite(_subtitle, 0,0,0,' ', ConsoleColor.Gray);
 				}
 				Renderer.ConsoleNewline();
 				Renderer.ConsoleWrite('=');
@@ -73,11 +78,11 @@ public class ListView
 
 				if (itemOffset < 0)
 					itemOffset = 0;
-				if (itemOffset >= ListViewItems.Count)
-					itemOffset = ListViewItems.Count - 1;
+				if (itemOffset >= _listViewItems!.Count)
+					itemOffset = _listViewItems.Count - 1;
 
 				// List all ListViewItems
-				for (int i = itemOffset; i < ListViewItems.Count; i++)
+				for (int i = itemOffset; i < _listViewItems.Count; i++)
 				{
 					if (firstSelectableItemPos + i - itemOffset == Renderer.ConsoleHeight - 1)
 					{
@@ -85,7 +90,7 @@ public class ListView
 						Renderer.ConsoleWrite("...", 0, 20);
 						break;
 					}
-					WriteListItem(ListViewItems[i], SelectedItemIndex + itemOffset == i);
+					WriteListItem(_listViewItems[i], _selectedItemIndex + itemOffset == i);
 				}
 				
 				maxItemsOnScreen = Renderer.ConsoleHeight - firstSelectableItemPos - 1;
@@ -95,15 +100,15 @@ public class ListView
 
 				// Selection has changed and console has not moved, redraw only the parts of the screen that have changed
 				int cursorPos = Console.GetCursorPosition().Top;
-				if (previousSelection + itemOffset >= 0 && previousSelection + itemOffset < ListViewItems.Count)
+				if (previousSelection + itemOffset >= 0 && previousSelection + itemOffset < _listViewItems!.Count)
 				{
 					Console.SetCursorPosition(0, firstSelectableItemPos + previousSelection);
-					WriteListItem(ListViewItems[previousSelection + itemOffset], false);
+					WriteListItem(_listViewItems[previousSelection + itemOffset]);
 				}
-				if (SelectedItemIndex + itemOffset >= 0 && SelectedItemIndex + itemOffset < ListViewItems.Count)
+				if (_selectedItemIndex + itemOffset >= 0 && _selectedItemIndex + itemOffset < _listViewItems!.Count)
 				{
-					Console.SetCursorPosition(0, firstSelectableItemPos + SelectedItemIndex);
-					WriteListItem(ListViewItems[SelectedItemIndex + itemOffset], true);
+					Console.SetCursorPosition(0, firstSelectableItemPos + _selectedItemIndex);
+					WriteListItem(_listViewItems[_selectedItemIndex + itemOffset], true);
 				}
 				Console.SetCursorPosition(0, cursorPos);
 				previousSelection = -1;
@@ -118,7 +123,7 @@ public class ListView
 			pressedKey = Console.ReadKey(true);
 			redraw = false;
 
-			if (ListViewItems == null || ListViewItems.Count == 0)
+			if (_listViewItems == null || _listViewItems.Count == 0)
 			{
 				// Nothing to choose from, just redraw at every button press
 				redraw = true;
@@ -128,11 +133,11 @@ public class ListView
 			switch (pressedKey.Key)
 			{
 				case ConsoleKey.Enter:
-					SelectedItemIndex += itemOffset;
-					if (SelectedItemIndex < 0 || SelectedItemIndex >= ListViewItems.Count)
+					_selectedItemIndex += itemOffset;
+					if (_selectedItemIndex < 0 || _selectedItemIndex >= _listViewItems.Count)
 						break;
 
-					ListableItem selectedListViewItem = ListViewItems[SelectedItemIndex];
+					ListableItem selectedListViewItem = _listViewItems[_selectedItemIndex];
 
 					if (selectedListViewItem.Disabled)
 					{
@@ -141,48 +146,46 @@ public class ListView
 
 					return selectedListViewItem.Value;
 				case ConsoleKey.UpArrow:
-					previousSelection = SelectedItemIndex;
-					SelectedItemIndex--;
-					if (SelectedItemIndex < 0 && itemOffset > 0)
+					previousSelection = _selectedItemIndex;
+					_selectedItemIndex--;
+					if (_selectedItemIndex < 0 && itemOffset > 0)
 					{
-						SelectedItemIndex = maxItemsOnScreen - 1;
+						_selectedItemIndex = maxItemsOnScreen - 1;
 						itemOffset -= maxItemsOnScreen;
 						redraw = true;
 					}
 					break;
 				case ConsoleKey.DownArrow:
-					previousSelection = SelectedItemIndex;
-					SelectedItemIndex++;
-					if (SelectedItemIndex >= maxItemsOnScreen)
+					previousSelection = _selectedItemIndex;
+					_selectedItemIndex++;
+					if (_selectedItemIndex >= maxItemsOnScreen)
 					{
-						SelectedItemIndex = 0;
+						_selectedItemIndex = 0;
 						itemOffset += maxItemsOnScreen;
 						redraw = true;
 					}
 					break;
-			};
+			}
 
-			if (SelectedItemIndex + itemOffset >= ListViewItems.Count)
+			if (_selectedItemIndex + itemOffset >= _listViewItems.Count)
 			{
 				// Wrap around to first item
-				SelectedItemIndex = 0;
+				_selectedItemIndex = 0;
 				redraw = itemOffset != 0;
 				itemOffset = 0;
 			}
 
-			if (SelectedItemIndex >= maxItemsOnScreen)
-				SelectedItemIndex = maxItemsOnScreen - 1;
+			if (_selectedItemIndex >= maxItemsOnScreen)
+				_selectedItemIndex = maxItemsOnScreen - 1;
 
-			if (SelectedItemIndex < 0)
+			if (_selectedItemIndex < 0)
 			{
 				// Wrap around to last item
-				redraw = itemOffset != maxItemsOnScreen * ((ListViewItems.Count - 1) / maxItemsOnScreen);
-				itemOffset = maxItemsOnScreen * ((ListViewItems.Count - 1) / maxItemsOnScreen);
-				SelectedItemIndex = ListViewItems.Count - itemOffset - 1;
+				redraw = itemOffset != maxItemsOnScreen * ((_listViewItems.Count - 1) / maxItemsOnScreen);
+				itemOffset = maxItemsOnScreen * ((_listViewItems.Count - 1) / maxItemsOnScreen);
+				_selectedItemIndex = _listViewItems.Count - itemOffset - 1;
 			}
 		}
-
-		return null;
 	}
 
 	private static void WriteListItem(ListableItem listableItem, bool selected = false)

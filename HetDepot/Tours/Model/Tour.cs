@@ -32,7 +32,7 @@ namespace HetDepot.Tours.Model
              * Wanneer er geen vrije plaatsen zijn zet Disabled op true. Dit zorgt ervoor dat de optie niet gekozen mag
              * worden.
              */
-            return new ListViewPartedItem(new List<ListViewItemPart>
+            return new ListViewItem(new List<ListViewItemPart>
                 {
                     new (GetTime(), 10),
                     new (FreeSpaces() > 0 ? FreeSpaces() + " plaatsen" : "Vol")

@@ -4,7 +4,7 @@ using HetDepot.Views.Parts;
 
 namespace HetDepot.Controllers.Tests;
 
-using HetDepot.Views;
+using Views;
 
 class TomsTestController : Controller
 {
@@ -90,5 +90,7 @@ class TomsTestController : Controller
         {
             (new AlertView("Uw reservering wordt behouden", AlertView.Info)).Show();
         }
+        
+        Renderer.ResetConsole();
     }
 }

@@ -1,26 +1,27 @@
 ﻿namespace HetDepot.Views.Parts;
 
-public class ListViewItem : ListableItem
+class ListViewItem : ListableItem
 {
-    public readonly string Text;
     
-    public ListViewItem(string text, object value) : base(value, false, 0)
+    /*
+     * Item that can be listed in ListView. It can take a string as its text or a list of ListViewItemParts.
+     * With the ListViewItemPart there is more control over the rendering and just the string is more simple.
+     */
+    
+    public readonly List<ListViewItemPart> Parts;
+
+    public ListViewItem(string text, object value, bool disabled = false, int textAlignment = 0) : base(value, disabled, textAlignment)
     {
-        Text = text;
+        Parts = new List<ListViewItemPart> { new(text) };
     }
 
-    public ListViewItem(string text, object value, bool disabled) : base(value, disabled, 0)
+    public ListViewItem(List<ListViewItemPart> parts, object value, bool disabled = false, int textAlignment = 0) : base(value, disabled, textAlignment)
     {
-        Text = text;
-    }
-
-    public ListViewItem(string text, object value, bool disabled, int textAlignment) : base(value, disabled, textAlignment)
-    {
-        Text = text;
+        Parts = parts;
     }
 
     public override List<ListViewItemPart> GetTextParts()
     {
-        return new List<ListViewItemPart> { new(Text, Renderer.ConsoleWidth) };
+        return Parts;
     }
 }

@@ -2,6 +2,12 @@
 
 public class AlertView
 {
+    
+    /*
+     * The AlertView is a simple view that allows messages to be displayed for 2 seconds and with a specific background
+     * color.
+     */
+    
     public const ConsoleColor Success = ConsoleColor.Green; 
     public const ConsoleColor Error = ConsoleColor.DarkRed; 
     public const ConsoleColor Info = ConsoleColor.Blue; 
@@ -22,7 +28,7 @@ public class AlertView
     {
         Renderer.ResetConsole(false);
         Renderer.ConsoleNewline(true);
-        Renderer.ConsoleWrite(_message, 0, Renderer.ConsoleWidth, 1, ' ', _backgroundColor);
+        Renderer.ConsoleWrite(_message, 0, 0, 1, ' ', _backgroundColor);
         Thread.Sleep(SleepTime);
     }
     
