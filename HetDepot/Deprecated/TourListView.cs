@@ -28,7 +28,7 @@ static class TourListView
 		return Tours[SelectedTour];
 	}
 
-	public static void ShowScreen()
+	private static void ShowScreen()
 	{
 		// Show the Tour List screen: Draw it on the console and wait for the user to press a key
 
@@ -176,7 +176,7 @@ static class TourListView
 		}
 	}
 
-	public static void WriteTour(Tour tour, bool selected = false)
+	private static void WriteTour(Tour tour, bool selected = false)
 	{
 		ConsoleColor color = ConsoleColor.White;
 		ConsoleColor errorColor = ConsoleColor.Red;
@@ -210,7 +210,7 @@ static class TourListView
 		ConsoleNewline();
 	}
 
-	public static void ResetConsole(bool cursorVisible = true)
+	private static void ResetConsole(bool cursorVisible = true)
 	{
 		// Clears and resets the console to a default state
 
@@ -224,7 +224,7 @@ static class TourListView
 		ConsoleTop = Console.WindowTop; // Vertical scroll position of console window
 	}
 
-	public static bool HasConsoleMoved()
+	private static bool HasConsoleMoved()
 	{
 		// Has console size or scroll position changed?
 		// This is useful to determine if the whole screen needs to be redrawn
@@ -232,7 +232,7 @@ static class TourListView
 		return ConsoleWidth != Console.WindowWidth || ConsoleHeight != Console.WindowHeight || ConsoleLeft != Console.WindowLeft || ConsoleTop != Console.WindowTop; 
 	}
 
-	public static void ConsoleWrite(string content, int pos = 0, int maxWidth = 0, int align = 0, char padChar = ' ', ConsoleColor? color = null, ConsoleColor? background = null)
+	private static void ConsoleWrite(string content, int pos = 0, int maxWidth = 0, int align = 0, char padChar = ' ', ConsoleColor? color = null, ConsoleColor? background = null)
 	{
 		// Console.Write with more options, to force content to show up at a specific place on the screen
 		// Parameters:
@@ -289,13 +289,13 @@ static class TourListView
 		Console.ResetColor();
 	}
 
-	public static void ConsoleWrite(char padChar, int pos = 0, int maxWidth = 0)
+	private static void ConsoleWrite(char padChar, int pos = 0, int maxWidth = 0)
 	{
 		// Overloading for simpler character padding
 		ConsoleWrite("", pos, maxWidth, 0, padChar);
 	}
 
-	public static void ConsoleNewline()
+	private static void ConsoleNewline()
 	{
 		if (Console.GetCursorPosition().Left == 0)
 			return; // Probably automatically wrapped to new line after filling up the last one
