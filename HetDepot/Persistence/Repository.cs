@@ -53,7 +53,22 @@ namespace HetDepot.Persistence
 		}
 		public List<Tour> GetTours()
 		{
-			return _depotDataReadWrite.Read<List<Tour>>(_toursPath);
+			var result = new List<Tour>();
+			var tours = _depotDataReadWrite.Read<List<TourJsonModel>>(_toursPath);
+			//Toelichting Kevin:
+			//Als het geen JsonModel is, lopen we tegen issues aan met
+			//  1. Geen lege constructor
+			//  2. De readOnlyList public attribute werkt niet goed
+			//  3. Andere private set attributen werken niet goed (bv starttime en guide)
+			//Daar zijn vast fixes voor, ik heb even geen zin om het uit te zoeken, dus zet ik het om.
+
+			foreach (var tour in tours)
+			{
+				var tourGoed = new Tour(tour.StartTime, tour.Guide!, tour.MaxReservations, tour.Reservations!, tour.Admissions!);
+				result.Add(tourGoed);
+			}
+
+			return result;
 		}
 
 		public Dictionary<string, string> GetSettings()
@@ -72,6 +87,9 @@ namespace HetDepot.Persistence
 		}
 		public void Write<T>(T objectToWrite)
 		{
+			if (objectToWrite == null)
+				throw new NullReferenceException("No object to write");
+
 			if (objectToWrite.GetType() == typeof(Admission))
 				_depotDataReadWrite.Write<T>(_admissionsPath, objectToWrite);
 			if (objectToWrite.GetType() == typeof(Reservation))

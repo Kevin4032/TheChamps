@@ -19,22 +19,20 @@ namespace HetDepot.Persistence
 			try
 			{
 				var rawJson = File.ReadAllText(filePath);
-				result = JsonSerializer.Deserialize<T>(rawJson);
+				result = JsonSerializer.Deserialize<T>(rawJson) ?? throw new NullReferenceException("Geen json");
 			}
 			catch (JsonException ex)
 			{
 				_errorLogger.LogError(ex.Message);
-				Console.WriteLine($"JSON - {ex.Message}");
-				result = default;
+				result = default!;
 			}
 			catch (Exception ex)
 			{
 				_errorLogger.LogError(ex.Message);
-				Console.WriteLine($"Andere - {ex.Message}");
-				result = default;
+				result = default!;
 			}
 
-			return result;
+			return result!;
 		}
 
 		public void Write<T>(string filePath, T objectToWrite)

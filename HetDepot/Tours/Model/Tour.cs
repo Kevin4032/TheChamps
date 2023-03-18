@@ -17,24 +17,19 @@ namespace HetDepot.Tours.Model
         private List<Visitor> _reservations;
         private List<Visitor> _admissions;
 
-        [JsonConstructor]
-        public Tour()
-        {
-
-        }
-
         public Tour(DateTime startTime)
         {
             StartTime = startTime;
             _reservations = new List<Visitor>();
             _admissions = new List<Visitor>();
+            Guide = new Guide("Fakiebreakie");
         }
 
-		public Tour(DateTime startTime, Guide guide, int maxReservations)
+		public Tour(DateTime startTime, Guide guide, int maxReservations, List<Visitor> reservations, List<Visitor> admissions)
 		{
 			StartTime = startTime;
-			_reservations = new List<Visitor>();
-			_admissions = new List<Visitor>();
+            _reservations = reservations;
+            _admissions = admissions;
             MaxReservations = maxReservations;
             Guide = guide;
 		}

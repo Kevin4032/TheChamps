@@ -8,6 +8,8 @@ using HetDepot.Errorlogging;
 using HetDepot.Tours.Model;
 using HetDepot.Tours;
 using System.Text.Json;
+using HetDepot.People.Model;
+using HetDepot.Validations;
 
 class KevinsTestController : Controller
 {
@@ -27,9 +29,25 @@ class KevinsTestController : Controller
         //KevinDing();
         //EvenSchrijven();
         //KorteTest();
-        JsonPrutsen();
+        //JsonPrutsen();
+        Testje20230318();
     }
 
+
+    private void Testje20230318()
+    {
+		var errorLoggerJson = new DepotErrorJson();
+		var errorLogger = new DepotErrorLogger(errorLoggerJson);
+		var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
+		var peopleService = new PeopleService(repository, errorLogger);
+		var settingService = new SettingService(repository, errorLogger);
+		var registrationService = new RegistrationService(repository, errorLogger);
+        var tourService = new TourService(repository, registrationService);
+        var validationService = new ValidationService(registrationService);
+
+		var controllert = new CreateReservationController(registrationService, tourService, peopleService, validationService, settingService);
+        controllert.Execute();
+    }
 
     private void KorteTest()
     {
@@ -53,7 +71,7 @@ class KevinsTestController : Controller
     {
         Console.WriteLine($"In json prutsen -- sart");
 		var rawJson = File.ReadAllText(_toursPath);
-		var result = JsonSerializer.Deserialize<List<Tour>>(rawJson);
+		var result = JsonSerializer.Deserialize<List<TourJsonModel>>(rawJson);
 		Console.WriteLine($"In json prutsen -- eind");
 	}
 
@@ -63,21 +81,21 @@ class KevinsTestController : Controller
 
         var toursTeSchrijven = GetTours();
 
-        schrijvert.Write<List<Tour>>(_toursPath, toursTeSchrijven);
+        schrijvert.Write(_toursPath, toursTeSchrijven);
     }
 
     private List<Tour> GetTours()
     {
         var list = new List<Tour>();
 
-        var t1 = new Tour(DateTime.Now, new People.Model.Guide("D1234567890"), 13);
-		var t2 = new Tour(DateTime.Now, new People.Model.Guide("D1234567890"), 13);
+        var t1 = new Tour(DateTime.Now, new Guide("D1234567890"), 13, new List<Visitor>(), new List<Visitor>());
+		var t2 = new Tour(DateTime.Now, new Guide("D1234567890"), 13, new List<Visitor>(), new List<Visitor>());
 
-        t1.AddReservation(new People.Model.Visitor("E1234567890"));
-		t1.AddAdmission(new People.Model.Visitor("E1234567890"));
+        t1.AddReservation(new Visitor("E1234567890"));
+		t1.AddAdmission(new Visitor("E1234567890"));
 
-        t2.AddReservation(new People.Model.Visitor("E0987654321"));
-		t2.AddAdmission(new People.Model.Visitor("E0987654321"));
+        t2.AddReservation(new Visitor("E0987654321"));
+		t2.AddAdmission(new Visitor("E0987654321"));
 
 		list.Add(t1);
 		list.Add(t2);

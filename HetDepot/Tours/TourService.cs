@@ -28,32 +28,23 @@ namespace HetDepot.Tours
 
 		public void AddTourReservation(DateTime time, Visitor visitor)
 		{
-			var tour = _tours.Where(t => t.StartTime == time).FirstOrDefault();
+			var tour = _tours.Where(t => t.StartTime == time).FirstOrDefault() ?? throw new NullReferenceException("AddTourReservation Tour Null");
 			tour.AddReservation(visitor);
 			_registrationService.AddTourReservation(visitor.Id);
 		}
 
 		public void RemoveTourReservation(DateTime time, Visitor visitor)
 		{
-			var tour = _tours.Where(t => t.StartTime == time).FirstOrDefault();
+			var tour = _tours.Where(t => t.StartTime == time).FirstOrDefault() ?? throw new NullReferenceException("RemoveTourReservation Tour Null");
 			tour.RemoveReservation(visitor);
 			_registrationService.RemoveTourReservation(visitor.Id);
 		}
 
 		public void AddTourAdmission(DateTime time, Visitor visitor)
 		{
-			var tour = _tours.Where(t => t.StartTime == time).FirstOrDefault();
+			var tour = _tours.Where(t => t.StartTime == time).FirstOrDefault() ?? throw new NullReferenceException("AddTourAdmission Tour Null"); ;
 			tour.AddAdmission(visitor);
-			_registrationService.RemoveTourReservation(visitor.Id);
+			_registrationService.AddTourAdmission(visitor.Id);
 		}
-
-		public void RemoveTourAdmission(DateTime time, Visitor visitor)
-		{
-			var tour = _tours.Where(t => t.StartTime == time).FirstOrDefault();
-			tour.RemoveAdmission(visitor);
-			_registrationService.RemoveTourReservation(visitor.Id);
-		}
-
-
 	}
 }

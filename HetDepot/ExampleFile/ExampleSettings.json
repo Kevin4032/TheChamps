@@ -112,6 +112,10 @@
     "Value": "Uw code is niet geldig."
   },
   {
+    "Name": "consoleVisitorAlreadyHasTourAdmission",
+    "Value": "U heeft al deelgenomen aan een rondleiding vandaag. Morgen weer een kans."
+  },
+  {
     "Name": "FileGuides",
     "Value": "ExampleFile\\ExampleGuide.json"
   },

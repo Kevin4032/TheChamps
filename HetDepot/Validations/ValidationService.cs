@@ -19,7 +19,6 @@ namespace HetDepot.Validations
 		public bool VisitorAllowedToMakeReservation(Visitor visitor)
 		{
 			return !_registrationService.HasTourAdmission(visitor.Id);
-	
 		}
 
 	}

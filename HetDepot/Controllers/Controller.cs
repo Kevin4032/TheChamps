@@ -1,6 +1,6 @@
 namespace HetDepot.Controllers;
 
-abstract class Controller
+public abstract class Controller
 {
     /*
         Base Controller class. It is "abstract", meaning that it is incomplete and cannot be directly instantiated (you can't do "new Controller()").
