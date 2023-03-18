@@ -2,6 +2,7 @@
 using HetDepot.People.Model;
 using HetDepot.Registration.Model;
 using HetDepot.Settings;
+using HetDepot.Tours.Model;
 using System.Text.RegularExpressions;
 
 namespace HetDepot.Persistence
@@ -14,6 +15,7 @@ namespace HetDepot.Persistence
 		private string _settingsPath;
 		private string _admissionsPath;
 		private string _reservationsPath;
+		private string _toursPath;
 		private IDepotDataReadWrite _depotDataReadWrite;
 		private IDepotErrorLogger _errorLogger;
 		private IDepotDataValidator _validator;
@@ -29,6 +31,7 @@ namespace HetDepot.Persistence
 			_settingsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleSettings.json");
 			_admissionsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleTourAdmissions.json");
 			_reservationsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleTourReservations.json");
+			_toursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleTours.json");
 		}
 
 		public void TestErrorlog()
@@ -48,6 +51,11 @@ namespace HetDepot.Persistence
 
 			return result;
 		}
+		public List<Tour> GetTours()
+		{
+			return _depotDataReadWrite.Read<List<Tour>>(_toursPath);
+		}
+
 		public Dictionary<string, string> GetSettings()
 		{
 			//TODO: Lege settings

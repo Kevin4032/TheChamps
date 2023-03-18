@@ -14,7 +14,7 @@ public static class TourguideView
         Console.Clear();
 
         // Filter the tours without reservations
-        List<Tour> tours = _tours.Where(t => t.Reservations > 0).ToList(); 
+        List<Tour> tours = _tours.Where(t => t.Reservations.Count > 0).ToList(); 
 
         Console.WriteLine("\n-= Rondleiding overzicht =-\n");
 
