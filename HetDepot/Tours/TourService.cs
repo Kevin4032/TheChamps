@@ -72,7 +72,7 @@ namespace HetDepot.Tours
 			{ 
 				var tour = GetTour(time);
 				tour.RemoveReservation(visitor);
-				visitor.TourReservation(null);
+				visitor.TourReservation(null!); //Leegmaken tour
 			}
 
 			return new TourServiceResult() { Success = success, Message = message };
@@ -97,6 +97,26 @@ namespace HetDepot.Tours
 		private Tour GetTour(DateTime tourStart)
 		{
 			return _tours.Where(t => t.StartTime == tourStart).FirstOrDefault() ?? throw new NullReferenceException("Tour Null"); ;
+		}
+
+		// TOOD: naar private zetten. Voor test even public.
+		public void WriteTourData()
+		{
+			//var result = new List<TourJsonModel>();
+
+			//foreach (var tour in _tours)
+			//{
+			//	var tussen = new TourJsonModel();
+			//	tussen.Admissions = tour.Admissions.ToList();
+			//	tussen.Reservations = tour.Reservations.ToList();
+			//	tussen.MaxReservations = Tour.MaxReservations;
+			//	tussen.StartTime = tour.StartTime;
+			//	tussen.Guide = tour.Guide;
+			//	result.Add(tussen);
+			//}
+
+			//_repository.Write(result);
+			_repository.Write(_tours);
 		}
 	}
 }

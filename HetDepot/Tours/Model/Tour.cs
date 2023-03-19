@@ -1,14 +1,7 @@
 ﻿using HetDepot.People.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HetDepot.Views;
 using HetDepot.Views.Interface;
 using HetDepot.Views.Parts;
 using System.Collections.ObjectModel;
-using System.Text.Json.Serialization;
 
 namespace HetDepot.Tours.Model
 {
@@ -41,7 +34,6 @@ namespace HetDepot.Tours.Model
 			MaxReservations = maxReservations;
 		}
 
-        public long Id { get; private set; }
         public DateTime StartTime { get; private set; }
         public Guide Guide { get; private set; }
         public ReadOnlyCollection<Visitor> Reservations

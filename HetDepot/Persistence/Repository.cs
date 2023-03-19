@@ -82,7 +82,8 @@ namespace HetDepot.Persistence
 			if (objectToWrite == null)
 				throw new NullReferenceException("No object to write");
 
-			//_depotDataReadWrite.Write<T>(_admissionsPath, objectToWrite);
+			if (objectToWrite.GetType() == typeof(List<Tour>))
+				_depotDataReadWrite.Write(_toursPath, objectToWrite);
 		}
 
 		private List<T> GetPeople<T>(string path) where T : Person

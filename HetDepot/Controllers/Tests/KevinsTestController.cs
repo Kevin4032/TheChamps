@@ -117,15 +117,26 @@ class KevinsTestController : Controller
 
         var visitorNew1 = new Visitor("K0000000001");
 		var visitorNew2 = new Visitor("K0000000002");
+		var visitorNew3 = new Visitor("K0000000003");
 
 		Console.WriteLine($"TOURTAKEN? {visitorNew1.TourTaken}");
 
 		tourService.AddTourAdmission(t1, visitorNew1);
 		tourService.AddTourAdmission(t2, visitorNew2);
+        tourService.AddTourReservation(t2, visitorNew3);
 
         tourService.VoorTestEnDemoDoeleinden();
 
         Console.WriteLine($"TOURTAKEN? {visitorNew1.TourTaken}");
+
+        Console.WriteLine($"RESERVER {visitorNew3.Tour?.StartTime}");
+        tourService.RemoveTourReservation(t2, visitorNew3);
+		Console.WriteLine($"RESERVER {visitorNew3.Tour?.StartTime ?? DateTime.MinValue}");
+		Console.WriteLine($"RESERVER {visitorNew3.Tour?.StartTime}");
+
+
+        Console.WriteLine($"Schrijven met nieuwe entries, check file op disk");
+        tourService.WriteTourData();
 
 
 		Console.WriteLine("===========================================");
