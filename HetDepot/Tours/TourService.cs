@@ -15,36 +15,46 @@ namespace HetDepot.Tours
 	{
 		private List<Tour> _tours;
 		private Repository _repository;
-		private RegistrationService _registrationService;
+		private TourValidationService _tourValidationService;
 
-		public TourService (Repository repository, RegistrationService registrationService) 
+		public TourService (Repository repository, TourValidationService tourValidation) 
 		{
 			_repository = repository;
-			_registrationService = registrationService;
 			_tours = _repository.GetTours();
+			_tourValidationService = tourValidation;
 		}
 
 		public ReadOnlyCollection<Tour> Tours { get { return _tours.AsReadOnly(); } }
 
-		public void AddTourReservation(DateTime time, Visitor visitor)
+		public TourServiceResult AddTourReservation(DateTime time, Visitor visitor)
 		{
-			var tour = _tours.Where(t => t.StartTime == time).FirstOrDefault() ?? throw new NullReferenceException("AddTourReservation Tour Null");
-			tour.AddReservation(visitor);
-			_registrationService.AddTourReservation(visitor.Id);
+			var result = _tourValidationService.VisitorAllowedToMakeReservation(visitor);
+
+			if (result.Success)
+			{
+				var tour = GetTour(time);
+				tour.AddReservation(visitor);
+			}
+
+			return result;
 		}
 
 		public void RemoveTourReservation(DateTime time, Visitor visitor)
 		{
-			var tour = _tours.Where(t => t.StartTime == time).FirstOrDefault() ?? throw new NullReferenceException("RemoveTourReservation Tour Null");
+			var tour = GetTour(time);
 			tour.RemoveReservation(visitor);
-			_registrationService.RemoveTourReservation(visitor.Id);
 		}
 
 		public void AddTourAdmission(DateTime time, Visitor visitor)
 		{
-			var tour = _tours.Where(t => t.StartTime == time).FirstOrDefault() ?? throw new NullReferenceException("AddTourAdmission Tour Null"); ;
+			var tour = GetTour(time);
 			tour.AddAdmission(visitor);
-			_registrationService.AddTourAdmission(visitor.Id);
+		}
+
+
+		private Tour GetTour(DateTime tourStart)
+		{
+			return _tours.Where(t => t.StartTime == tourStart).FirstOrDefault() ?? throw new NullReferenceException("Tour Null"); ;
 		}
 	}
 }

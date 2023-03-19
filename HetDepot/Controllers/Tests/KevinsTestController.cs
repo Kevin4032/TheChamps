@@ -9,7 +9,6 @@ using HetDepot.Tours.Model;
 using HetDepot.Tours;
 using System.Text.Json;
 using HetDepot.People.Model;
-using HetDepot.Validations;
 
 class KevinsTestController : Controller
 {
