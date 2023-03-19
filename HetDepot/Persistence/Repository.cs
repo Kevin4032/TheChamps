@@ -1,9 +1,7 @@
 ﻿using HetDepot.Errorlogging;
 using HetDepot.People.Model;
-using HetDepot.Registration.Model;
 using HetDepot.Settings;
 using HetDepot.Tours.Model;
-using System.Text.RegularExpressions;
 
 namespace HetDepot.Persistence
 {
@@ -13,8 +11,6 @@ namespace HetDepot.Persistence
 		private string _managersPath;
 		private string _visitorsPath;
 		private string _settingsPath;
-		private string _admissionsPath;
-		private string _reservationsPath;
 		private string _toursPath;
 		private IDepotDataReadWrite _depotDataReadWrite;
 		private IDepotErrorLogger _errorLogger;
@@ -29,8 +25,6 @@ namespace HetDepot.Persistence
 			_managersPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleManager.json");
 			_visitorsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleVisitor.json");
 			_settingsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleSettings.json");
-			_admissionsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleTourAdmissions.json");
-			_reservationsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleTourReservations.json");
 			_toursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleTours.json");
 		}
 
@@ -39,8 +33,6 @@ namespace HetDepot.Persistence
 			_errorLogger.LogError("Test error in repository.");
 		}
 
-		public Admission GetAdmissions() => new Admission() { Admissions = _depotDataReadWrite.Read<HashSet<string>>(_admissionsPath) };
-		public Reservation GetReservations() => new Reservation() { Reservations = _depotDataReadWrite.Read<HashSet<string>>(_admissionsPath) };
 		public List<Person> GetPeople()
 		{
 			var result = new List<Person>();
@@ -90,10 +82,7 @@ namespace HetDepot.Persistence
 			if (objectToWrite == null)
 				throw new NullReferenceException("No object to write");
 
-			if (objectToWrite.GetType() == typeof(Admission))
-				_depotDataReadWrite.Write<T>(_admissionsPath, objectToWrite);
-			if (objectToWrite.GetType() == typeof(Reservation))
-				_depotDataReadWrite.Write<T>(_reservationsPath, objectToWrite);
+			//_depotDataReadWrite.Write<T>(_admissionsPath, objectToWrite);
 		}
 
 		private List<T> GetPeople<T>(string path) where T : Person

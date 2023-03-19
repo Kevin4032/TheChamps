@@ -1,13 +1,8 @@
 ﻿using HetDepot.People.Model;
 using HetDepot.Persistence;
-using HetDepot.Registration;
+using HetDepot.Settings;
 using HetDepot.Tours.Model;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HetDepot.Tours
 {
@@ -15,40 +10,87 @@ namespace HetDepot.Tours
 	{
 		private List<Tour> _tours;
 		private Repository _repository;
-		private TourValidationService _tourValidationService;
+		private SettingService _settingService;
 
-		public TourService (Repository repository, TourValidationService tourValidation) 
+		public TourService (Repository repository, SettingService settingService) 
 		{
 			_repository = repository;
 			_tours = _repository.GetTours();
-			_tourValidationService = tourValidation;
+			_settingService = settingService;
 		}
 
 		public ReadOnlyCollection<Tour> Tours { get { return _tours.AsReadOnly(); } }
 
+		public void VoorTestEnDemoDoeleinden()
+		{
+			Console.WriteLine($"===========================================");
+			Console.WriteLine($"==                 Tours                 ==");
+			Console.WriteLine($"===========================================");
+
+			foreach (var tour in _tours)
+			{
+				Console.WriteLine($"==         Tour: {tour.StartTime}        ==");
+				Console.WriteLine($"===========================================");
+				Console.WriteLine($"==              Reservations           ==");
+				Console.WriteLine($"===========================================");
+				foreach (var reservation in tour.Reservations)
+				{
+					Console.WriteLine($"{reservation.Id}");
+				}
+
+				Console.WriteLine("===========================================");
+				Console.WriteLine($"==                Admissions            ==");
+				Console.WriteLine("===========================================");
+				foreach (var admission in tour.Admissions)
+				{
+					Console.WriteLine($"{admission.Id}");
+				}
+			}
+		}
+
 		public TourServiceResult AddTourReservation(DateTime time, Visitor visitor)
 		{
-			var result = _tourValidationService.VisitorAllowedToMakeReservation(visitor);
+			var success = !visitor.TourTaken;
+			var message = _settingService.GetSettingValue("consoleVisitorReservationConfirmation");
 
-			if (result.Success)
+			if (success)
 			{
 				var tour = GetTour(time);
 				tour.AddReservation(visitor);
+				visitor.TourReservation(tour);
 			}
 
-			return result;
+			return new TourServiceResult() { Success = success, Message = message };
 		}
 
-		public void RemoveTourReservation(DateTime time, Visitor visitor)
+		public TourServiceResult RemoveTourReservation(DateTime time, Visitor visitor)
 		{
-			var tour = GetTour(time);
-			tour.RemoveReservation(visitor);
+			var success = !visitor.TourTaken;
+			var message = _settingService.GetSettingValue("consoleVisitorReservationChangeTourConfirmation");
+
+			if (success )
+			{ 
+				var tour = GetTour(time);
+				tour.RemoveReservation(visitor);
+				visitor.TourReservation(null);
+			}
+
+			return new TourServiceResult() { Success = success, Message = message };
 		}
 
-		public void AddTourAdmission(DateTime time, Visitor visitor)
+		public TourServiceResult AddTourAdmission(DateTime time, Visitor visitor)
 		{
-			var tour = GetTour(time);
-			tour.AddAdmission(visitor);
+			var success = !visitor.TourTaken;
+			var message = _settingService.GetSettingValue("consoleVisitorReservationConfirmation");
+
+			if (success)
+			{
+				var tour = GetTour(time);
+				tour.AddAdmission(visitor);
+				visitor.TourAdmission(tour);
+			}
+
+			return new TourServiceResult() { Success = success, Message = message };
 		}
 
 

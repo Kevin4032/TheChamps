@@ -1,14 +1,13 @@
-namespace HetDepot.Controllers.Tests;
-
 using HetDepot.Persistence;
 using HetDepot.Settings;
-using HetDepot.Registration;
 using HetDepot.People;
 using HetDepot.Errorlogging;
 using HetDepot.Tours.Model;
 using HetDepot.Tours;
 using System.Text.Json;
 using HetDepot.People.Model;
+
+namespace HetDepot.Controllers.Tests;
 
 class KevinsTestController : Controller
 {
@@ -25,11 +24,11 @@ class KevinsTestController : Controller
 
     public override void Execute()
     {
-        //KevinDing();
+        KevinDing();
         //EvenSchrijven();
         //KorteTest();
         //JsonPrutsen();
-        Testje20230318();
+        //Testje20230318();
     }
 
 
@@ -40,11 +39,9 @@ class KevinsTestController : Controller
 		var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
 		var peopleService = new PeopleService(repository, errorLogger);
 		var settingService = new SettingService(repository, errorLogger);
-		var registrationService = new RegistrationService(repository, errorLogger);
-        var tourService = new TourService(repository, registrationService);
-        var validationService = new ValidationService(registrationService);
+        var tourService = new TourService(repository, settingService);
 
-		var controllert = new CreateReservationController(registrationService, tourService, peopleService, validationService, settingService);
+		var controllert = new CreateReservationController(tourService, peopleService, settingService);
         controllert.Execute();
     }
 
@@ -53,9 +50,9 @@ class KevinsTestController : Controller
         Console.WriteLine("In korte test - Start");
 
         var repo = new Repository(new DepotJson(new DepotErrorLogger(new DepotErrorJson())), new DepotErrorLogger(new DepotErrorJson()), new DepotDataValidator());
-        var reg = new RegistrationService(repo, new DepotErrorLogger(new DepotErrorJson()));
+        var setting = new SettingService(repo, new DepotErrorLogger(new DepotErrorJson()));
 
-        var ts = new TourService(repo, reg);
+        var ts = new TourService(repo, setting);
                             
         foreach (var tour in ts.Tours)
         {
@@ -110,40 +107,28 @@ class KevinsTestController : Controller
         var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
         var peopleService = new PeopleService(repository, errorLogger);
         var settingService = new SettingService(repository, errorLogger);
-        var registrationService = new RegistrationService(repository, errorLogger);
 
-        //Een van de punten waar ik mee worstel is 'simpel'
-        //het simpelste is een lijst met id's, die checken, geen objecten nalopen, alleen een lijst
-        //het kan ook in een tour object of elders.
-        //vervolgens ben ik geneigd weer veel extra te maken.
-        Console.WriteLine("===========================================");
-        Console.WriteLine("==      Registratie / controle tours     ==");
-        Console.WriteLine("===========================================");
-        Console.WriteLine("== Huidige reserveringen / aanmeldingen");
-        registrationService.TestShowAllRegistrations();
-        Console.WriteLine();
-        Console.WriteLine("== E0000000001 / E9900000000 geldig");
-        Console.WriteLine($"E0000000001 - {registrationService.HasTourReservation("E0000000001")}");
-        Console.WriteLine($"E9900000000 - {registrationService.HasTourReservation("E9900000000")}");
-        Console.WriteLine();
-        Console.WriteLine("== Toevoegen 2 reserveringen en bestaande verwijderen");
-        registrationService.AddTourReservation("E9900000000");
-        registrationService.AddTourReservation("E9910000000");
-        registrationService.RemoveTourReservation("E0000000001");
-        Console.WriteLine();
-        Console.WriteLine("== Nieuwe status reserveringen / aanmeldingen");
-        registrationService.TestShowAllRegistrations();
-        Console.WriteLine();
-        Console.WriteLine("== E0000000001 / E9900000000 geldig");
-        Console.WriteLine($"E0000000001 - {registrationService.HasTourReservation("E0000000001")}");
-        Console.WriteLine($"E9900000000 - {registrationService.HasTourReservation("E9900000000")}");
-        Console.WriteLine();
+        var tourService = new TourService(repository, settingService);
+
+		tourService.VoorTestEnDemoDoeleinden();
+
+		var t1 = DateTime.Parse("2023-03-18T11:00:00.0000000+01:00");
+        var t2 = DateTime.Parse("2023-03-18T12:00:00.0000000+01:00");
+
+        var visitorNew1 = new Visitor("K0000000001");
+		var visitorNew2 = new Visitor("K0000000002");
+
+		Console.WriteLine($"TOURTAKEN? {visitorNew1.TourTaken}");
+
+		tourService.AddTourAdmission(t1, visitorNew1);
+		tourService.AddTourAdmission(t2, visitorNew2);
+
+        tourService.VoorTestEnDemoDoeleinden();
+
+        Console.WriteLine($"TOURTAKEN? {visitorNew1.TourTaken}");
 
 
-
-        Console.WriteLine();
-
-        Console.WriteLine("===========================================");
+		Console.WriteLine("===========================================");
         Console.WriteLine("==                Settings               ==");
         Console.WriteLine("===========================================");
         Console.WriteLine($"Name - 'consoleVisitorLogonCodeInvalid', Value '{settingService.GetSettingValue("consoleVisitorLogonCodeInvalid")}'");
