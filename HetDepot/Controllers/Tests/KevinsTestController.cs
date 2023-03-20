@@ -1,10 +1,13 @@
-namespace HetDepot.Controllers.Tests;
-
 using HetDepot.Persistence;
 using HetDepot.Settings;
-using HetDepot.Registration;
 using HetDepot.People;
 using HetDepot.Errorlogging;
+using HetDepot.Tours.Model;
+using HetDepot.Tours;
+using System.Text.Json;
+using HetDepot.People.Model;
+
+namespace HetDepot.Controllers.Tests;
 
 class KevinsTestController : Controller
 {
@@ -12,9 +15,88 @@ class KevinsTestController : Controller
         Kevin's code from the old Program.cs
     */
 
+    private string _toursPath;
+
+    public KevinsTestController()
+    {
+        _toursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleTours.json");
+	}
+
     public override void Execute()
     {
         KevinDing();
+        //EvenSchrijven();
+        //KorteTest();
+        //JsonPrutsen();
+        //Testje20230318();
+    }
+
+
+    private void Testje20230318()
+    {
+		var errorLoggerJson = new DepotErrorJson();
+		var errorLogger = new DepotErrorLogger(errorLoggerJson);
+		var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
+		var peopleService = new PeopleService(repository, errorLogger);
+		var settingService = new SettingService(repository, errorLogger);
+        var tourService = new TourService(repository, settingService);
+
+		var controllert = new CreateReservationController(tourService, peopleService, settingService);
+        controllert.Execute();
+    }
+
+    private void KorteTest()
+    {
+        Console.WriteLine("In korte test - Start");
+
+        var repo = new Repository(new DepotJson(new DepotErrorLogger(new DepotErrorJson())), new DepotErrorLogger(new DepotErrorJson()), new DepotDataValidator());
+        var setting = new SettingService(repo, new DepotErrorLogger(new DepotErrorJson()));
+
+        var ts = new TourService(repo, setting);
+                            
+        foreach (var tour in ts.Tours)
+        {
+            Console.WriteLine($"StartTime: {tour.StartTime} --==-- Gids: {tour.Guide.Id}");
+        }
+
+
+		Console.WriteLine("In korte test - Eind");
+	}
+
+    private void JsonPrutsen()
+    {
+        Console.WriteLine($"In json prutsen -- sart");
+		var rawJson = File.ReadAllText(_toursPath);
+		var result = JsonSerializer.Deserialize<List<TourJsonModel>>(rawJson);
+		Console.WriteLine($"In json prutsen -- eind");
+	}
+
+    private void EvenSchrijven()
+    {
+        var schrijvert = new DepotJson(new DepotErrorLogger(new DepotErrorJson()));
+
+        var toursTeSchrijven = GetTours();
+
+        schrijvert.Write(_toursPath, toursTeSchrijven);
+    }
+
+    private List<Tour> GetTours()
+    {
+        var list = new List<Tour>();
+
+        var t1 = new Tour(DateTime.Now, new Guide("D1234567890"), 13, new List<Visitor>(), new List<Visitor>());
+		var t2 = new Tour(DateTime.Now, new Guide("D1234567890"), 13, new List<Visitor>(), new List<Visitor>());
+
+        t1.AddReservation(new Visitor("E1234567890"));
+		t1.AddAdmission(new Visitor("E1234567890"));
+
+        t2.AddReservation(new Visitor("E0987654321"));
+		t2.AddAdmission(new Visitor("E0987654321"));
+
+		list.Add(t1);
+		list.Add(t2);
+
+		return list;
     }
 
     private static void KevinDing()
@@ -25,40 +107,39 @@ class KevinsTestController : Controller
         var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
         var peopleService = new PeopleService(repository, errorLogger);
         var settingService = new SettingService(repository, errorLogger);
-        var registrationService = new RegistrationService(repository, errorLogger);
 
-        //Een van de punten waar ik mee worstel is 'simpel'
-        //het simpelste is een lijst met id's, die checken, geen objecten nalopen, alleen een lijst
-        //het kan ook in een tour object of elders.
-        //vervolgens ben ik geneigd weer veel extra te maken.
-        Console.WriteLine("===========================================");
-        Console.WriteLine("==      Registratie / controle tours     ==");
-        Console.WriteLine("===========================================");
-        Console.WriteLine("== Huidige reserveringen / aanmeldingen");
-        registrationService.TestShowAllRegistrations();
-        Console.WriteLine();
-        Console.WriteLine("== E0000000001 / E9900000000 geldig");
-        Console.WriteLine($"E0000000001 - {registrationService.HasTourReservation("E0000000001")}");
-        Console.WriteLine($"E9900000000 - {registrationService.HasTourReservation("E9900000000")}");
-        Console.WriteLine();
-        Console.WriteLine("== Toevoegen 2 reserveringen en bestaande verwijderen");
-        registrationService.AddTourReservation("E9900000000");
-        registrationService.AddTourReservation("E9910000000");
-        registrationService.RemoveTourReservation("E0000000001");
-        Console.WriteLine();
-        Console.WriteLine("== Nieuwe status reserveringen / aanmeldingen");
-        registrationService.TestShowAllRegistrations();
-        Console.WriteLine();
-        Console.WriteLine("== E0000000001 / E9900000000 geldig");
-        Console.WriteLine($"E0000000001 - {registrationService.HasTourReservation("E0000000001")}");
-        Console.WriteLine($"E9900000000 - {registrationService.HasTourReservation("E9900000000")}");
-        Console.WriteLine();
+        var tourService = new TourService(repository, settingService);
+
+		tourService.VoorTestEnDemoDoeleinden();
+
+		var t1 = DateTime.Parse("2023-03-18T11:00:00.0000000+01:00");
+        var t2 = DateTime.Parse("2023-03-18T12:00:00.0000000+01:00");
+
+        var visitorNew1 = new Visitor("K0000000001");
+		var visitorNew2 = new Visitor("K0000000002");
+		var visitorNew3 = new Visitor("K0000000003");
+
+		Console.WriteLine($"TOURTAKEN? {visitorNew1.TourTaken}");
+
+		tourService.AddTourAdmission(t1, visitorNew1);
+		tourService.AddTourAdmission(t2, visitorNew2);
+        tourService.AddTourReservation(t2, visitorNew3);
+
+        tourService.VoorTestEnDemoDoeleinden();
+
+        Console.WriteLine($"TOURTAKEN? {visitorNew1.TourTaken}");
+
+        Console.WriteLine($"RESERVER {visitorNew3.Tour?.StartTime}");
+        tourService.RemoveTourReservation(t2, visitorNew3);
+		Console.WriteLine($"RESERVER {visitorNew3.Tour?.StartTime ?? DateTime.MinValue}");
+		Console.WriteLine($"RESERVER {visitorNew3.Tour?.StartTime}");
 
 
+        Console.WriteLine($"Schrijven met nieuwe entries, check file op disk");
+        tourService.WriteTourData();
 
-        Console.WriteLine();
 
-        Console.WriteLine("===========================================");
+		Console.WriteLine("===========================================");
         Console.WriteLine("==                Settings               ==");
         Console.WriteLine("===========================================");
         Console.WriteLine($"Name - 'consoleVisitorLogonCodeInvalid', Value '{settingService.GetSettingValue("consoleVisitorLogonCodeInvalid")}'");

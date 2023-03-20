@@ -14,8 +14,8 @@ namespace HetDepot.Errorlogging
 
 		public DepotErrorLogger(DepotErrorJson depotDataReadWrite)
 		{
-			_errorLog = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleErrorlog.txt");
 			_depotDataReadWrite = depotDataReadWrite;
+			_errorLog = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleErrorlog.txt");
 		}
 
 		public void LogError(string message)

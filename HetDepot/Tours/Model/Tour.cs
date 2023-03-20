@@ -1,29 +1,78 @@
 ﻿using HetDepot.People.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HetDepot.Views;
 using HetDepot.Views.Interface;
 using HetDepot.Views.Parts;
+using System.Collections.ObjectModel;
 
 namespace HetDepot.Tours.Model
 {
     public class Tour : IListableObject
     {
-        public Tour(DateTime startTime) => StartTime = startTime;
-        public Tour(DateTime startTime, int reservations) : this(startTime) => Reservations = reservations;
+        private List<Visitor> _reservations;
+        private List<Visitor> _admissions;
 
-        public long Id { get; private set; }
+        public Tour(DateTime startTime)
+        {
+            StartTime = startTime;
+            _reservations = new List<Visitor>();
+            _admissions = new List<Visitor>();
+            Guide = new Guide("Fakiebreakie");
+        }
+
+		public Tour(DateTime startTime, Guide guide, int maxReservations, List<Visitor> reservations, List<Visitor> admissions)
+		{
+			StartTime = startTime;
+            _reservations = reservations;
+            _admissions = admissions;
+            MaxReservations = maxReservations;
+            Guide = guide;
+		}
+
+		public Tour(DateTime startTime, int maxReservations) : this(startTime)
+        {
+            _reservations = new List<Visitor>();
+			_admissions = new List<Visitor>();
+			MaxReservations = maxReservations;
+		}
+
         public DateTime StartTime { get; private set; }
         public Guide Guide { get; private set; }
-        public int Reservations = 0; // TODO REPLACE WITH STORAGE RESERVATIONS
-        public static int MaxReservations = 13; // TODO REPLACE WITH SETTING
+        public ReadOnlyCollection<Visitor> Reservations
+        { 
+            get { return _reservations.AsReadOnly(); }
+        } // TODO REPLACE WITH STORAGE RESERVATIONS
+
+        public ReadOnlyCollection<Visitor> Admissions
+        {
+            get { return _admissions.AsReadOnly(); }
+        }
+
+        public static int MaxReservations { get; private set; } // TODO REPLACE WITH SETTING
 
         public string GetTime() => StartTime.ToString("H:mm");
-        public int FreeSpaces() => Math.Max(0, MaxReservations - Reservations);
+        public int FreeSpaces() => Math.Max(0, MaxReservations - Reservations.Count);
         public override string ToString() => GetTime();
+
+        public bool AddReservation(Visitor visitor)
+        {
+            _reservations.Add(visitor);
+            return true;
+        }
+
+        public bool RemoveReservation(Visitor visitor)
+        { 
+            return _reservations.Remove(visitor);
+        }
+
+        public bool AddAdmission(Visitor visitor)
+        {
+            _admissions.Add(visitor);
+            return true;
+        }
+
+        public bool RemoveAdmission(Visitor visitor)
+        {
+            return _admissions.Remove(visitor);
+        }
 
         public ListableItem ToListableItem()
         {
