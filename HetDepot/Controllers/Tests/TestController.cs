@@ -19,9 +19,11 @@ class TestController : Controller
         {
             "kevin" => new KevinsTestController(),
             "tom" => new TomsTestController(),
+            "ruben" => new RubensTestController(),
             "ted" => new TedsTestController(),
             "karlijn" => new KarlijnsTestController(),
-            _ => new ExampleController(),
+            "example" => new ExampleController(),
+            _ => new DefaultController(),
         };
     }
 }
