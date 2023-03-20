@@ -15,8 +15,8 @@ namespace HetDepot.Tours
 		public TourService (Repository repository, SettingService settingService) 
 		{
 			_repository = repository;
-			_tours = _repository.GetTours();
 			_settingService = settingService;
+			_tours = GetTours();
 		}
 
 		public ReadOnlyCollection<Tour> Tours { get { return _tours.AsReadOnly(); } }
@@ -94,7 +94,23 @@ namespace HetDepot.Tours
 		{
 			return _tours.Where(t => t.StartTime == tourStart).FirstOrDefault() ?? throw new NullReferenceException("Tour Null"); ;
 		}
-		public bool HasAdmission(Visitor visitor)
+		private List<Tour> GetTours()
+		{
+			var tours = _repository.GetTours();
+
+			if (tours.Count > 0)
+				return tours;
+
+			var tourTimes = _settingService.GetTourTimes();
+
+			foreach (var time in tourTimes)
+			{
+				tours.Add(new Tour(DateTime.Parse(time)));
+			}
+
+			return tours;
+		}
+		private bool HasAdmission(Visitor visitor)
 		{
 			var hasAdmission = false;
 

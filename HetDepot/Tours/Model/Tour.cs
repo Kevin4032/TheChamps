@@ -2,6 +2,7 @@
 using HetDepot.Views.Interface;
 using HetDepot.Views.Parts;
 using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
 
 namespace HetDepot.Tours.Model
 {
@@ -18,6 +19,7 @@ namespace HetDepot.Tours.Model
             Guide = new Guide("Fakiebreakie");
         }
 
+        [JsonConstructor]
 		public Tour(DateTime startTime, Guide guide, int maxReservations, List<Visitor> reservations, List<Visitor> admissions)
 		{
 			StartTime = startTime;
@@ -35,7 +37,7 @@ namespace HetDepot.Tours.Model
 		}
 
         public DateTime StartTime { get; private set; }
-        public Guide Guide { get; private set; }
+        public Guide Guide { get; set; }
         public ReadOnlyCollection<Visitor> Reservations
         { 
             get { return _reservations.AsReadOnly(); }

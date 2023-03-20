@@ -2,6 +2,7 @@
 using HetDepot.People.Model;
 using HetDepot.Errorlogging;
 using System.Security.Cryptography.X509Certificates;
+using System.Collections.ObjectModel;
 
 namespace HetDepot.People
 {
@@ -18,7 +19,7 @@ namespace HetDepot.People
 			_errorLogger = errorLogger;
 		}
 
-		public IEnumerable<Visitor> GetVisitors()
+		public ReadOnlyCollection<Visitor> GetVisitors()
 		{
 			var visitors = new List<Visitor>();
 
@@ -29,7 +30,7 @@ namespace HetDepot.People
 				visitors.Add((Visitor)visitor);
 			}
 
-			return visitors;
+			return visitors.AsReadOnly();
 		}
 
 		public Person GetById(string id) => _people.FirstOrDefault(p => p.Id == id) ?? throw new NullReferenceException("No Person Found");

@@ -17,6 +17,11 @@ namespace HetDepot.Settings
 			_errorLogger = errorLogger;
 		}
 
+		public HashSet<String> GetTourTimes()
+		{
+			return _settings.TourTimes;
+		}
+
 		public string GetSettingValue(string name)
 		{
 			return "";
@@ -24,7 +29,7 @@ namespace HetDepot.Settings
 
 		public string GetConsoleText(string name)
 		{
-			return string.Empty;
+			return _settings.ConsoleText[name];
 		}
 	}
 }

@@ -12,6 +12,9 @@ namespace HetDepot.Persistence
 		private string _visitorsPath;
 		private string _settingsPath;
 		private string _toursPath;
+
+		private string _kapotToursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleToursBestaatniet.json");
+
 		private IDepotDataReadWrite _depotDataReadWrite;
 		private IDepotErrorLogger _errorLogger;
 		private IDepotDataValidator _validator;
@@ -46,12 +49,17 @@ namespace HetDepot.Persistence
 		public List<Tour> GetTours()
 		{
 			var result = new List<Tour>();
-			var tours = _depotDataReadWrite.Read<List<TourJsonModel>>(_toursPath);
 
-			foreach (var tour in tours)
+			var tours = _depotDataReadWrite.Read<List<TourJsonModel>>(_kapotToursPath);
+
+			if (tours == null)
+				return result;
+			else
 			{
-				var tourGoed = new Tour(tour.StartTime, tour.Guide!, tour.MaxReservations, tour.Reservations!, tour.Admissions!);
-				result.Add(tourGoed);
+				foreach (var tour in tours)
+				{
+					result.Add(new Tour(tour.StartTime, tour.Guide, tour.MaxReservations, tour.Reservations, tour.Admissions));
+				}
 			}
 
 			return result;
@@ -61,13 +69,14 @@ namespace HetDepot.Persistence
 		{
 			return _depotDataReadWrite.Read<Setting>(_settingsPath);
 		}
+
 		public void Write<T>(T objectToWrite)
 		{
 			if (objectToWrite == null)
 				throw new NullReferenceException("No object to write");
 
 			if (objectToWrite.GetType() == typeof(List<Tour>))
-				_depotDataReadWrite.Write(_toursPath, objectToWrite);
+				_depotDataReadWrite.Write(_kapotToursPath, objectToWrite);
 		}
 
 		private List<T> GetPeople<T>(string path) where T : Person

@@ -6,9 +6,9 @@ namespace HetDepot.Tours.Model
 	{
 		public DateTime StartTime { get; set; }
 		public Guide? Guide { get; set; }
-		public List<Visitor>? Reservations { get; set; } // TODO REPLACE WITH STORAGE RESERVATION
+		public List<Visitor>? Reservations { get; set; }
 		public List<Visitor>? Admissions { get; set; }
-		public int MaxReservations { get; set; } // TODO REPLACE WITH SETTING
+		public int MaxReservations { get; set; }
 
 	}
 }
