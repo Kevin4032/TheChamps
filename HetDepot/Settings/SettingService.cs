@@ -1,11 +1,12 @@
 ﻿using HetDepot.Errorlogging;
 using HetDepot.Persistence;
+using HetDepot.Settings.Model;
 
 namespace HetDepot.Settings
 {
 	public class SettingService
 	{
-		private Dictionary<string, string> _settings;
+		private Setting _settings;
 		private Repository _repository;
 		private IDepotErrorLogger _errorLogger;
 
@@ -16,10 +17,19 @@ namespace HetDepot.Settings
 			_errorLogger = errorLogger;
 		}
 
+		public HashSet<String> GetTourTimes()
+		{
+			return _settings.TourTimes;
+		}
+
 		public string GetSettingValue(string name)
 		{
-			//TODO: Errorhandling
-			return _settings[name];
+			return "";
+		}
+
+		public string GetConsoleText(string name)
+		{
+			return _settings.ConsoleText[name];
 		}
 	}
 }

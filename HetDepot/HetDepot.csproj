@@ -20,10 +20,7 @@
     <None Update="ExampleFile\ExampleSettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="ExampleFile\ExampleTourAdmissions.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="ExampleFile\ExampleTourReservations.json">
+    <None Update="ExampleFile\ExampleTours.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="ExampleFile\ExampleVisitor.json">
