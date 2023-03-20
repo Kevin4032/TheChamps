@@ -24,11 +24,12 @@ class KevinsTestController : Controller
 
     public override void Execute()
     {
-        KevinDing();
+        //KevinDing();
         //EvenSchrijven();
         //KorteTest();
         //JsonPrutsen();
         //Testje20230318();
+        Testje20230320();
     }
 
 
@@ -57,6 +58,12 @@ class KevinsTestController : Controller
         foreach (var tour in ts.Tours)
         {
             Console.WriteLine($"StartTime: {tour.StartTime} --==-- Gids: {tour.Guide.Id}");
+
+            foreach (var visitor in tour.Reservations)
+            {
+				Console.WriteLine($"Tour Reservation {tour.StartTime} - Visitor Tour {visitor.Tour.StartTime} - Visitor Id {visitor.Id}");
+			}
+            
         }
 
 
@@ -172,6 +179,21 @@ class KevinsTestController : Controller
 
         foreach (var error in errorz)
             Console.WriteLine(error);
+
+    }
+
+    public void Testje20230320()
+    {
+		var errorLoggerJson = new DepotErrorJson();
+		var errorLogger = new DepotErrorLogger(errorLoggerJson);
+		var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
+		var peopleService = new PeopleService(repository, errorLogger);
+		var settingService = new SettingService(repository, errorLogger);
+
+		var tourService = new TourService(repository, settingService);
+		var resContr = new CreateReservationController(tourService, peopleService, settingService);
+
+        resContr.Execute();
 
     }
 }
