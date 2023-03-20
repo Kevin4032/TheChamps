@@ -50,14 +50,13 @@ namespace HetDepot.Tours
 
 		public TourServiceResult AddTourReservation(DateTime time, Visitor visitor)
 		{
-			var success = !visitor.TourTaken;
+			var success = HasAdmission(visitor);
 			var message = _settingService.GetSettingValue("consoleVisitorReservationConfirmation");
 
 			if (success)
 			{
 				var tour = GetTour(time);
 				tour.AddReservation(visitor);
-				visitor.TourReservation(tour);
 			}
 
 			return new TourServiceResult() { Success = success, Message = message };
@@ -65,14 +64,13 @@ namespace HetDepot.Tours
 
 		public TourServiceResult RemoveTourReservation(DateTime time, Visitor visitor)
 		{
-			var success = !visitor.TourTaken;
+			var success = HasAdmission(visitor);
 			var message = _settingService.GetSettingValue("consoleVisitorReservationChangeTourConfirmation");
 
 			if (success )
 			{ 
 				var tour = GetTour(time);
 				tour.RemoveReservation(visitor);
-				visitor.TourReservation(null!); //Leegmaken tour
 			}
 
 			return new TourServiceResult() { Success = success, Message = message };
@@ -80,14 +78,13 @@ namespace HetDepot.Tours
 
 		public TourServiceResult AddTourAdmission(DateTime time, Visitor visitor)
 		{
-			var success = !visitor.TourTaken;
+			var success = HasAdmission(visitor);
 			var message = _settingService.GetSettingValue("consoleVisitorReservationConfirmation");
 
 			if (success)
 			{
 				var tour = GetTour(time);
 				tour.AddAdmission(visitor);
-				visitor.TourAdmission(tour);
 			}
 
 			return new TourServiceResult() { Success = success, Message = message };
@@ -99,10 +96,28 @@ namespace HetDepot.Tours
 			return _tours.Where(t => t.StartTime == tourStart).FirstOrDefault() ?? throw new NullReferenceException("Tour Null"); ;
 		}
 
+		public bool HasAdmission(Visitor visitor) //TODO: naar private.
+		{
+			var hasAdmission = false;
+
+			foreach (var tour in _tours)
+			{
+				if (tour.Admissions.Where(v => v.Id == visitor.Id).Any())
+				{
+					hasAdmission = true;
+					break;
+				}
+			}
+
+			return hasAdmission;
+		}
+
 		// TOOD: naar private zetten. Voor test even public.
 		public void WriteTourData()
 		{
 			_repository.Write(_tours);
 		}
+
+
 	}
 }

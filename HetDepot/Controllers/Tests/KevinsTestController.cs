@@ -110,6 +110,8 @@ class KevinsTestController : Controller
 
         var tourService = new TourService(repository, settingService);
 
+        
+
 		tourService.VoorTestEnDemoDoeleinden();
 
 		var t1 = DateTime.Parse("2023-03-18T11:00:00.0000000+01:00");
@@ -118,22 +120,19 @@ class KevinsTestController : Controller
         var visitorNew1 = new Visitor("K0000000001");
 		var visitorNew2 = new Visitor("K0000000002");
 		var visitorNew3 = new Visitor("K0000000003");
+		var visitorBestaan1 = new Visitor("E0987654321");
 
-		Console.WriteLine($"TOURTAKEN? {visitorNew1.TourTaken}");
+        Console.WriteLine($"Visitornew {tourService.HasAdmission(visitorNew1)}");
+        Console.WriteLine($"viistorbestaand {tourService.HasAdmission(visitorBestaan1)}");
+
+
+		//Console.WriteLine($"TOURTAKEN? {visitorNew1.TourTaken}");
 
 		tourService.AddTourAdmission(t1, visitorNew1);
 		tourService.AddTourAdmission(t2, visitorNew2);
         tourService.AddTourReservation(t2, visitorNew3);
 
         tourService.VoorTestEnDemoDoeleinden();
-
-        Console.WriteLine($"TOURTAKEN? {visitorNew1.TourTaken}");
-
-        Console.WriteLine($"RESERVER {visitorNew3.Tour?.StartTime}");
-        tourService.RemoveTourReservation(t2, visitorNew3);
-		Console.WriteLine($"RESERVER {visitorNew3.Tour?.StartTime ?? DateTime.MinValue}");
-		Console.WriteLine($"RESERVER {visitorNew3.Tour?.StartTime}");
-
 
         Console.WriteLine($"Schrijven met nieuwe entries, check file op disk");
         tourService.WriteTourData();
