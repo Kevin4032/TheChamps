@@ -50,7 +50,7 @@ namespace HetDepot.Tours
 
 		public TourServiceResult AddTourReservation(DateTime time, Visitor visitor)
 		{
-			var success = HasAdmission(visitor);
+			var success = !HasAdmission(visitor);
 			var message = _settingService.GetSettingValue("consoleVisitorReservationConfirmation");
 
 			if (success)
@@ -64,7 +64,7 @@ namespace HetDepot.Tours
 
 		public TourServiceResult RemoveTourReservation(DateTime time, Visitor visitor)
 		{
-			var success = HasAdmission(visitor);
+			var success = !HasAdmission(visitor);
 			var message = _settingService.GetSettingValue("consoleVisitorReservationChangeTourConfirmation");
 
 			if (success )
@@ -78,7 +78,7 @@ namespace HetDepot.Tours
 
 		public TourServiceResult AddTourAdmission(DateTime time, Visitor visitor)
 		{
-			var success = HasAdmission(visitor);
+			var success = !HasAdmission(visitor);
 			var message = _settingService.GetSettingValue("consoleVisitorReservationConfirmation");
 
 			if (success)
