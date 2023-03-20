@@ -30,17 +30,23 @@ public class ListView
 	    _listViewItems = listViewItems;
     }
 
-    public ListView(string title, List<IListableObject> listViewItems)
+    public ListView(string title, List<IListableObject> listViewObjects, List<ListableItem>? extraOptions = null)
     {
 	    _title = title;
-	    _listViewItems = listViewItems.Select(x => x.ToListableItem()).ToList();
+	    
+	    List<ListableItem> listViewItems = listViewObjects.Select(x => x.ToListableItem()).ToList();
+	    if (extraOptions != null) listViewItems!.AddRange(extraOptions);
+	    _listViewItems = listViewItems;
     }
 
-    public ListView(string title, string subtitle ,List<IListableObject> listViewItems)
+    public ListView(string title, string subtitle ,List<IListableObject> listViewObjects, List<ListableItem>? extraOptions = null)
     {
 	    _title = title;
 	    _subtitle = subtitle;
-	    _listViewItems = listViewItems.Select(x => x.ToListableItem()).ToList();
+	    
+	    List<ListableItem> listViewItems = listViewObjects.Select(x => x.ToListableItem()).ToList();
+	    if (extraOptions != null) listViewItems!.AddRange(extraOptions);
+	    _listViewItems = listViewItems;
     }
     
     public object ShowAndGetResult()
