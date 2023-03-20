@@ -1,11 +1,12 @@
 ﻿using HetDepot.Errorlogging;
 using HetDepot.Persistence;
+using HetDepot.Settings.Model;
 
 namespace HetDepot.Settings
 {
 	public class SettingService
 	{
-		private Dictionary<string, string> _settings;
+		private Setting _settings;
 		private Repository _repository;
 		private IDepotErrorLogger _errorLogger;
 
@@ -18,7 +19,12 @@ namespace HetDepot.Settings
 
 		public string GetSettingValue(string name)
 		{
-			return _settings[name];
+			return "";
+		}
+
+		public string GetConsoleText(string name)
+		{
+			return string.Empty;
 		}
 	}
 }

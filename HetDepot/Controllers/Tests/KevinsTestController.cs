@@ -24,13 +24,37 @@ class KevinsTestController : Controller
 
     public override void Execute()
     {
-        Testje20230320_001();
+        //Testje20230320_001();
+        //Testje20230320_002();
+        Testje20230320_003();
         //KevinDing();
         //EvenSchrijven();
         //KorteTest();
         //JsonPrutsen();
         //Testje20230318();
     }
+
+	private void Testje20230320_003()
+	{
+		var errorLoggerJson = new DepotErrorJson();
+		var errorLogger = new DepotErrorLogger(errorLoggerJson);
+		var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
+        var set = repository.GetSettings();
+
+        Console.WriteLine($"MaxRes stouR{set.MaxReservationsPerTour}");
+
+	}
+
+	private void Testje20230320_002()
+	{
+        var set = new HetDepot.Settings.Model.Setting();
+
+		var errorLoggerJson = new DepotErrorJson();
+		var errorLogger = new DepotErrorLogger(errorLoggerJson);
+		var s = new DepotJson(errorLogger);
+
+        s.Write("ExampleFile\\Kevintest.json", set);
+	}
 
 	private void Testje20230320_001()
 	{

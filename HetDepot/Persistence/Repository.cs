@@ -1,11 +1,11 @@
 ﻿using HetDepot.Errorlogging;
 using HetDepot.People.Model;
-using HetDepot.Settings;
+using HetDepot.Settings.Model;
 using HetDepot.Tours.Model;
 
 namespace HetDepot.Persistence
 {
-	public class Repository
+    public class Repository
 	{
 		private string _guidesPath;
 		private string _managersPath;
@@ -47,12 +47,6 @@ namespace HetDepot.Persistence
 		{
 			var result = new List<Tour>();
 			var tours = _depotDataReadWrite.Read<List<TourJsonModel>>(_toursPath);
-			//Toelichting Kevin:
-			//Als het geen JsonModel is, lopen we tegen issues aan met
-			//  1. Geen lege constructor
-			//  2. De readOnlyList public attribute werkt niet goed
-			//  3. Andere private set attributen werken niet goed (bv starttime en guide)
-			//Daar zijn vast fixes voor, ik heb even geen zin om het uit te zoeken, dus zet ik het om.
 
 			foreach (var tour in tours)
 			{
@@ -63,18 +57,18 @@ namespace HetDepot.Persistence
 			return result;
 		}
 
-		public Dictionary<string, string> GetSettings()
+		public Setting GetSettings()
 		{
-			var settings = _depotDataReadWrite.Read<List<Setting>>(_settingsPath);
+			return _depotDataReadWrite.Read<Setting>(_settingsPath);
 
-			var result = new Dictionary<string, string>();
+			//var result = new Dictionary<string, string>();
 
-			foreach (var setting in settings)
-			{
-				result[setting.Name] = setting.Value;
-			}
+			//foreach (var setting in settings)
+			//{
+			//	result[setting.Name] = setting.Value;
+			//}
 
-			return result;
+			//return result;
 		}
 		public void Write<T>(T objectToWrite)
 		{
