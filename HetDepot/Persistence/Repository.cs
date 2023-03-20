@@ -60,15 +60,6 @@ namespace HetDepot.Persistence
 		public Setting GetSettings()
 		{
 			return _depotDataReadWrite.Read<Setting>(_settingsPath);
-
-			//var result = new Dictionary<string, string>();
-
-			//foreach (var setting in settings)
-			//{
-			//	result[setting.Name] = setting.Value;
-			//}
-
-			//return result;
 		}
 		public void Write<T>(T objectToWrite)
 		{
