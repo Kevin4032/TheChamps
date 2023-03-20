@@ -27,13 +27,38 @@ class KevinsTestController : Controller
         //Testje20230320_001();
         //Testje20230320_002();
         //Testje20230320_003();
-        Testje20230320_004();
+        //Testje20230320_004();
+        Testje20230320_005();
         //KevinDing();
         //EvenSchrijven();
         //KorteTest();
         //JsonPrutsen();
         //Testje20230318();
     }
+
+	private void Testje20230320_005()
+	{
+		var errorLoggerJson = new DepotErrorJson();
+		var errorLogger = new DepotErrorLogger(errorLoggerJson);
+		var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
+		var peopleService = new PeopleService(repository, errorLogger);
+		var settingService = new SettingService(repository, errorLogger);
+		var tourService = new TourService(repository, settingService);
+
+		var tours = tourService.Tours;
+
+		Console.WriteLine($"Tours: {tours.Count}");
+
+		foreach (var tour in tours)
+		{
+			Console.WriteLine($"Tour: {tour.StartTime}");
+			foreach (var visitor in tour.Reservations)
+			{
+				Console.WriteLine($"Reservation: {visitor.Id}");
+			}
+		}
+
+	}
 
 	private void Testje20230320_004()
 	{
@@ -45,7 +70,6 @@ class KevinsTestController : Controller
 		var tourService = new TourService(repository, settingService);
 
 		var visitors = peopleService.GetVisitors();
-
 
         //Tours is leeg,bewust.
         var tours = tourService.Tours;
@@ -80,6 +104,8 @@ class KevinsTestController : Controller
 				Console.WriteLine($"Reservation: {visitor.Id}");
 			}
 		}
+
+		tourService.WriteTourData();
 	}
 
 	private void Testje20230320_003()
