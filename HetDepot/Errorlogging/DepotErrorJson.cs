@@ -14,7 +14,6 @@ namespace HetDepot.Errorlogging
 
 		public void Append<T>(string filePath, T objectToWrite)
 		{
-			//TODO: opleuken
 			var rawJson = JsonSerializer.Serialize(objectToWrite);
 			File.AppendAllLines(filePath, new List<string>() { rawJson });
 		}

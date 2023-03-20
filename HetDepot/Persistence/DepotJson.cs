@@ -37,14 +37,11 @@ namespace HetDepot.Persistence
 
 		public void Write<T>(string filePath, T objectToWrite)
 		{
-			//TODO: niet altijd alles schrijven, kijken met json.
 			var rawJson = JsonSerializer.Serialize<T>(objectToWrite);
-
 			File.WriteAllText(filePath, rawJson);
 		}
 		public void Append<T>(string filePath, T objectToWrite)
 		{
-			//TODO: opleuken
 			var rawJson = JsonSerializer.Serialize(objectToWrite);			
 			File.AppendAllLines(filePath, new List<string>() { rawJson });
 		}

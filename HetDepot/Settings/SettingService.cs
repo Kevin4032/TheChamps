@@ -18,7 +18,6 @@ namespace HetDepot.Settings
 
 		public string GetSettingValue(string name)
 		{
-			//TODO: Errorhandling
 			return _settings[name];
 		}
 	}

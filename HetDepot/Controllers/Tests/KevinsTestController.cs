@@ -24,15 +24,33 @@ class KevinsTestController : Controller
 
     public override void Execute()
     {
-        KevinDing();
+        Testje20230320_001();
+        //KevinDing();
         //EvenSchrijven();
         //KorteTest();
         //JsonPrutsen();
         //Testje20230318();
     }
 
+	private void Testje20230320_001()
+	{
+		var errorLoggerJson = new DepotErrorJson();
+		var errorLogger = new DepotErrorLogger(errorLoggerJson);
+		var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
+		var peopleService = new PeopleService(repository, errorLogger);
+		var settingService = new SettingService(repository, errorLogger);
 
-    private void Testje20230318()
+		var tourService = new TourService(repository, settingService);
+
+        var visitors = peopleService.GetVisitors();
+
+        foreach (var visitor in visitors)
+        {
+            Console.WriteLine(visitor.Id);
+        }
+	}
+
+	private void Testje20230318()
     {
 		var errorLoggerJson = new DepotErrorJson();
 		var errorLogger = new DepotErrorLogger(errorLoggerJson);
@@ -101,7 +119,6 @@ class KevinsTestController : Controller
 
     private static void KevinDing()
     {
-        //TODO: Invalid data bij de services	
         var errorLoggerJson = new DepotErrorJson();	
         var errorLogger = new DepotErrorLogger(errorLoggerJson);
         var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());

@@ -90,13 +90,11 @@ namespace HetDepot.Tours
 			return new TourServiceResult() { Success = success, Message = message };
 		}
 
-
 		private Tour GetTour(DateTime tourStart)
 		{
 			return _tours.Where(t => t.StartTime == tourStart).FirstOrDefault() ?? throw new NullReferenceException("Tour Null"); ;
 		}
-
-		public bool HasAdmission(Visitor visitor) //TODO: naar private.
+		public bool HasAdmission(Visitor visitor)
 		{
 			var hasAdmission = false;
 

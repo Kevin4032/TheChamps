@@ -65,7 +65,6 @@ namespace HetDepot.Persistence
 
 		public Dictionary<string, string> GetSettings()
 		{
-			//TODO: Lege settings
 			var settings = _depotDataReadWrite.Read<List<Setting>>(_settingsPath);
 
 			var result = new Dictionary<string, string>();
