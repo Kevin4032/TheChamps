@@ -4,7 +4,7 @@ using HetDepot.Settings.Model;
 
 namespace HetDepot.Settings
 {
-	public class SettingService
+	public class SettingService : ISettingService
 	{
 		private Setting _settings;
 		private Repository _repository;
