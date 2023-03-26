@@ -21,7 +21,6 @@ namespace HetDepot.Controllers
 			_tourService.RemoveTourReservation(tourCurrentlySelected!, _visitor);
 			_tourService.AddTourReservation(_tour, _visitor);
 
-			//"U bent uitgeschreven voor {tijdstipOud}\u201D. Uw nieuwe rondleiding start om {tijdstipNieuw}"
 			var message = _settingService.GetConsoleText("consoleVisitorReservationChangeTourConfirmation").Replace("{tijdstipOud}", tourCurrentlySelected.StartTime.ToString()).Replace("{tijdstipNieuw}", _tour.StartTime.ToString());
 
 			new AlertView(message, AlertView.Info).Show();

@@ -24,7 +24,8 @@ namespace HetDepot.People
 			return visitorsInPeople.Select(visitor => (Visitor)visitor).ToList().AsReadOnly();
 		}
 
-		public Person GetById(string id) => _people.FirstOrDefault(p => p.Id == id) ?? throw new NullReferenceException("No Person Found");
+		//public Person GetById(string id) => _people.FirstOrDefault(p => p.Id == id) ?? throw new NullReferenceException("No Person Found");
+		public Person GetById(string id) => _people.FirstOrDefault(p => p.Id == id);
 		public Visitor GetVisitorById(string id) => _people.FirstOrDefault(p => p.Id == id) as Visitor ?? throw new NullReferenceException("No Visitor Found");
 		public Guide GetGuide() => _people.FirstOrDefault(p => p.GetType() == typeof(Guide)) as Guide ?? throw new NullReferenceException("No Guide Found");
 		public Manager GetManager() => _people.FirstOrDefault(p => p.GetType() == typeof(Manager)) as Manager ?? throw new NullReferenceException("No Manager Found");

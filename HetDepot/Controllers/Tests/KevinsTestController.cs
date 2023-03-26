@@ -19,12 +19,12 @@ class KevinsTestController : Controller
 
     public KevinsTestController()
     {
-        _toursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleTours.json");
+        _toursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleTours.json");
 	}
 
     public override void Execute()
     {
-		//Testje20230326_001();
+		Testje20230326_001();
         //Testje20230320_001();
         //Testje20230320_002();
         //Testje20230320_003();

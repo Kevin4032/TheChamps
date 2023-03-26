@@ -1,6 +1,6 @@
 {
   "ConsoleText": {
-    "consoleLogonOpeningWelcome": "Voer uw unieke code in van uw entreebewijs:",
+    "consoleLogonOpeningWelcome": "Voer uw unieke code in van uw entreebewijs of 'Q' om terug te gaan naar het overzicht:",
     "consoleVisitorRequestCodeSelectedTour": "U wilt zich aanmelden voor de rondleiding van ",
     "consoleVisitorReservationMaking": "U kunt een reservering maken door een tijdstip te selecteren.",
     "consoleVisitorReservationAlreadyHavingOne": "U heeft al een reservering. Als u een ander tijdstip selecteert, wordt uw reservering gewijzigd. Als u uw huidige reservering selecteert, wordt deze geannuleerd.",

@@ -33,14 +33,15 @@ public abstract class Controller
 	protected ITourService _tourService;
 	protected IPeopleService _peopleService;
 	protected ISettingService _settingService;
+    protected IDepotErrorLogger _errorLogger;
 
 	public Controller()
     {
-        var errorLogger = new DepotErrorLogger(new DepotErrorJson());
-		var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
-		_settingService = new SettingService(repository, errorLogger);
-		_peopleService = new PeopleService(repository, errorLogger);
-		_tourService = new TourService(repository, _settingService, _peopleService, errorLogger);
+        _errorLogger = new DepotErrorLogger(new DepotErrorJson());
+		var repository = new Repository(new DepotJson(_errorLogger), _errorLogger, new DepotDataValidator());
+		_settingService = new SettingService(repository, _errorLogger);
+		_peopleService = new PeopleService(repository, _errorLogger);
+		_tourService = new TourService(repository, _settingService, _peopleService, _errorLogger);
         
 	}
 

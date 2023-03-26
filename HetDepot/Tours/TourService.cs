@@ -73,7 +73,7 @@ namespace HetDepot.Tours
 		{
 			var success = !HasAdmission(visitor);
 
-			if (success )
+			if (success)
 			{
 				_tours.FirstOrDefault(t => t.StartTime == tour.StartTime)?.RemoveReservation(visitor);
 				WriteTourData();//TODO: Nakijken of dit wat is.

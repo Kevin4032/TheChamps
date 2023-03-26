@@ -15,8 +15,8 @@ namespace HetDepot.Controllers
 			var tours = _tourService.Tours;
 
 			//TODO: Opmerking Kevin: Als alle rondleidingen vol zitten, 'hangt' de interface
-			ListView tourOverviewVisitorWithInterface2 = new ListView("Welkom bij het depot", tours.ToList<IListableObject>());
-			Tour selectedTour = (Tour)tourOverviewVisitorWithInterface2.ShowAndGetResult();
+			ListView tourOverviewVisitorWithInterface = new ListView("Welkom bij het depot", tours.ToList<IListableObject>());
+			Tour selectedTour = (Tour)tourOverviewVisitorWithInterface.ShowAndGetResult();
 
 			NextController = new RequestAuthenticationController(selectedTour);
 		}
