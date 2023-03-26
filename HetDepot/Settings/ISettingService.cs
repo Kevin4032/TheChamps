@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HetDepot.Settings
+﻿namespace HetDepot.Settings
 {
 	public interface ISettingService
 	{
 		HashSet<string> GetTourTimes();
+		int GetMaxTourReservations();
 		string GetSettingValue(string name);
 		string GetConsoleText(string name);
 	}

@@ -8,7 +8,6 @@ namespace HetDepot.Controllers
 	{
 		public ShowToursController() : base()
 		{
-			
 		}
 
 		public override void Execute()

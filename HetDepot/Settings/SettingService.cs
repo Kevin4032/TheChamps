@@ -7,14 +7,14 @@ namespace HetDepot.Settings
 	public class SettingService : ISettingService
 	{
 		private Setting _settings;
-		private Repository _repository;
+		private IRepository _repository;
 		private IDepotErrorLogger _errorLogger;
 
-		public SettingService(Repository repository, IDepotErrorLogger errorLogger)
+		public SettingService(IRepository repository, IDepotErrorLogger errorLogger)
 		{
 			_repository = repository;
-			_settings = _repository.GetSettings();
 			_errorLogger = errorLogger;
+			_settings = _repository.GetSettings();
 		}
 
 		public HashSet<String> GetTourTimes()

@@ -5,7 +5,7 @@ using HetDepot.Tours.Model;
 
 namespace HetDepot.Persistence
 {
-    public class Repository
+    public class Repository : IRepository
 	{
 		private string _guidesPath;
 		private string _managersPath;

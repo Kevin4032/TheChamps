@@ -1,4 +1,5 @@
 ﻿using HetDepot.Errorlogging;
+using HetDepot.People;
 using HetDepot.People.Model;
 using HetDepot.Persistence;
 using HetDepot.Settings;
@@ -7,18 +8,20 @@ using System.Collections.ObjectModel;
 
 namespace HetDepot.Tours
 {
-	public class TourService
+	public class TourService : ITourService
 	{
 		private List<Tour> _tours;
-		private Repository _repository;
+		private IRepository _repository;
 		private IDepotErrorLogger _errorLogger;
-		private SettingService _settingService;
+		private IPeopleService _peopleService;
+		private ISettingService _settingService;
 
-		public TourService (Repository repository, SettingService settingService, IDepotErrorLogger errorLogger) 
+		public TourService (IRepository repository, ISettingService settingService, IPeopleService peopleService, IDepotErrorLogger errorLogger) 
 		{
 			_repository = repository;
 			_settingService = settingService;
 			_errorLogger = errorLogger;
+			_peopleService = peopleService;
 			_tours = GetTours();
 		}
 
@@ -51,70 +54,49 @@ namespace HetDepot.Tours
 			}
 		}
 
-		public TourServiceResult AddTourReservation(Tour tour, Visitor visitor)
+		public bool AddTourReservation(Tour tour, Visitor visitor)
 		{
 			var success = !HasAdmission(visitor);
-			var message = _settingService.GetSettingValue("consoleVisitorReservationConfirmation");
 
 			if (success)
 			{
 				_tours.FirstOrDefault(t => t.StartTime == tour.StartTime)?.AddReservation(visitor);
 				WriteTourData(); //TODO: Nakijken of dit wat is.
 			}
+			else
+				return false;
 
-			return new TourServiceResult() { Success = success, Message = message };
+			return true;
 		}
 
-		public TourServiceResult RemoveTourReservation(Tour tour, Visitor visitor)
+		public bool RemoveTourReservation(Tour tour, Visitor visitor)
 		{
 			var success = !HasAdmission(visitor);
-			var message = _settingService.GetSettingValue("consoleVisitorReservationChangeTourConfirmation");
 
 			if (success )
 			{
 				_tours.FirstOrDefault(t => t.StartTime == tour.StartTime)?.RemoveReservation(visitor);
-				//tour.RemoveReservation(visitor);
 				WriteTourData();//TODO: Nakijken of dit wat is.
 			}
+			else
+				return false;
 
-			return new TourServiceResult() { Success = success, Message = message };
+			return true;
 		}
 
-		public TourServiceResult AddTourAdmission(DateTime time, Visitor visitor)
+		public bool AddTourAdmission(Tour tour, Visitor visitor)
 		{
 			var success = !HasAdmission(visitor);
-			var message = _settingService.GetSettingValue("consoleVisitorReservationConfirmation");
 
 			if (success)
 			{
-				var tour = GetTour(time);
-				tour.AddAdmission(visitor);
+				_tours.FirstOrDefault(t => t.StartTime == tour.StartTime)?.AddAdmission(visitor);
+				WriteTourData();
 			}
+			else
+				return false;
 
-			return new TourServiceResult() { Success = success, Message = message };
-		}
-
-		private Tour GetTour(DateTime tourStart)
-		{
-			return _tours.Where(t => t.StartTime == tourStart).FirstOrDefault() ?? throw new NullReferenceException("Tour Null"); ;
-		}
-		private List<Tour> GetTours()
-		{
-			var tours = _repository.GetTours();
-
-			if (tours.Count > 0)
-				return tours;
-
-			var tourTimes = _settingService.GetTourTimes();
-			var maxReservations = _settingService.GetMaxTourReservations();
-			var guide = new Guide("zit scheef");
-
-			foreach (var time in tourTimes)
-			{
-				tours.Add(new Tour(DateTime.Parse(time), guide, maxReservations, new List<Visitor>(), new List<Visitor>()));
-			}
-
-			return tours;
+			return true;
 		}
 
 		public Tour? GetReservation(Visitor visitor)
@@ -152,10 +134,28 @@ namespace HetDepot.Tours
 			return false;
 		}
 
-		// TOOD: naar private zetten. Voor test even public.
-		public void WriteTourData()
+		private void WriteTourData()
 		{
 			_repository.Write(_tours);
+		}
+
+		private List<Tour> GetTours()
+		{
+			var tours = _repository.GetTours();
+
+			if (tours.Count > 0)
+				return tours;
+
+			var tourTimes = _settingService.GetTourTimes();
+			var maxReservations = _settingService.GetMaxTourReservations();
+			var guide = _peopleService.GetGuide();
+
+			foreach (var time in tourTimes)
+			{
+				tours.Add(new Tour(DateTime.Parse(time), guide, maxReservations, new List<Visitor>(), new List<Visitor>()));
+			}
+
+			return tours;
 		}
 	}
 }

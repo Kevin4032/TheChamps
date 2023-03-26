@@ -12,14 +12,6 @@ namespace HetDepot.Tours.Model
         private List<Visitor> _admissions;
         private int _maxReservations;
 
-        public Tour(DateTime startTime)
-        {
-            StartTime = startTime;
-            _reservations = new List<Visitor>();
-            _admissions = new List<Visitor>();
-            Guide = new Guide("Fakiebreakie");
-        }
-
         [JsonConstructor]
 		public Tour(DateTime startTime, Guide guide, int maxReservations, List<Visitor> reservations, List<Visitor> admissions)
 		{

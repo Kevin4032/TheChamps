@@ -6,15 +6,15 @@ namespace HetDepot.People
 {
     public class PeopleService : IPeopleService
 	{
-		private Repository _repository;
 		private List<Person> _people;
+		private IRepository _repository;
 		private IDepotErrorLogger _errorLogger;
 
-		public PeopleService(Repository repository, IDepotErrorLogger errorLogger)
+		public PeopleService(IRepository repository, IDepotErrorLogger errorLogger)
 		{
 			_repository = repository;
-			_people = _repository.GetPeople();
 			_errorLogger = errorLogger;
+			_people = _repository.GetPeople();			
 		}
 
 		public IReadOnlyCollection<Visitor> GetVisitors()

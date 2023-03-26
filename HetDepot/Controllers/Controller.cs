@@ -30,17 +30,18 @@ public abstract class Controller
         Feel free to add more properties, methods, constructors, etc.
     */
 
-	protected TourService _tourService;
-	protected PeopleService _peopleService;
-	protected SettingService _settingService;
+	protected ITourService _tourService;
+	protected IPeopleService _peopleService;
+	protected ISettingService _settingService;
 
 	public Controller()
     {
         var errorLogger = new DepotErrorLogger(new DepotErrorJson());
 		var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
 		_settingService = new SettingService(repository, errorLogger);
-		_tourService = new TourService(repository, _settingService, errorLogger);
-        _peopleService = new PeopleService(repository, errorLogger);
+		_peopleService = new PeopleService(repository, errorLogger);
+		_tourService = new TourService(repository, _settingService, _peopleService, errorLogger);
+        
 	}
 
     // The controller to run after this (read only except for Controllers)
