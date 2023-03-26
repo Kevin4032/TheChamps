@@ -13,7 +13,7 @@ namespace HetDepot.Persistence
 		private string _settingsPath;
 		private string _toursPath;
 
-		private string _kapotToursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleToursBestaatniet.json");
+		private string _kapotToursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleToursBestaatniet.json");
 
 		private IDepotDataReadWrite _depotDataReadWrite;
 		private IDepotErrorLogger _errorLogger;
@@ -24,11 +24,11 @@ namespace HetDepot.Persistence
 			_depotDataReadWrite = dataReadWrite;
 			_errorLogger = errorLogger;
 			_validator = validator;
-			_guidesPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleGuide.json");
-			_managersPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleManager.json");
-			_visitorsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleVisitor.json");
-			_settingsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleSettings.json");
-			_toursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleTours.json");
+			_guidesPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleGuide.json");
+			_managersPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleManager.json");
+			_visitorsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleVisitor.json");
+			_settingsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleSettings.json");
+			_toursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleTours.json");
 		}
 
 		public void TestErrorlog()
