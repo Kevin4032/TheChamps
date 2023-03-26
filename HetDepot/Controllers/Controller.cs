@@ -1,8 +1,14 @@
+using HetDepot.Errorlogging;
+using HetDepot.People;
+using HetDepot.Persistence;
+using HetDepot.Settings;
+using HetDepot.Tours;
+
 namespace HetDepot.Controllers;
 
 public abstract class Controller
 {
-    /*
+	/*
         Base Controller class. It is "abstract", meaning that it is incomplete and cannot be directly instantiated (you can't do "new Controller()").
         Instead, create a new class that extends this one for every controller action you want to support, and override the Execute() method:
 
@@ -23,6 +29,19 @@ public abstract class Controller
 
         Feel free to add more properties, methods, constructors, etc.
     */
+
+	protected TourService _tourService;
+	protected PeopleService _peopleService;
+	protected SettingService _settingService;
+
+	public Controller()
+    {
+        var errorLogger = new DepotErrorLogger(new DepotErrorJson());
+		var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
+		_settingService = new SettingService(repository, errorLogger);
+		_tourService = new TourService(repository, _settingService, errorLogger);
+        _peopleService = new PeopleService(repository, errorLogger);
+	}
 
     // The controller to run after this (read only except for Controllers)
     public static Controller? NextController { get; protected set; }

@@ -22,6 +22,8 @@ namespace HetDepot.Settings
 			return _settings.TourTimes;
 		}
 
+		public int GetMaxTourReservations() => _settings.MaxReservationsPerTour;
+
 		public string GetSettingValue(string name)
 		{
 			return "";

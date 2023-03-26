@@ -1,6 +1,7 @@
 {
   "ConsoleText": {
-    "consoleLogonOpeningWelcome": "Meld u aan op de console",
+    "consoleLogonOpeningWelcome": "Voer uw unieke code in van uw entreebewijs:",
+    "consoleVisitorRequestCodeSelectedTour": "U wilt zich aanmelden voor de rondleiding van ",
     "consoleVisitorReservationMaking": "U kunt een reservering maken door een tijdstip te selecteren.",
     "consoleVisitorReservationAlreadyHavingOne": "U heeft al een reservering. Als u een ander tijdstip selecteert, wordt uw reservering gewijzigd. Als u uw huidige reservering selecteert, wordt deze geannuleerd.",
     "consoleVisitorLogonCodeInvalid": "De code is niet geldig. Controleer uw code en probeer het nog eens.",

@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HetDepot", "HetDepot\HetDep
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A48A32A0-7813-4024-9EB9-8BB4B169A7B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HetDepotUnitTests", "HetDepotUnitTests\HetDepotUnitTests.csproj", "{086461A2-ABC2-4AF7-A7D4-6575C3B6FC4C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HetDepotUnitTests", "HetDepotUnitTests\HetDepotUnitTests.csproj", "{086461A2-ABC2-4AF7-A7D4-6575C3B6FC4C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{8DFF8B51-B8EF-4FC6-A8E5-F1A19C2D7F17}"
+	ProjectSection(SolutionItems) = preProject
+		Glossary.md = Glossary.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,6 +31,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8DFF8B51-B8EF-4FC6-A8E5-F1A19C2D7F17} = {A48A32A0-7813-4024-9EB9-8BB4B169A7B2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B75558AB-236A-4968-9220-0A8F079F0927}

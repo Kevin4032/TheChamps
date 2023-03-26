@@ -104,18 +104,18 @@ public static class TourguideView
 
     private static void updateToursFromStorage()
     {
-        // TODO Get tours from actual storage
-        _tours = new List<Tour>()
-        {
-            new (new DateTime(2023,3,8, 10, 00, 00), 3),
-            new (new DateTime(2023,3,8, 10, 15, 00), 6),
-            new (new DateTime(2023,3,8, 10, 30, 00), 0),
-            new (new DateTime(2023,3,8, 10, 45, 00), 13),
-            new (new DateTime(2023,3,8, 11, 00, 00), 0),
-            new (new DateTime(2023,3,8, 11, 15, 00), 10),
-            new (new DateTime(2023,3,8, 11, 30, 00), 1),
-            new (new DateTime(2023,3,8, 12, 00, 00), 8),
-        };
+        //// TODO Get tours from actual storage
+        //_tours = new List<Tour>()
+        //{
+        //    new (new DateTime(2023,3,8, 10, 00, 00), 3),
+        //    new (new DateTime(2023,3,8, 10, 15, 00), 6),
+        //    new (new DateTime(2023,3,8, 10, 30, 00), 0),
+        //    new (new DateTime(2023,3,8, 10, 45, 00), 13),
+        //    new (new DateTime(2023,3,8, 11, 00, 00), 0),
+        //    new (new DateTime(2023,3,8, 11, 15, 00), 10),
+        //    new (new DateTime(2023,3,8, 11, 30, 00), 1),
+        //    new (new DateTime(2023,3,8, 12, 00, 00), 8),
+        //};
     }
     
 }

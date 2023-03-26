@@ -1,49 +1,35 @@
 ﻿using HetDepot.People;
+using HetDepot.People.Model;
 using HetDepot.Settings;
 using HetDepot.Tours;
+using HetDepot.Tours.Model;
 
 namespace HetDepot.Controllers
 {
 	public class CreateReservationController : Controller
 	{
-		private TourService _tourService;
-		private PeopleService _peopleService;
-		private SettingService _settingService;
+		private Visitor _visitor;
+		private Tour _tour;
 
-		public CreateReservationController(
-			TourService tourService
-		,	PeopleService peopleService
-		,	SettingService settingService
-		)
+		public CreateReservationController(Visitor visitor, Tour tour) : base()
 		{
-			_tourService = tourService;
-			_peopleService = peopleService;
-			_settingService = settingService;
-			NextController = new RequestAuthenticationController();
+			_visitor = visitor;
+			_tour = tour;
 		}
 
 		public override void Execute()
 		{
-			var visitor = _peopleService.GetVisitorById("E0000000009");
-			var tourtje = DateTime.Parse("2023-03-18T11:00:00.0000000+01:00");
-
-			//if (_validationService.VisitorAllowedToMakeReservation(visitor))
-			//{
-			//	_registrationService.AddTourReservation(visitor.Id);
-			//	_tourService.AddTourReservation(tourtje, visitor);
-			//}
-			//else
-			//{
-			//	Console.WriteLine(_settingService.GetSettingValue("consoleVisitorAlreadyHasTourAdmission"));
-			//}
-
-			//Extra check
-			var tourEgt = _tourService.Tours.Where(t => t.StartTime == tourtje).FirstOrDefault();
+			//"E0000000009"
+			//"2023-03-18T11:00:00.0000000+01:00"
+			//var visitor = _peopleService.GetVisitorById(_visitor.Id);
+			_tourService.AddTourReservation(_tour, _visitor);
 			
-			foreach (var bliebla in tourEgt.Reservations)
+			foreach (var bliebla in _tour.Reservations)
 			{
 				Console.WriteLine($"In de tour zit: {bliebla.Id}");
 			}
+
+			NextController = new ShowToursController();
 
 		}
 	}

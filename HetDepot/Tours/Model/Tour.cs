@@ -10,6 +10,7 @@ namespace HetDepot.Tours.Model
     {
         private List<Visitor> _reservations;
         private List<Visitor> _admissions;
+        private int _maxReservations;
 
         public Tour(DateTime startTime)
         {
@@ -25,33 +26,26 @@ namespace HetDepot.Tours.Model
 			StartTime = startTime;
             _reservations = reservations;
             _admissions = admissions;
-            MaxReservations = maxReservations;
-            Guide = guide;
-		}
-
-		public Tour(DateTime startTime, int maxReservations) : this(startTime)
-        {
-            _reservations = new List<Visitor>();
-			_admissions = new List<Visitor>();
-			MaxReservations = maxReservations;
+            _maxReservations = maxReservations;
+			Guide = guide;
 		}
 
         public DateTime StartTime { get; private set; }
         public Guide Guide { get; set; }
+        public int MaxReservations { get { return _maxReservations; } }
         public ReadOnlyCollection<Visitor> Reservations
         { 
             get { return _reservations.AsReadOnly(); }
-        } // TODO REPLACE WITH STORAGE RESERVATIONS
+        }
 
         public ReadOnlyCollection<Visitor> Admissions
         {
             get { return _admissions.AsReadOnly(); }
         }
 
-        public static int MaxReservations { get; private set; } // TODO REPLACE WITH SETTING
-
         public string GetTime() => StartTime.ToString("H:mm");
-        public int FreeSpaces() => Math.Max(0, MaxReservations - Reservations.Count);
+        public int FreeSpaces() => Math.Max(0, _maxReservations - Reservations.Count);
+        
         public override string ToString() => GetTime();
 
         public bool AddReservation(Visitor visitor)

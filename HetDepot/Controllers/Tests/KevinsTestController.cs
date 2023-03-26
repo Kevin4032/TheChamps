@@ -24,17 +24,24 @@ class KevinsTestController : Controller
 
     public override void Execute()
     {
+		Testje20230326_001();
         //Testje20230320_001();
         //Testje20230320_002();
         //Testje20230320_003();
         //Testje20230320_004();
-        Testje20230320_005();
+        //Testje20230320_005();
         //KevinDing();
         //EvenSchrijven();
         //KorteTest();
         //JsonPrutsen();
         //Testje20230318();
     }
+
+	private void Testje20230326_001()
+	{
+		var showTours = new ShowToursController();
+		showTours.Execute();
+	}
 
 	private void Testje20230320_005()
 	{
@@ -43,7 +50,7 @@ class KevinsTestController : Controller
 		var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
 		var peopleService = new PeopleService(repository, errorLogger);
 		var settingService = new SettingService(repository, errorLogger);
-		var tourService = new TourService(repository, settingService);
+		var tourService = new TourService(repository, settingService, errorLogger);
 
 		var tours = tourService.Tours;
 
@@ -67,7 +74,7 @@ class KevinsTestController : Controller
 		var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
 		var peopleService = new PeopleService(repository, errorLogger);
 		var settingService = new SettingService(repository, errorLogger);
-		var tourService = new TourService(repository, settingService);
+		var tourService = new TourService(repository, settingService, errorLogger);
 
 		var visitors = peopleService.GetVisitors();
 
@@ -94,7 +101,7 @@ class KevinsTestController : Controller
 
 		Console.WriteLine($"TWEEEDE RODNE");
 
-		tours[0].AddReservation(visitors[0]);
+		tours[0].AddReservation(visitors.ElementAt(0));
 
 		foreach (var tour in tours)
 		{
@@ -138,7 +145,7 @@ class KevinsTestController : Controller
 		var peopleService = new PeopleService(repository, errorLogger);
 		var settingService = new SettingService(repository, errorLogger);
 
-		var tourService = new TourService(repository, settingService);
+		var tourService = new TourService(repository, settingService, errorLogger);
 
         var visitors = peopleService.GetVisitors();
 
@@ -155,10 +162,13 @@ class KevinsTestController : Controller
 		var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
 		var peopleService = new PeopleService(repository, errorLogger);
 		var settingService = new SettingService(repository, errorLogger);
-        var tourService = new TourService(repository, settingService);
+        var tourService = new TourService(repository, settingService, errorLogger);
 
-		var controllert = new CreateReservationController(tourService, peopleService, settingService);
-        controllert.Execute();
+
+		var tourtje = tourService.Tours.FirstOrDefault(t => t.StartTime == DateTime.Parse("2023-03-18T11:00:00.0000000+01:00"));
+		//var controllert = new CreateReservationController("E0000000009", DateTime.Parse("2023-03-18T11:00:00.0000000+01:00"));
+		var controllert = new CreateReservationController(new Visitor("E0000000009"), tourtje);
+		controllert.Execute();
     }
 
     private void KorteTest()
@@ -168,7 +178,7 @@ class KevinsTestController : Controller
         var repo = new Repository(new DepotJson(new DepotErrorLogger(new DepotErrorJson())), new DepotErrorLogger(new DepotErrorJson()), new DepotDataValidator());
         var setting = new SettingService(repo, new DepotErrorLogger(new DepotErrorJson()));
 
-        var ts = new TourService(repo, setting);
+        var ts = new TourService(repo, setting, new DepotErrorLogger(new DepotErrorJson()));
                             
         foreach (var tour in ts.Tours)
         {
@@ -223,7 +233,7 @@ class KevinsTestController : Controller
         var peopleService = new PeopleService(repository, errorLogger);
         var settingService = new SettingService(repository, errorLogger);
 
-        var tourService = new TourService(repository, settingService);
+        var tourService = new TourService(repository, settingService, errorLogger);
 
         
 
@@ -237,15 +247,16 @@ class KevinsTestController : Controller
 		var visitorNew3 = new Visitor("K0000000003");
 		var visitorBestaan1 = new Visitor("E0987654321");
 
-        //Console.WriteLine($"Visitornew {tourService.HasAdmission(visitorNew1)}");
-        //Console.WriteLine($"viistorbestaand {tourService.HasAdmission(visitorBestaan1)}");
+		//Console.WriteLine($"Visitornew {tourService.HasAdmission(visitorNew1)}");
+		//Console.WriteLine($"viistorbestaand {tourService.HasAdmission(visitorBestaan1)}");
 
 
 		//Console.WriteLine($"TOURTAKEN? {visitorNew1.TourTaken}");
+		var tourtje = tourService.Tours.FirstOrDefault(t => t.StartTime == DateTime.Parse("2023-03-18T11:00:00.0000000+01:00"));
 
 		tourService.AddTourAdmission(t1, visitorNew1);
 		tourService.AddTourAdmission(t2, visitorNew2);
-        tourService.AddTourReservation(t2, visitorNew3);
+        tourService.AddTourReservation(tourtje, visitorNew3);
 
         tourService.VoorTestEnDemoDoeleinden();
 

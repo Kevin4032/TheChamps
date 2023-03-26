@@ -1,18 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HetDepot.People.Model;
+using HetDepot.Tours.Model;
+using HetDepot.Views;
 
 namespace HetDepot.Controllers
 {
 	public class RequestAuthenticationController : Controller
 	{
-		public RequestAuthenticationController() { }
+		private Tour _tour;
+		private Visitor _visitor;
+
+		public RequestAuthenticationController(Tour tour) : base() 
+		{ 
+			_tour = tour;
+		}
 
 		public override void Execute()
 		{
-			throw new NotImplementedException();
+			var title = _settingService.GetConsoleText("consoleVisitorRequestCodeSelectedTour") + _tour.StartTime;
+			var textToUser = _settingService.GetConsoleText("consoleLogonOpeningWelcome");
+
+			var userCode = (new InputView(title,textToUser)).ShowAndGetResult() ?? "No input";
+			var visitor = _peopleService.GetVisitorById(userCode);
+
+			var ietsExtra = false;
+
+			NextController = new CreateReservationController(visitor, _tour);
 		}
 	}
 }

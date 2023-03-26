@@ -1,4 +1,5 @@
-﻿using HetDepot.People.Model;
+﻿using HetDepot.Errorlogging;
+using HetDepot.People.Model;
 using HetDepot.Persistence;
 using HetDepot.Settings;
 using HetDepot.Tours.Model;
@@ -10,12 +11,14 @@ namespace HetDepot.Tours
 	{
 		private List<Tour> _tours;
 		private Repository _repository;
+		private IDepotErrorLogger _errorLogger;
 		private SettingService _settingService;
 
-		public TourService (Repository repository, SettingService settingService) 
+		public TourService (Repository repository, SettingService settingService, IDepotErrorLogger errorLogger) 
 		{
 			_repository = repository;
 			_settingService = settingService;
+			_errorLogger = errorLogger;
 			_tours = GetTours();
 		}
 
@@ -48,15 +51,16 @@ namespace HetDepot.Tours
 			}
 		}
 
-		public TourServiceResult AddTourReservation(DateTime time, Visitor visitor)
+		public TourServiceResult AddTourReservation(Tour tour, Visitor visitor)
 		{
 			var success = !HasAdmission(visitor);
 			var message = _settingService.GetSettingValue("consoleVisitorReservationConfirmation");
 
 			if (success)
 			{
-				var tour = GetTour(time);
-				tour.AddReservation(visitor);
+				_tours.FirstOrDefault(t => t.StartTime == tour.StartTime)?.AddReservation(visitor);
+				//tour.AddReservation(visitor);
+				WriteTourData(); //TODO: Nakijken of dit wat is.
 			}
 
 			return new TourServiceResult() { Success = success, Message = message };
@@ -102,10 +106,12 @@ namespace HetDepot.Tours
 				return tours;
 
 			var tourTimes = _settingService.GetTourTimes();
+			var maxReservations = _settingService.GetMaxTourReservations();
+			var guide = new Guide("zit scheef");
 
 			foreach (var time in tourTimes)
 			{
-				tours.Add(new Tour(DateTime.Parse(time)));
+				tours.Add(new Tour(DateTime.Parse(time), guide, maxReservations, new List<Visitor>(), new List<Visitor>()));
 			}
 
 			return tours;
@@ -131,7 +137,5 @@ namespace HetDepot.Tours
 		{
 			_repository.Write(_tours);
 		}
-
-
 	}
 }

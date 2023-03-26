@@ -25,19 +25,23 @@ class TomsTestController : Controller
          * ToListableItem() te hebben de instance convert naar een ListableItem.
          */
 
+        //ListView tourOverviewVisitorWithInterface = new ListView("Welkom bij het depot", new List<IListableObject>()
+        //{
+        //    new Tour(new DateTime(2023, 3, 8, 10, 00, 00), 3),
+        //    new Tour(new DateTime(2023, 3, 8, 10, 15, 00), 6),
+        //    new Tour(new DateTime(2023, 3, 8, 10, 30, 00), 0),
+        //    new Tour(new DateTime(2023, 3, 8, 10, 45, 00), 13),
+        //    new Tour(new DateTime(2023, 3, 8, 11, 00, 00), 0),
+        //    new Tour(new DateTime(2023, 3, 8, 11, 15, 00), 10),
+        //    new Tour(new DateTime(2023, 3, 8, 11, 30, 00), 1),
+        //    new Tour(new DateTime(2023, 3, 8, 12, 00, 00), 8),
+        //});
         ListView tourOverviewVisitorWithInterface = new ListView("Welkom bij het depot", new List<IListableObject>()
         {
-            new Tour(new DateTime(2023, 3, 8, 10, 00, 00), 3),
-            new Tour(new DateTime(2023, 3, 8, 10, 15, 00), 6),
-            new Tour(new DateTime(2023, 3, 8, 10, 30, 00), 0),
-            new Tour(new DateTime(2023, 3, 8, 10, 45, 00), 13),
-            new Tour(new DateTime(2023, 3, 8, 11, 00, 00), 0),
-            new Tour(new DateTime(2023, 3, 8, 11, 15, 00), 10),
-            new Tour(new DateTime(2023, 3, 8, 11, 30, 00), 1),
-            new Tour(new DateTime(2023, 3, 8, 12, 00, 00), 8),
+            new Tour(DateTime.Now)
         });
 
-        /*
+		/*
          * Wanner de ListView is aangemaakt kan deze worden weergegeven en kan de keuze opgehaald worden
          * via ShowAndGetResult(). Hier word de Value die terug word gegeven als object terug omgezet naar
          * een Tour.
@@ -46,7 +50,7 @@ class TomsTestController : Controller
          * is deze object in ShowAndGetResult. Maar om te zorgen dat de compiler het nog snapt worden de value
          * hier expliciet terug gezet naar Tour via de casting (Tour)
          */
-        Tour selectedTourListItem = (Tour)tourOverviewVisitorWithInterface.ShowAndGetResult();
+		Tour selectedTourListItem = (Tour)tourOverviewVisitorWithInterface.ShowAndGetResult();
 
         /*
          * Hieronder word een InputView gemaakt deze lijkt op de list view alleen heeft deze in plaats van
