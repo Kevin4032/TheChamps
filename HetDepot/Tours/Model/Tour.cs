@@ -55,8 +55,9 @@ namespace HetDepot.Tours.Model
         }
 
         public bool RemoveReservation(Visitor visitor)
-        { 
-            return _reservations.Remove(visitor);
+        {
+            var reservationToRemove = _reservations.FirstOrDefault(v => v.Id == visitor.Id);
+            return _reservations.Remove(reservationToRemove);
         }
 
         public bool AddAdmission(Visitor visitor)
@@ -67,7 +68,8 @@ namespace HetDepot.Tours.Model
 
         public bool RemoveAdmission(Visitor visitor)
         {
-            return _admissions.Remove(visitor);
+			var admissionToRemove = _admissions.FirstOrDefault(v => v.Id == visitor.Id);
+			return _admissions.Remove(admissionToRemove);
         }
 
         public ListableItem ToListableItem()

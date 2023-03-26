@@ -167,7 +167,7 @@ class KevinsTestController : Controller
 
 		var tourtje = tourService.Tours.FirstOrDefault(t => t.StartTime == DateTime.Parse("2023-03-18T11:00:00.0000000+01:00"));
 		//var controllert = new CreateReservationController("E0000000009", DateTime.Parse("2023-03-18T11:00:00.0000000+01:00"));
-		var controllert = new CreateReservationController(new Visitor("E0000000009"), tourtje);
+		var controllert = new ReservationCreateController(tourtje, new Visitor("E0000000009"));
 		controllert.Execute();
     }
 

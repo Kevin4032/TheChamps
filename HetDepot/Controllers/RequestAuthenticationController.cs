@@ -1,5 +1,4 @@
-﻿using HetDepot.People.Model;
-using HetDepot.Tours.Model;
+﻿using HetDepot.Tours.Model;
 using HetDepot.Views;
 
 namespace HetDepot.Controllers
@@ -7,7 +6,6 @@ namespace HetDepot.Controllers
 	public class RequestAuthenticationController : Controller
 	{
 		private Tour _tour;
-		private Visitor _visitor;
 
 		public RequestAuthenticationController(Tour tour) : base() 
 		{ 
@@ -22,9 +20,7 @@ namespace HetDepot.Controllers
 			var userCode = (new InputView(title,textToUser)).ShowAndGetResult() ?? "No input";
 			var visitor = _peopleService.GetVisitorById(userCode);
 
-			var ietsExtra = false;
-
-			NextController = new CreateReservationController(visitor, _tour);
+			NextController = new ValidateTourPickController(_tour, visitor);
 		}
 	}
 }

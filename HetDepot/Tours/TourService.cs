@@ -59,22 +59,22 @@ namespace HetDepot.Tours
 			if (success)
 			{
 				_tours.FirstOrDefault(t => t.StartTime == tour.StartTime)?.AddReservation(visitor);
-				//tour.AddReservation(visitor);
 				WriteTourData(); //TODO: Nakijken of dit wat is.
 			}
 
 			return new TourServiceResult() { Success = success, Message = message };
 		}
 
-		public TourServiceResult RemoveTourReservation(DateTime time, Visitor visitor)
+		public TourServiceResult RemoveTourReservation(Tour tour, Visitor visitor)
 		{
 			var success = !HasAdmission(visitor);
 			var message = _settingService.GetSettingValue("consoleVisitorReservationChangeTourConfirmation");
 
 			if (success )
-			{ 
-				var tour = GetTour(time);
-				tour.RemoveReservation(visitor);
+			{
+				_tours.FirstOrDefault(t => t.StartTime == tour.StartTime)?.RemoveReservation(visitor);
+				//tour.RemoveReservation(visitor);
+				WriteTourData();//TODO: Nakijken of dit wat is.
 			}
 
 			return new TourServiceResult() { Success = success, Message = message };
@@ -116,20 +116,40 @@ namespace HetDepot.Tours
 
 			return tours;
 		}
-		private bool HasAdmission(Visitor visitor)
-		{
-			var hasAdmission = false;
 
+		public Tour? GetReservation(Visitor visitor)
+		{
 			foreach (var tour in _tours)
 			{
-				if (tour.Admissions.Where(v => v.Id == visitor.Id).Any())
+				if (tour.Reservations.Where(v => v.Id == visitor.Id).Any())
 				{
-					hasAdmission = true;
-					break;
+					return tour;
 				}
 			}
 
-			return hasAdmission;
+			return null;
+		}
+
+		public bool HasReservation(Visitor visitor)
+		{
+			foreach (var tour in _tours)
+			{
+				if (tour.Reservations.Where(v => v.Id == visitor.Id).Any())
+					return true;
+			}
+
+			return false;
+		}
+
+		public bool HasAdmission(Visitor visitor)
+		{
+			foreach (var tour in _tours)
+			{
+				if (tour.Admissions.Where(v => v.Id == visitor.Id).Any())
+					return true;
+			}
+
+			return false;
 		}
 
 		// TOOD: naar private zetten. Voor test even public.
