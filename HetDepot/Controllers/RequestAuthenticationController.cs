@@ -18,9 +18,9 @@ namespace HetDepot.Controllers
 			var textToUser = _settingService.GetConsoleText("consoleLogonOpeningWelcome");
 
 			var userCode = (new InputView(title,textToUser)).ShowAndGetResult() ?? "No input";
-			var visitor = _peopleService.GetVisitorById(userCode);
+			var person = _peopleService.GetById(userCode);
 
-			NextController = new ValidateTourPickController(_tour, visitor);
+			NextController = new ValidateTourPickController(_tour, person);
 		}
 	}
 }
