@@ -27,76 +27,19 @@ namespace HetDepot.Tours
 
 		public ReadOnlyCollection<Tour> Tours { get { return _tours.AsReadOnly(); } }
 
-		public void VoorTestEnDemoDoeleinden()
-		{
-			Console.WriteLine($"===========================================");
-			Console.WriteLine($"==                 Tours                 ==");
-			Console.WriteLine($"===========================================");
-
-			foreach (var tour in _tours)
-			{
-				Console.WriteLine($"==         Tour: {tour.StartTime}        ==");
-				Console.WriteLine($"===========================================");
-				Console.WriteLine($"==              Reservations           ==");
-				Console.WriteLine($"===========================================");
-				foreach (var reservation in tour.Reservations)
-				{
-					Console.WriteLine($"{reservation.Id}");
-				}
-
-				Console.WriteLine("===========================================");
-				Console.WriteLine($"==                Admissions            ==");
-				Console.WriteLine("===========================================");
-				foreach (var admission in tour.Admissions)
-				{
-					Console.WriteLine($"{admission.Id}");
-				}
-			}
-		}
-
 		public bool AddTourReservation(Tour tour, Visitor visitor)
 		{
-			var success = !HasAdmission(visitor);
-
-			if (success)
-			{
-				_tours.FirstOrDefault(t => t.StartTime == tour.StartTime)?.AddReservation(visitor);
-				WriteTourData(); //TODO: Nakijken of dit wat is.
-			}
-			else
-				return false;
-
-			return true;
+			return ToursUpdateInvokeMethod(tour, visitor, "AddReservation");
 		}
 
 		public bool RemoveTourReservation(Tour tour, Visitor visitor)
 		{
-			var success = !HasAdmission(visitor);
-
-			if (success)
-			{
-				_tours.FirstOrDefault(t => t.StartTime == tour.StartTime)?.RemoveReservation(visitor);
-				WriteTourData();//TODO: Nakijken of dit wat is.
-			}
-			else
-				return false;
-
-			return true;
+			return ToursUpdateInvokeMethod(tour, visitor, "RemoveReservation");
 		}
 
 		public bool AddTourAdmission(Tour tour, Visitor visitor)
 		{
-			var success = !HasAdmission(visitor);
-
-			if (success)
-			{
-				_tours.FirstOrDefault(t => t.StartTime == tour.StartTime)?.AddAdmission(visitor);
-				WriteTourData();
-			}
-			else
-				return false;
-
-			return true;
+			return ToursUpdateInvokeMethod(tour, visitor, "AddAdmission");		
 		}
 
 		public Tour? GetReservation(Visitor visitor)
@@ -132,6 +75,32 @@ namespace HetDepot.Tours
 			}
 
 			return false;
+		}
+
+		private bool ToursUpdateInvokeMethod(Tour tour, Visitor visitor, string method)
+		{
+			try
+			{
+				var listInstance = _tours.FirstOrDefault(t => t.StartTime == tour.StartTime);
+
+				if (listInstance == null)
+					throw new NullReferenceException("Geen Tour gevonden");
+				else
+				{
+
+					var uitvoeren = listInstance.GetType().GetMethod(method);
+					var paramz = new List<object>() { visitor };
+					var resultOk = uitvoeren?.Invoke(listInstance, paramz.ToArray());
+					WriteTourData();
+					return (bool)resultOk;
+				}
+
+			}
+			catch (Exception e)
+			{
+				_errorLogger.LogError($"{this.GetType()} - Input [Tour:{tour?.StartTime}, Visitor:{visitor?.Id}, Method:{method}] - {e.Message}");
+				return false;
+			}
 		}
 
 		private void WriteTourData()

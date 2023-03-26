@@ -24,14 +24,18 @@ namespace HetDepot.Settings
 
 		public int GetMaxTourReservations() => _settings.MaxReservationsPerTour;
 
-		public string GetSettingValue(string name)
-		{
-			return "";
-		}
-
 		public string GetConsoleText(string name)
 		{
-			return _settings.ConsoleText[name];
+			try
+			{
+				return _settings.ConsoleText[name];
+			}
+			catch (Exception e)
+			{
+				_errorLogger.LogError($"{this.GetType()} - Input [{name}] - {e.Message}");
+			}
+
+			return string.Empty; //TODO: nadenken of dit eigen erro moet worden
 		}
 	}
 }

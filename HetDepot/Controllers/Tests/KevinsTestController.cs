@@ -238,7 +238,7 @@ class KevinsTestController : Controller
 
         
 
-		tourService.VoorTestEnDemoDoeleinden();
+		//tourService.VoorTestEnDemoDoeleinden();
 
 		var t1 = DateTime.Parse("2023-03-18T11:00:00.0000000+01:00");
         var t2 = DateTime.Parse("2023-03-18T12:00:00.0000000+01:00");
@@ -259,7 +259,7 @@ class KevinsTestController : Controller
 		tourService.AddTourAdmission(tourtje, visitorNew2);
         tourService.AddTourReservation(tourtje, visitorNew3);
 
-        tourService.VoorTestEnDemoDoeleinden();
+        //tourService.VoorTestEnDemoDoeleinden();
 
 
         Console.WriteLine($"Schrijven met nieuwe entries, check file op disk");
@@ -269,10 +269,10 @@ class KevinsTestController : Controller
 		Console.WriteLine("===========================================");
         Console.WriteLine("==                Settings               ==");
         Console.WriteLine("===========================================");
-        Console.WriteLine($"Name - 'consoleVisitorLogonCodeInvalid', Value '{settingService.GetSettingValue("consoleVisitorLogonCodeInvalid")}'");
-        Console.WriteLine($"Name - 'maxPersonPerTour', Value '{settingService.GetSettingValue("maxPersonPerTour")}'");
-        Console.WriteLine($"Name - 'guideLunchbreakStart', Value '{settingService.GetSettingValue("guideLunchbreakStart")}'");
-        Console.WriteLine($"Name - 'guideLunchbreakEnd', Value '{settingService.GetSettingValue("guideLunchbreakEnd")}'");
+        //Console.WriteLine($"Name - 'consoleVisitorLogonCodeInvalid', Value '{settingService.GetSettingValue("consoleVisitorLogonCodeInvalid")}'");
+        //Console.WriteLine($"Name - 'maxPersonPerTour', Value '{settingService.GetSettingValue("maxPersonPerTour")}'");
+        //Console.WriteLine($"Name - 'guideLunchbreakStart', Value '{settingService.GetSettingValue("guideLunchbreakStart")}'");
+        //Console.WriteLine($"Name - 'guideLunchbreakEnd', Value '{settingService.GetSettingValue("guideLunchbreakEnd")}'");
 
         Console.WriteLine();
 
@@ -295,7 +295,7 @@ class KevinsTestController : Controller
         Console.WriteLine("===========================================");
         repository.TestErrorlog();
 
-        var errorz = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleErrorlog.txt"));
+        var errorz = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleErrorlog.txt"));
 
         foreach (var error in errorz)
             Console.WriteLine(error);
