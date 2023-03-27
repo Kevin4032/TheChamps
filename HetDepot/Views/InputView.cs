@@ -20,7 +20,7 @@ public class InputView
         _message = message;
     }
 
-    public string? ShowAndGetResult()
+    public string ShowAndGetResult()
     {
         string? result;
 
