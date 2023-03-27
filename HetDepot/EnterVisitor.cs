@@ -1,17 +1,18 @@
 using System;
 
-public class EnterCode
+public class EnterVisitor
 {
     static string Code = "";
 
-    public static void AskforCode()
+    public static void AskforVisitor()
     {
-        Console.WriteLine("Voer uw code in");
+        Console.WriteLine("Voer de bezoekerscode in");
         Code = Console.ReadLine() ?? "";
-        
     }
+
 }
-//  Als input niet het juiste format heeft, dan foutmelding.
+
+//  Als input niet het juiste format heeft, dan foutmelding
 // if statement of try catch?
 
 // int input = Convert.ToInt32 (Console.ReadLine()); 
@@ -21,3 +22,5 @@ public class EnterCode
 
 // {
 //   Console.WriteLine(input + "is niet correct.");
+  
+// }
