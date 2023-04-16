@@ -16,7 +16,6 @@ namespace HetDepot.Controllers
 
 		public override void Execute()
 		{
-
 			if (_person is Visitor)
 			{
 				var _visitor = (Visitor)_person;

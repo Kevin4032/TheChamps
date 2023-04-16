@@ -77,6 +77,12 @@ namespace HetDepot.Tours
 			return false;
 		}
 
+		public Tour? getTourByStartTime(DateTime startTime)
+		{
+			_tours = GetTours();
+			return _tours.Single(t => t.StartTime == startTime);
+		}
+
 		private bool ToursUpdateInvokeMethod(Tour tour, Visitor visitor, string method)
 		{
 			try

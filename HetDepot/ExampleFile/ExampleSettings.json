@@ -2,6 +2,8 @@
   "ConsoleText": {
     "consoleLogonOpeningWelcome": "Voer uw unieke code in van uw entreebewijs of 'Q' om terug te gaan naar het overzicht:",
     "consoleVisitorRequestCodeSelectedTour": "U wilt zich aanmelden voor de rondleiding van ",
+    "consoleLogonOpeningWelcomeForGroup": "Voer de unieke code in van het entreebewijs van de persoon die aan wilt melden of 'Q' om terug te gaan naar het overzicht:",
+    "consoleVisitorRequestCodeSelectedTourForGroup": "Persoon in gezelschap aanmelden voor de rondleiding van ",
     "consoleVisitorReservationMaking": "U kunt een reservering maken door een tijdstip te selecteren.",
     "consoleVisitorReservationAlreadyHavingOne": "U heeft al een reservering. Als u een ander tijdstip selecteert, wordt uw reservering gewijzigd. Als u uw huidige reservering selecteert, wordt deze geannuleerd.",
     "consoleVisitorLogonCodeInvalid": "De code is niet geldig. Controleer uw code en probeer het nog eens.",
@@ -29,7 +31,9 @@
     "consoleManagerTicketsLoaded": "Met succes entreebewijzen geladen",
     "consoleManagerShowOptions": "Laad entreebewijzen voor de dag\nLaad instellingen\nBekijk rondleidinggegevens.",
     "consoleManagerLogonCodeInvalid": "Uw code is niet geldig.",
-    "consoleVisitorAlreadyHasTourAdmission": "U heeft al deelgenomen aan een rondleiding vandaag. Morgen weer een kans."
+    "consoleVisitorAlreadyHasTourAdmission": "U heeft al deelgenomen aan een rondleiding vandaag. Morgen weer een kans.",
+    "consoleVisitorReservationForGroupQuestion": "Nog iemand aanmelden voor de rondleiding?",
+    "consoleVisitorReservationForGroupSubquestion": "Nog {FreeSpaces} plek(ken) beschikbaar"
   },
   "TourTimes": [
     "11:00",
@@ -43,5 +47,5 @@
     "13:40",
     "14:00"
   ],
-  "MaxReservationsPerTour": 13
+  "MaxReservationsPerTour": 2
 }

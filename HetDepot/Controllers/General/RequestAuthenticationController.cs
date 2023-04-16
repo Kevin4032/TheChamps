@@ -7,16 +7,24 @@ namespace HetDepot.Controllers
 	public class RequestAuthenticationController : Controller
 	{
 		private Tour _tour;
+		private bool _forGroup;
 
-		public RequestAuthenticationController(Tour tour) : base() 
+		public RequestAuthenticationController(Tour tour, bool forGroup = false) : base() 
 		{ 
 			_tour = tour;
+			_forGroup = forGroup;
 		}
 
 		public override void Execute()
 		{
 			var title = _settingService.GetConsoleText("consoleVisitorRequestCodeSelectedTour") + _tour.StartTime;
 			var textToUser = _settingService.GetConsoleText("consoleLogonOpeningWelcome");
+
+			if (_forGroup)
+			{
+				title = _settingService.GetConsoleText("consoleVisitorRequestCodeSelectedTourForGroup") + _tour.StartTime;
+				textToUser = _settingService.GetConsoleText("consoleLogonOpeningWelcomeForGroup");
+			}
 
 			var success = false;
 			Person? person = null;
