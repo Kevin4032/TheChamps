@@ -10,14 +10,7 @@ namespace HetDepot.Tours.Model
     {
         private List<Visitor> _reservations;
         private List<Visitor> _admissions;
-
-        public Tour(DateTime startTime)
-        {
-            StartTime = startTime;
-            _reservations = new List<Visitor>();
-            _admissions = new List<Visitor>();
-            Guide = new Guide("Fakiebreakie");
-        }
+        private int _maxReservations;
 
         [JsonConstructor]
 		public Tour(DateTime startTime, Guide guide, int maxReservations, List<Visitor> reservations, List<Visitor> admissions)
@@ -25,33 +18,26 @@ namespace HetDepot.Tours.Model
 			StartTime = startTime;
             _reservations = reservations;
             _admissions = admissions;
-            MaxReservations = maxReservations;
-            Guide = guide;
-		}
-
-		public Tour(DateTime startTime, int maxReservations) : this(startTime)
-        {
-            _reservations = new List<Visitor>();
-			_admissions = new List<Visitor>();
-			MaxReservations = maxReservations;
+            _maxReservations = maxReservations;
+			Guide = guide;
 		}
 
         public DateTime StartTime { get; private set; }
         public Guide Guide { get; set; }
+        public int MaxReservations { get { return _maxReservations; } }
         public ReadOnlyCollection<Visitor> Reservations
         { 
             get { return _reservations.AsReadOnly(); }
-        } // TODO REPLACE WITH STORAGE RESERVATIONS
+        }
 
         public ReadOnlyCollection<Visitor> Admissions
         {
             get { return _admissions.AsReadOnly(); }
         }
 
-        public static int MaxReservations { get; private set; } // TODO REPLACE WITH SETTING
-
         public string GetTime() => StartTime.ToString("H:mm");
-        public int FreeSpaces() => Math.Max(0, MaxReservations - Reservations.Count);
+        public int FreeSpaces() => Math.Max(0, _maxReservations - Reservations.Count);
+        
         public override string ToString() => GetTime();
 
         public bool AddReservation(Visitor visitor)
@@ -61,8 +47,9 @@ namespace HetDepot.Tours.Model
         }
 
         public bool RemoveReservation(Visitor visitor)
-        { 
-            return _reservations.Remove(visitor);
+        {
+            var reservationToRemove = _reservations.FirstOrDefault(v => v.Id == visitor.Id);
+            return _reservations.Remove(reservationToRemove);
         }
 
         public bool AddAdmission(Visitor visitor)
@@ -73,7 +60,8 @@ namespace HetDepot.Tours.Model
 
         public bool RemoveAdmission(Visitor visitor)
         {
-            return _admissions.Remove(visitor);
+			var admissionToRemove = _admissions.FirstOrDefault(v => v.Id == visitor.Id);
+			return _admissions.Remove(admissionToRemove);
         }
 
         public ListableItem ToListableItem()

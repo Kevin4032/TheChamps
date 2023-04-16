@@ -19,21 +19,53 @@ class KevinsTestController : Controller
 
     public KevinsTestController()
     {
-        _toursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleTours.json");
+        _toursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleTours.json");
 	}
 
     public override void Execute()
     {
+		Testje20230326_001();
         //Testje20230320_001();
         //Testje20230320_002();
         //Testje20230320_003();
-        Testje20230320_004();
+        //Testje20230320_004();
+        //Testje20230320_005();
         //KevinDing();
         //EvenSchrijven();
         //KorteTest();
         //JsonPrutsen();
         //Testje20230318();
     }
+
+	private void Testje20230326_001()
+	{
+		var showTours = new ShowToursController();
+		showTours.Execute();
+	}
+
+	private void Testje20230320_005()
+	{
+		var errorLoggerJson = new DepotErrorJson();
+		var errorLogger = new DepotErrorLogger(errorLoggerJson);
+		var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
+		var peopleService = new PeopleService(repository, errorLogger);
+		var settingService = new SettingService(repository, errorLogger);
+		var tourService = new TourService(repository, settingService, peopleService, errorLogger);
+
+		var tours = tourService.Tours;
+
+		Console.WriteLine($"Tours: {tours.Count}");
+
+		foreach (var tour in tours)
+		{
+			Console.WriteLine($"Tour: {tour.StartTime}");
+			foreach (var visitor in tour.Reservations)
+			{
+				Console.WriteLine($"Reservation: {visitor.Id}");
+			}
+		}
+
+	}
 
 	private void Testje20230320_004()
 	{
@@ -42,10 +74,9 @@ class KevinsTestController : Controller
 		var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
 		var peopleService = new PeopleService(repository, errorLogger);
 		var settingService = new SettingService(repository, errorLogger);
-		var tourService = new TourService(repository, settingService);
+		var tourService = new TourService(repository, settingService, peopleService, errorLogger);
 
 		var visitors = peopleService.GetVisitors();
-
 
         //Tours is leeg,bewust.
         var tours = tourService.Tours;
@@ -66,11 +97,11 @@ class KevinsTestController : Controller
             }
 		}
 
-        tourService.WriteTourData();
+        //tourService.WriteTourData();
 
 		Console.WriteLine($"TWEEEDE RODNE");
 
-		tours[0].AddReservation(visitors[0]);
+		tours[0].AddReservation(visitors.ElementAt(0));
 
 		foreach (var tour in tours)
 		{
@@ -80,6 +111,8 @@ class KevinsTestController : Controller
 				Console.WriteLine($"Reservation: {visitor.Id}");
 			}
 		}
+
+		//tourService.WriteTourData();
 	}
 
 	private void Testje20230320_003()
@@ -112,7 +145,7 @@ class KevinsTestController : Controller
 		var peopleService = new PeopleService(repository, errorLogger);
 		var settingService = new SettingService(repository, errorLogger);
 
-		var tourService = new TourService(repository, settingService);
+		var tourService = new TourService(repository, settingService, peopleService, errorLogger);
 
         var visitors = peopleService.GetVisitors();
 
@@ -129,10 +162,13 @@ class KevinsTestController : Controller
 		var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
 		var peopleService = new PeopleService(repository, errorLogger);
 		var settingService = new SettingService(repository, errorLogger);
-        var tourService = new TourService(repository, settingService);
+        var tourService = new TourService(repository, settingService, peopleService, errorLogger);
 
-		var controllert = new CreateReservationController(tourService, peopleService, settingService);
-        controllert.Execute();
+
+		var tourtje = tourService.Tours.FirstOrDefault(t => t.StartTime == DateTime.Parse("2023-03-18T11:00:00.0000000+01:00"));
+		//var controllert = new CreateReservationController("E0000000009", DateTime.Parse("2023-03-18T11:00:00.0000000+01:00"));
+		var controllert = new ReservationCreateController(tourtje, new Visitor("E0000000009"));
+		controllert.Execute();
     }
 
     private void KorteTest()
@@ -141,8 +177,9 @@ class KevinsTestController : Controller
 
         var repo = new Repository(new DepotJson(new DepotErrorLogger(new DepotErrorJson())), new DepotErrorLogger(new DepotErrorJson()), new DepotDataValidator());
         var setting = new SettingService(repo, new DepotErrorLogger(new DepotErrorJson()));
+		var peopleService = new PeopleService(repo, new DepotErrorLogger(new DepotErrorJson()));
 
-        var ts = new TourService(repo, setting);
+        var ts = new TourService(repo, setting, peopleService, new DepotErrorLogger(new DepotErrorJson()));
                             
         foreach (var tour in ts.Tours)
         {
@@ -197,11 +234,11 @@ class KevinsTestController : Controller
         var peopleService = new PeopleService(repository, errorLogger);
         var settingService = new SettingService(repository, errorLogger);
 
-        var tourService = new TourService(repository, settingService);
+        var tourService = new TourService(repository, settingService, peopleService, errorLogger);
 
         
 
-		tourService.VoorTestEnDemoDoeleinden();
+		//tourService.VoorTestEnDemoDoeleinden();
 
 		var t1 = DateTime.Parse("2023-03-18T11:00:00.0000000+01:00");
         var t2 = DateTime.Parse("2023-03-18T12:00:00.0000000+01:00");
@@ -211,30 +248,31 @@ class KevinsTestController : Controller
 		var visitorNew3 = new Visitor("K0000000003");
 		var visitorBestaan1 = new Visitor("E0987654321");
 
-        //Console.WriteLine($"Visitornew {tourService.HasAdmission(visitorNew1)}");
-        //Console.WriteLine($"viistorbestaand {tourService.HasAdmission(visitorBestaan1)}");
+		//Console.WriteLine($"Visitornew {tourService.HasAdmission(visitorNew1)}");
+		//Console.WriteLine($"viistorbestaand {tourService.HasAdmission(visitorBestaan1)}");
 
 
 		//Console.WriteLine($"TOURTAKEN? {visitorNew1.TourTaken}");
+		var tourtje = tourService.Tours.FirstOrDefault(t => t.StartTime == DateTime.Parse("2023-03-18T11:00:00.0000000+01:00"));
 
-		tourService.AddTourAdmission(t1, visitorNew1);
-		tourService.AddTourAdmission(t2, visitorNew2);
-        tourService.AddTourReservation(t2, visitorNew3);
+		tourService.AddTourAdmission(tourtje, visitorNew1);
+		tourService.AddTourAdmission(tourtje, visitorNew2);
+        tourService.AddTourReservation(tourtje, visitorNew3);
 
-        tourService.VoorTestEnDemoDoeleinden();
+        //tourService.VoorTestEnDemoDoeleinden();
 
 
         Console.WriteLine($"Schrijven met nieuwe entries, check file op disk");
-        tourService.WriteTourData();
+        //tourService.WriteTourData();
 
 
 		Console.WriteLine("===========================================");
         Console.WriteLine("==                Settings               ==");
         Console.WriteLine("===========================================");
-        Console.WriteLine($"Name - 'consoleVisitorLogonCodeInvalid', Value '{settingService.GetSettingValue("consoleVisitorLogonCodeInvalid")}'");
-        Console.WriteLine($"Name - 'maxPersonPerTour', Value '{settingService.GetSettingValue("maxPersonPerTour")}'");
-        Console.WriteLine($"Name - 'guideLunchbreakStart', Value '{settingService.GetSettingValue("guideLunchbreakStart")}'");
-        Console.WriteLine($"Name - 'guideLunchbreakEnd', Value '{settingService.GetSettingValue("guideLunchbreakEnd")}'");
+        //Console.WriteLine($"Name - 'consoleVisitorLogonCodeInvalid', Value '{settingService.GetSettingValue("consoleVisitorLogonCodeInvalid")}'");
+        //Console.WriteLine($"Name - 'maxPersonPerTour', Value '{settingService.GetSettingValue("maxPersonPerTour")}'");
+        //Console.WriteLine($"Name - 'guideLunchbreakStart', Value '{settingService.GetSettingValue("guideLunchbreakStart")}'");
+        //Console.WriteLine($"Name - 'guideLunchbreakEnd', Value '{settingService.GetSettingValue("guideLunchbreakEnd")}'");
 
         Console.WriteLine();
 
@@ -257,7 +295,7 @@ class KevinsTestController : Controller
         Console.WriteLine("===========================================");
         repository.TestErrorlog();
 
-        var errorz = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleErrorlog.txt"));
+        var errorz = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleErrorlog.txt"));
 
         foreach (var error in errorz)
             Console.WriteLine(error);

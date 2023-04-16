@@ -1,36 +1,75 @@
 [
   {
-    "Id": 0,
-    "StartTime": "2023-03-18T11:00:00.0000000+01:00",
-    "Guide": {
-      "Id": "D1234567890"
-    },
-    "Reservations": [
-      {
-        "Id": "E1234567890"
-      }
-    ],
-    "Admissions": [
-      {
-        "Id": "E1234567890"
-      }
-    ]
+    "StartTime": "2023-03-26T11:00:00",
+    "Guide": { "Id": "D0000000002" },
+    "MaxReservations": 13,
+    "Reservations": [],
+    "Admissions": []
   },
   {
-    "Id": 0,
-    "StartTime": "2023-03-18T12:00:00.00000000+01:00",
-    "Guide": {
-      "Id": "D1234567890"
-    },
+    "StartTime": "2023-03-26T11:20:00",
+    "Guide": { "Id": "D0000000002" },
+    "MaxReservations": 13,
+    "Reservations": [],
+    "Admissions": []
+  },
+  {
+    "StartTime": "2023-03-26T11:40:00",
+    "Guide": { "Id": "D0000000002" },
+    "MaxReservations": 13,
+    "Reservations": [],
+    "Admissions": []
+  },
+  {
+    "StartTime": "2023-03-26T12:00:00",
+    "Guide": { "Id": "D0000000002" },
+    "MaxReservations": 13,
+    "Reservations": [],
+    "Admissions": []
+  },
+  {
+    "StartTime": "2023-03-26T12:20:00",
+    "Guide": { "Id": "D0000000002" },
+    "MaxReservations": 13,
+    "Reservations": [],
+    "Admissions": []
+  },
+  {
+    "StartTime": "2023-03-26T12:40:00",
+    "Guide": { "Id": "D0000000002" },
+    "MaxReservations": 13,
+    "Reservations": [],
+    "Admissions": []
+  },
+  {
+    "StartTime": "2023-03-26T13:00:00",
+    "Guide": { "Id": "D0000000002" },
+    "MaxReservations": 13,
     "Reservations": [
-      {
-        "Id": "E0987654321"
-      }
+      { "Id": "E4335997608" },
+      { "Id": "E1480849974" }
     ],
-    "Admissions": [
-      {
-        "Id": "E0987654321"
-      }
-    ]
+    "Admissions": []
+  },
+  {
+    "StartTime": "2023-03-26T13:20:00",
+    "Guide": { "Id": "D0000000002" },
+    "MaxReservations": 13,
+    "Reservations": [],
+    "Admissions": []
+  },
+  {
+    "StartTime": "2023-03-26T13:40:00",
+    "Guide": { "Id": "D0000000002" },
+    "MaxReservations": 13,
+    "Reservations": [],
+    "Admissions": []
+  },
+  {
+    "StartTime": "2023-03-26T14:00:00",
+    "Guide": { "Id": "D0000000002" },
+    "MaxReservations": 13,
+    "Reservations": [],
+    "Admissions": []
   }
 ]

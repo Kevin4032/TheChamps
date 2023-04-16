@@ -1,11 +1,4 @@
-﻿using HetDepot.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HetDepot.Errorlogging
+﻿namespace HetDepot.Errorlogging
 {
 	public class DepotErrorLogger : IDepotErrorLogger
 	{
@@ -15,12 +8,14 @@ namespace HetDepot.Errorlogging
 		public DepotErrorLogger(DepotErrorJson depotDataReadWrite)
 		{
 			_depotDataReadWrite = depotDataReadWrite;
-			_errorLog = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile\\ExampleErrorlog.txt");
+			_errorLog = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleErrorlog.txt");
 		}
 
 		public void LogError(string message)
 		{
-			_depotDataReadWrite.Append<string>(_errorLog, message);
+			var errorMessage = DateTime.UtcNow.ToString();
+			errorMessage += " - " + message;
+			_depotDataReadWrite.Append<string>(_errorLog, errorMessage);
 		}
 	}
 }

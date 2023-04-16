@@ -1,4 +1,6 @@
-﻿using HetDepot.People.Model;
+﻿using HetDepot.Errorlogging;
+using HetDepot.People;
+using HetDepot.People.Model;
 using HetDepot.Persistence;
 using HetDepot.Settings;
 using HetDepot.Tours.Model;
@@ -6,94 +8,106 @@ using System.Collections.ObjectModel;
 
 namespace HetDepot.Tours
 {
-	public class TourService
+	public class TourService : ITourService
 	{
 		private List<Tour> _tours;
-		private Repository _repository;
-		private SettingService _settingService;
+		private IRepository _repository;
+		private IDepotErrorLogger _errorLogger;
+		private IPeopleService _peopleService;
+		private ISettingService _settingService;
 
-		public TourService (Repository repository, SettingService settingService) 
+		public TourService (IRepository repository, ISettingService settingService, IPeopleService peopleService, IDepotErrorLogger errorLogger) 
 		{
 			_repository = repository;
 			_settingService = settingService;
+			_errorLogger = errorLogger;
+			_peopleService = peopleService;
 			_tours = GetTours();
 		}
 
 		public ReadOnlyCollection<Tour> Tours { get { return _tours.AsReadOnly(); } }
 
-		public void VoorTestEnDemoDoeleinden()
+		public bool AddTourReservation(Tour tour, Visitor visitor)
 		{
-			Console.WriteLine($"===========================================");
-			Console.WriteLine($"==                 Tours                 ==");
-			Console.WriteLine($"===========================================");
+			return ToursUpdateInvokeMethod(tour, visitor, "AddReservation");
+		}
 
+		public bool RemoveTourReservation(Tour tour, Visitor visitor)
+		{
+			return ToursUpdateInvokeMethod(tour, visitor, "RemoveReservation");
+		}
+
+		public bool AddTourAdmission(Tour tour, Visitor visitor)
+		{
+			return ToursUpdateInvokeMethod(tour, visitor, "AddAdmission");		
+		}
+
+		public Tour? GetReservation(Visitor visitor)
+		{
 			foreach (var tour in _tours)
 			{
-				Console.WriteLine($"==         Tour: {tour.StartTime}        ==");
-				Console.WriteLine($"===========================================");
-				Console.WriteLine($"==              Reservations           ==");
-				Console.WriteLine($"===========================================");
-				foreach (var reservation in tour.Reservations)
+				if (tour.Reservations.Where(v => v.Id == visitor.Id).Any())
 				{
-					Console.WriteLine($"{reservation.Id}");
-				}
-
-				Console.WriteLine("===========================================");
-				Console.WriteLine($"==                Admissions            ==");
-				Console.WriteLine("===========================================");
-				foreach (var admission in tour.Admissions)
-				{
-					Console.WriteLine($"{admission.Id}");
+					return tour;
 				}
 			}
+
+			return null;
 		}
 
-		public TourServiceResult AddTourReservation(DateTime time, Visitor visitor)
+		public bool HasReservation(Visitor visitor)
 		{
-			var success = !HasAdmission(visitor);
-			var message = _settingService.GetSettingValue("consoleVisitorReservationConfirmation");
-
-			if (success)
+			foreach (var tour in _tours)
 			{
-				var tour = GetTour(time);
-				tour.AddReservation(visitor);
+				if (tour.Reservations.Where(v => v.Id == visitor.Id).Any())
+					return true;
 			}
 
-			return new TourServiceResult() { Success = success, Message = message };
+			return false;
 		}
 
-		public TourServiceResult RemoveTourReservation(DateTime time, Visitor visitor)
+		public bool HasAdmission(Visitor visitor)
 		{
-			var success = !HasAdmission(visitor);
-			var message = _settingService.GetSettingValue("consoleVisitorReservationChangeTourConfirmation");
-
-			if (success )
-			{ 
-				var tour = GetTour(time);
-				tour.RemoveReservation(visitor);
-			}
-
-			return new TourServiceResult() { Success = success, Message = message };
-		}
-
-		public TourServiceResult AddTourAdmission(DateTime time, Visitor visitor)
-		{
-			var success = !HasAdmission(visitor);
-			var message = _settingService.GetSettingValue("consoleVisitorReservationConfirmation");
-
-			if (success)
+			foreach (var tour in _tours)
 			{
-				var tour = GetTour(time);
-				tour.AddAdmission(visitor);
+				if (tour.Admissions.Where(v => v.Id == visitor.Id).Any())
+					return true;
 			}
 
-			return new TourServiceResult() { Success = success, Message = message };
+			return false;
 		}
 
-		private Tour GetTour(DateTime tourStart)
+		private bool ToursUpdateInvokeMethod(Tour tour, Visitor visitor, string method)
 		{
-			return _tours.Where(t => t.StartTime == tourStart).FirstOrDefault() ?? throw new NullReferenceException("Tour Null"); ;
+			try
+			{
+				var listInstance = _tours.FirstOrDefault(t => t.StartTime == tour.StartTime);
+
+				if (listInstance == null)
+					throw new NullReferenceException("Geen Tour gevonden");
+				else
+				{
+
+					var uitvoeren = listInstance.GetType().GetMethod(method);
+					var paramz = new List<object>() { visitor };
+					var resultOk = uitvoeren?.Invoke(listInstance, paramz.ToArray());
+					WriteTourData();
+					return (bool)resultOk;
+				}
+
+			}
+			catch (Exception e)
+			{
+				_errorLogger.LogError($"{this.GetType()} - Input [Tour:{tour?.StartTime}, Visitor:{visitor?.Id}, Method:{method}] - {e.Message}");
+				return false;
+			}
 		}
+
+		private void WriteTourData()
+		{
+			_repository.Write(_tours);
+		}
+
 		private List<Tour> GetTours()
 		{
 			var tours = _repository.GetTours();
@@ -102,36 +116,15 @@ namespace HetDepot.Tours
 				return tours;
 
 			var tourTimes = _settingService.GetTourTimes();
+			var maxReservations = _settingService.GetMaxTourReservations();
+			var guide = _peopleService.GetGuide();
 
 			foreach (var time in tourTimes)
 			{
-				tours.Add(new Tour(DateTime.Parse(time)));
+				tours.Add(new Tour(DateTime.Parse(time), guide, maxReservations, new List<Visitor>(), new List<Visitor>()));
 			}
 
 			return tours;
 		}
-		private bool HasAdmission(Visitor visitor)
-		{
-			var hasAdmission = false;
-
-			foreach (var tour in _tours)
-			{
-				if (tour.Admissions.Where(v => v.Id == visitor.Id).Any())
-				{
-					hasAdmission = true;
-					break;
-				}
-			}
-
-			return hasAdmission;
-		}
-
-		// TOOD: naar private zetten. Voor test even public.
-		public void WriteTourData()
-		{
-			_repository.Write(_tours);
-		}
-
-
 	}
 }
