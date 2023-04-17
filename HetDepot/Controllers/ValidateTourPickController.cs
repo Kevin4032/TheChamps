@@ -30,7 +30,7 @@ namespace HetDepot.Controllers
 				{
 					var tourWithReservation = _tourService.GetReservation(_visitor);
 
-					if (tourWithReservation.StartTime == _tour.StartTime)
+					if (tourWithReservation!.StartTime == _tour.StartTime)
 						NextController = new ReservationRemoveController(_tour, _visitor);
 					else
 						NextController = new ReservationChangeController(_tour, _visitor);

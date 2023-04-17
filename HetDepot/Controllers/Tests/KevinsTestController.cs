@@ -167,8 +167,11 @@ class KevinsTestController : Controller
 
 		var tourtje = tourService.Tours.FirstOrDefault(t => t.StartTime == DateTime.Parse("2023-03-18T11:00:00.0000000+01:00"));
 		//var controllert = new CreateReservationController("E0000000009", DateTime.Parse("2023-03-18T11:00:00.0000000+01:00"));
-		var controllert = new ReservationCreateController(tourtje, new Visitor("E0000000009"));
-		controllert.Execute();
+		if (tourtje != null)
+		{
+			var controllert = new ReservationCreateController(tourtje, new Visitor("E0000000009"));
+			controllert.Execute();
+		}
     }
 
     private void KorteTest()
@@ -255,9 +258,12 @@ class KevinsTestController : Controller
 		//Console.WriteLine($"TOURTAKEN? {visitorNew1.TourTaken}");
 		var tourtje = tourService.Tours.FirstOrDefault(t => t.StartTime == DateTime.Parse("2023-03-18T11:00:00.0000000+01:00"));
 
-		tourService.AddTourAdmission(tourtje, visitorNew1);
-		tourService.AddTourAdmission(tourtje, visitorNew2);
-        tourService.AddTourReservation(tourtje, visitorNew3);
+		if (tourtje != null)
+		{
+			tourService.AddTourAdmission(tourtje, visitorNew1);
+			tourService.AddTourAdmission(tourtje, visitorNew2);
+			tourService.AddTourReservation(tourtje, visitorNew3);
+		}
 
         //tourService.VoorTestEnDemoDoeleinden();
 

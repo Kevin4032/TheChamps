@@ -49,6 +49,8 @@ namespace HetDepot.Tours.Model
         public bool RemoveReservation(Visitor visitor)
         {
             var reservationToRemove = _reservations.FirstOrDefault(v => v.Id == visitor.Id);
+            if (reservationToRemove == null)
+                return false;
             return _reservations.Remove(reservationToRemove);
         }
 
@@ -61,6 +63,8 @@ namespace HetDepot.Tours.Model
         public bool RemoveAdmission(Visitor visitor)
         {
 			var admissionToRemove = _admissions.FirstOrDefault(v => v.Id == visitor.Id);
+            if (admissionToRemove == null)
+                return false;
 			return _admissions.Remove(admissionToRemove);
         }
 

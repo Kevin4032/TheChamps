@@ -18,7 +18,10 @@ namespace HetDepot.Controllers
 		{
 			var tourCurrentlySelected = _tourService.GetReservation(_visitor);
 
-			_tourService.RemoveTourReservation(tourCurrentlySelected!, _visitor);
+			if (tourCurrentlySelected == null)
+				return; // Kan dit voorkomen? Zo ja, wanneer?
+
+			_tourService.RemoveTourReservation(tourCurrentlySelected, _visitor);
 			_tourService.AddTourReservation(_tour, _visitor);
 
 			var message = _settingService.GetConsoleText("consoleVisitorReservationChangeTourConfirmation").Replace("{tijdstipOud}", tourCurrentlySelected.StartTime.ToString()).Replace("{tijdstipNieuw}", _tour.StartTime.ToString());

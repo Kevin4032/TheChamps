@@ -92,7 +92,7 @@ namespace HetDepot.Tours
 					var paramz = new List<object>() { visitor };
 					var resultOk = uitvoeren?.Invoke(listInstance, paramz.ToArray());
 					WriteTourData();
-					return (bool)resultOk;
+					return (bool)(resultOk ?? false);
 				}
 
 			}

@@ -47,13 +47,13 @@ namespace HetDepot.Controllers
 
 			if (userCode == "q")
 				NextController = new ShowToursController();
-			else
+			else if (person != null)
 				NextController = new ValidateTourPickController(_tour, person);
 		}
 
 		private Person? GetPerson(string userCode)
 		{
-			Person person = null;
+			Person? person = null;
 
 			try
 			{
