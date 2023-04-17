@@ -16,15 +16,18 @@ namespace HetDepot.Controllers
 		}
 		public override void Execute()
 		{
-			var tourCurrentlySelected = _tourService.GetReservation(_visitor);
+			var tourCurrentlySelected = Program.TourService.GetReservation(_visitor);
 
-			if (tourCurrentlySelected == null)
+			if (tourCurrentlySelected == null || _tour == null)
 				return; // Kan dit voorkomen? Zo ja, wanneer?
 
-			_tourService.RemoveTourReservation(tourCurrentlySelected, _visitor);
-			_tourService.AddTourReservation(_tour, _visitor);
+			Program.TourService.RemoveTourReservation(tourCurrentlySelected, _visitor);
+			Program.TourService.AddTourReservation(_tour, _visitor);
 
-			var message = _settingService.GetConsoleText("consoleVisitorReservationChangeTourConfirmation").Replace("{tijdstipOud}", tourCurrentlySelected.StartTime.ToString()).Replace("{tijdstipNieuw}", _tour.StartTime.ToString());
+			var message = Program.SettingService.GetConsoleText("consoleVisitorReservationChangeTourConfirmation", new() {
+				["currentTime"] = tourCurrentlySelected.StartTime.ToString(),
+				["newTime"] = _tour.StartTime.ToString(),
+			});
 
 			new AlertView(message, AlertView.Info).Show();
 

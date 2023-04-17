@@ -9,8 +9,10 @@ public class GuideController : Controller
 {
     public override void Execute()
     {
-        string personnelCode = 
-            (new InputView("Gids | Voer uw personeels nummer in", "Personeels nummer:")).ShowAndGetResult();
+        string personnelCode = (new InputView(
+            Program.SettingService.GetConsoleText("consoleGuideTitle"),
+            Program.SettingService.GetConsoleText("consoleGuidePersonnelNumber"))
+        ).ShowAndGetResult();
         
         if (true) // TODO Check if personnelCode is valid
         {

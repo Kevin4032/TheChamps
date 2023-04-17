@@ -20,15 +20,15 @@ namespace HetDepot.Controllers
 			if (_person is Visitor)
 			{
 				var _visitor = (Visitor)_person;
-				var visitorHasAdmission = _tourService.HasAdmission(_visitor);
-				var visitorHasReservation = _tourService.HasReservation(_visitor);
+				var visitorHasAdmission = Program.TourService.HasAdmission(_visitor);
+				var visitorHasReservation = Program.TourService.HasReservation(_visitor);
 
 				if (visitorHasAdmission)
 					NextController = new ReservationDeclinedController();
 
 				if (!visitorHasAdmission && visitorHasReservation)
 				{
-					var tourWithReservation = _tourService.GetReservation(_visitor);
+					var tourWithReservation = Program.TourService.GetReservation(_visitor);
 
 					if (tourWithReservation!.StartTime == _tour.StartTime)
 						NextController = new ReservationRemoveController(_tour, _visitor);

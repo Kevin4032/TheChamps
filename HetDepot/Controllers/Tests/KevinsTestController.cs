@@ -50,7 +50,7 @@ class KevinsTestController : Controller
 		var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
 		var peopleService = new PeopleService(repository, errorLogger);
 		var settingService = new SettingService(repository, errorLogger);
-		var tourService = new TourService(repository, settingService, peopleService, errorLogger);
+		var tourService = new TourService(repository, errorLogger);
 
 		var tours = tourService.Tours;
 
@@ -74,7 +74,7 @@ class KevinsTestController : Controller
 		var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
 		var peopleService = new PeopleService(repository, errorLogger);
 		var settingService = new SettingService(repository, errorLogger);
-		var tourService = new TourService(repository, settingService, peopleService, errorLogger);
+		var tourService = new TourService(repository, errorLogger);
 
 		var visitors = peopleService.GetVisitors();
 
@@ -145,7 +145,7 @@ class KevinsTestController : Controller
 		var peopleService = new PeopleService(repository, errorLogger);
 		var settingService = new SettingService(repository, errorLogger);
 
-		var tourService = new TourService(repository, settingService, peopleService, errorLogger);
+		var tourService = new TourService(repository, errorLogger);
 
         var visitors = peopleService.GetVisitors();
 
@@ -162,7 +162,7 @@ class KevinsTestController : Controller
 		var repository = new Repository(new DepotJson(errorLogger), errorLogger, new DepotDataValidator());
 		var peopleService = new PeopleService(repository, errorLogger);
 		var settingService = new SettingService(repository, errorLogger);
-        var tourService = new TourService(repository, settingService, peopleService, errorLogger);
+        var tourService = new TourService(repository, errorLogger);
 
 
 		var tourtje = tourService.Tours.FirstOrDefault(t => t.StartTime == DateTime.Parse("2023-03-18T11:00:00.0000000+01:00"));
@@ -182,7 +182,7 @@ class KevinsTestController : Controller
         var setting = new SettingService(repo, new DepotErrorLogger(new DepotErrorJson()));
 		var peopleService = new PeopleService(repo, new DepotErrorLogger(new DepotErrorJson()));
 
-        var ts = new TourService(repo, setting, peopleService, new DepotErrorLogger(new DepotErrorJson()));
+        var ts = new TourService(repo, new DepotErrorLogger(new DepotErrorJson()));
                             
         foreach (var tour in ts.Tours)
         {
@@ -237,7 +237,7 @@ class KevinsTestController : Controller
         var peopleService = new PeopleService(repository, errorLogger);
         var settingService = new SettingService(repository, errorLogger);
 
-        var tourService = new TourService(repository, settingService, peopleService, errorLogger);
+        var tourService = new TourService(repository, errorLogger);
 
         
 

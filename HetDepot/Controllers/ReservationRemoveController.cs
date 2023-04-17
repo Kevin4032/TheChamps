@@ -17,9 +17,9 @@ namespace HetDepot.Controllers
 
 		public override void Execute()
 		{
-			_tourService.RemoveTourReservation(_tour, _visitor);
+			Program.TourService.RemoveTourReservation(_tour, _visitor);
 
-			var message = _settingService.GetConsoleText("consoleVisitorReservationCancellationConfirmation");
+			var message = Program.SettingService.GetConsoleText("consoleVisitorReservationCancellationConfirmation");
 
 			new AlertView(message, AlertView.Info).Show();
 
