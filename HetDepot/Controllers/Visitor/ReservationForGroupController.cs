@@ -35,8 +35,14 @@ public class ReservationForGroupController : Controller
                 _settingService.GetConsoleText("consoleVisitorReservationForGroupSubquestion").Replace("{FreeSpaces}", freeTourSpaces.ToString()),
                 new List<ListableItem>()
                 {
-                    new ListViewItem("Ja", true),
-                    new ListViewItem("Nee", false),
+                    new ListViewItem(new List<ListViewItemPart>()
+                    {
+                        new ("Nee", 10)
+                    }, false, false, 1),
+                    new ListViewItem(new List<ListViewItemPart>()
+                    {
+                        new ("Ja", 10)
+                    }, true, false, 1),
                 }
             );
         bool anotherReservation = (bool)groupReservationQuestion.ShowAndGetResult();
