@@ -58,16 +58,16 @@ namespace HetDepot.Tours.Model
         {
             _admissions.Add(visitor);
             //Schrijf visitor info weg naar json:
-            WriteAdmissionToFile();
+            WriteAdmissionToFile(visitor);
             
             return true;
         }
-        public void WriteAdmissionToFile()
+        public void WriteAdmissionToFile(Visitor visitor)
         {
             //serialize visitor info. Dit zou visitor info moeten toevoegen aan ademissions array zoals in de Example`tours.json
-            string toursJson = JsonSerializer.Serialize(this);
+            string toursJson = JsonSerializer.Serialize(visitor);
             // heet deze json tours.json?
-            File.WriteAllText("tours.json", toursJson);
+            File.WriteAllText("ExampleTours.json", toursJson);
 
         }
 
