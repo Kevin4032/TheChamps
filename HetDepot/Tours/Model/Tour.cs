@@ -2,7 +2,9 @@
 using HetDepot.Views.Interface;
 using HetDepot.Views.Parts;
 using System.Collections.ObjectModel;
+using System.Text.Json;
 using System.Text.Json.Serialization;
+
 
 namespace HetDepot.Tours.Model
 {
@@ -55,7 +57,18 @@ namespace HetDepot.Tours.Model
         public bool AddAdmission(Visitor visitor)
         {
             _admissions.Add(visitor);
+            //Schrijf visitor info weg naar json:
+            WriteAdmissionToFile();
+            
             return true;
+        }
+        public void WriteAdmissionToFile()
+        {
+            //serialize visitor info. Dit zou visitor info moeten toevoegen aan ademissions array zoals in de Example`tours.json
+            string toursJson = JsonSerializer.Serialize(this);
+            // heet deze json tours.json?
+            File.WriteAllText("tours.json", toursJson);
+
         }
 
         public bool RemoveAdmission(Visitor visitor)
