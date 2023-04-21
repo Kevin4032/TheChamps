@@ -28,5 +28,20 @@ class ReadJsonFile
             }
         return import;
     }
+    public static string JSONreadGuide()
+    //Reads the guide ID from ExampleGuide.Json and returns as string
+    {
+    string text = File.ReadAllText(@"./ExampleGuide.json");
+    var import = JsonSerializer.Deserialize<List<TimesSetting>>(text)??new();
+    return text;
+    }
+
+    public static string JSONreadManager()
+    //Reads the guide ID from ExampleGuide.Json and returns as string
+    {
+    string text = File.ReadAllText(@"./ExampleManager.json");
+    var import = JsonSerializer.Deserialize<List<TimesSetting>>(text)??new();
+    return text;
+    }
     
 }
