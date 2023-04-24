@@ -4,6 +4,6 @@
 	{
 		HashSet<string> GetTourTimes();
 		int GetMaxTourReservations();
-		string GetConsoleText(string name);
+		string GetConsoleText(string name, Dictionary<string,string>? components = null);
 	}
 }

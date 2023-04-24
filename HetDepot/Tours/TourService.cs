@@ -13,15 +13,11 @@ namespace HetDepot.Tours
 		private List<Tour> _tours;
 		private IRepository _repository;
 		private IDepotErrorLogger _errorLogger;
-		private IPeopleService _peopleService;
-		private ISettingService _settingService;
 
-		public TourService (IRepository repository, ISettingService settingService, IPeopleService peopleService, IDepotErrorLogger errorLogger) 
+		public TourService (IRepository repository, IDepotErrorLogger errorLogger) 
 		{
 			_repository = repository;
-			_settingService = settingService;
 			_errorLogger = errorLogger;
-			_peopleService = peopleService;
 			_tours = GetTours();
 		}
 
@@ -98,7 +94,7 @@ namespace HetDepot.Tours
 					var paramz = new List<object>() { visitor };
 					var resultOk = uitvoeren?.Invoke(listInstance, paramz.ToArray());
 					WriteTourData();
-					return (bool)resultOk;
+					return (bool)(resultOk ?? false);
 				}
 
 			}
@@ -121,9 +117,9 @@ namespace HetDepot.Tours
 			if (tours.Count > 0)
 				return tours;
 
-			var tourTimes = _settingService.GetTourTimes();
-			var maxReservations = _settingService.GetMaxTourReservations();
-			var guide = _peopleService.GetGuide();
+			var tourTimes = Program.SettingService.GetTourTimes();
+			var maxReservations = Program.SettingService.GetMaxTourReservations();
+			var guide = Program.PeopleService.GetGuide();
 
 			foreach (var time in tourTimes)
 			{

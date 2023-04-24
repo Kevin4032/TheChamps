@@ -49,6 +49,8 @@ namespace HetDepot.Tours.Model
         public bool RemoveReservation(Visitor visitor)
         {
             var reservationToRemove = _reservations.FirstOrDefault(v => v.Id == visitor.Id);
+            if (reservationToRemove == null)
+                return false;
             return _reservations.Remove(reservationToRemove);
         }
 
@@ -61,6 +63,8 @@ namespace HetDepot.Tours.Model
         public bool RemoveAdmission(Visitor visitor)
         {
 			var admissionToRemove = _admissions.FirstOrDefault(v => v.Id == visitor.Id);
+            if (admissionToRemove == null)
+                return false;
 			return _admissions.Remove(admissionToRemove);
         }
 
@@ -71,12 +75,23 @@ namespace HetDepot.Tours.Model
              * Wanneer er geen vrije plaatsen zijn zet Disabled op true. Dit zorgt ervoor dat de optie niet gekozen mag
              * worden.
              */
-            return new ListViewItem(new List<ListViewItemPart>
+            
+            var settingService = Program.SettingService;
+            var freeSpaces = FreeSpaces();
+            var spacesString = freeSpaces <= 0 ? "consoleTourNoFreeSpaces" : (freeSpaces == 1 ? "consoleTourOneFreeSpace" : "consoleTourFreeSpaces");
+
+            return new ListViewItem(
+                new List<ListViewItemPart> ()
                 {
                     new (GetTime(), 10),
-                    new (FreeSpaces() > 0 ? FreeSpaces() + " plaatsen" : "Vol")
+                    new (Program.SettingService.GetConsoleText(spacesString, new ()
+                    {
+                        ["count"] = freeSpaces.ToString(),
+                    }))
                 },
-                this, FreeSpaces() <= 0);
+                this,
+                freeSpaces <= 0
+            );
         }
     }
 }

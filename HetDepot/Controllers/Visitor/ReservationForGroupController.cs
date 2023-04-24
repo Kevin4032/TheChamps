@@ -17,7 +17,7 @@ public class ReservationForGroupController : Controller
     public override void Execute()
     {
         // Update tour to have the latest data
-        _tour = _tourService.getTourByStartTime(_tour.StartTime);
+        _tour = Program.TourService.getTourByStartTime(_tour.StartTime);
         
         int freeTourSpaces = _tour.FreeSpaces();
 
@@ -29,8 +29,10 @@ public class ReservationForGroupController : Controller
 
         var groupReservationQuestion =
             new ListView(
-                _settingService.GetConsoleText("consoleVisitorReservationForGroupQuestion"),
-                _settingService.GetConsoleText("consoleVisitorReservationForGroupSubquestion").Replace("{FreeSpaces}", freeTourSpaces.ToString()),
+                Program.SettingService.GetConsoleText("consoleVisitorReservationForGroupQuestion"),
+                Program.SettingService.GetConsoleText("consoleVisitorReservationForGroupSubquestion", new() {
+                    ["FreeSpaces"] = freeTourSpaces.ToString(),
+                }),
                 new List<ListableItem>()
                 {
                     new ListViewItem(new List<ListViewItemPart>()

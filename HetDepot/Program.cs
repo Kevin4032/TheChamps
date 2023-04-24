@@ -2,6 +2,11 @@ namespace HetDepot;
 
 using HetDepot.Controllers;
 using HetDepot.Controllers.Tests;
+using HetDepot.People;
+using HetDepot.Settings;
+using HetDepot.Tours;
+using HetDepot.Errorlogging;
+using HetDepot.Persistence;
 
 internal class Program
 {
@@ -12,11 +17,27 @@ internal class Program
 
     public static Controller? CurrentController { get; private set; }
 
+    public static readonly IDepotErrorLogger ErrorLogger;
+	public static readonly ITourService TourService;
+	public static readonly IPeopleService PeopleService;
+	public static readonly ISettingService SettingService;
+
     private static Controller? _createDefaultController()
     {
         // This creates an instance of the default controller (the "home screen")
         // It's the first screen to be shown and the program returns to it if a controller does not provide a different controller to run next
         return new DefaultController();
+    }
+
+    static Program()
+    {
+        ErrorLogger = new DepotErrorLogger(new DepotErrorJson());
+		var repository = new Repository(new DepotJson(ErrorLogger), ErrorLogger, new DepotDataValidator());
+
+        // Het idee van Services is toch dat ze overal beschikbaar zijn? Daarom hier naartoe verplaatst vanuit Controller (Ruben)
+		SettingService = new SettingService(repository, ErrorLogger);
+		PeopleService = new PeopleService(repository, ErrorLogger);
+		TourService = new TourService(repository, ErrorLogger);
     }
 
     public static void Main(string[] args)
