@@ -16,7 +16,7 @@ namespace HetDepot.Controllers
 		public override void Execute()
 		{
 			var title = Program.SettingService.GetConsoleText("consoleVisitorRequestCodeSelectedTour", new() {
-				["time"] = _tour.StartTime.ToString(),
+				["time"] = _tour.GetTime(),
 			});
 			var textToUser = Program.SettingService.GetConsoleText("consoleLogonOpeningWelcome");
 
