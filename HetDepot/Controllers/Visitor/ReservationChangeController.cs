@@ -31,7 +31,7 @@ namespace HetDepot.Controllers
 
 			new AlertView(message, AlertView.Info).Show();
 
-			NextController = new ShowToursController();
+			NextController = new ReservationForGroupController(_tour);
 		}
 	}
 }
