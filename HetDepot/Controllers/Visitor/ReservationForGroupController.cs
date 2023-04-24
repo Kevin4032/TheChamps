@@ -8,12 +8,10 @@ namespace HetDepot.Controllers;
 public class ReservationForGroupController : Controller
 {
     private Tour _tour;
-    private Visitor _visitor; // TODO Add this visitor to the reservationAsGroupOwner
 
-    public ReservationForGroupController(Tour tour, Visitor visitor) : base()
+    public ReservationForGroupController(Tour tour) : base()
     {
         _tour = tour;
-        _visitor = visitor;
     }
 
     public override void Execute()
