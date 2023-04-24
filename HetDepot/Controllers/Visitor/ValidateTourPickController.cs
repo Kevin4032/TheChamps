@@ -7,11 +7,13 @@ namespace HetDepot.Controllers
 	{
 		private Tour _tour;
 		private Person _person;
+		private bool _forGroup;
 
-		public ValidateTourPickController(Tour tour, Person person) : base()
+		public ValidateTourPickController(Tour tour, Person person, bool forGroup = false) : base()
 		{ 
 			_tour = tour;
 			_person = person;
+			_forGroup = forGroup;
 		}
 
 		public override void Execute()
@@ -30,7 +32,9 @@ namespace HetDepot.Controllers
 					var tourWithReservation = Program.TourService.GetReservation(_visitor);
 
 					if (tourWithReservation!.StartTime == _tour.StartTime)
-						NextController = new ReservationRemoveController(_tour, _visitor);
+					{
+						NextController = new ReservationRemoveController(_tour, _visitor, _forGroup);
+					}
 					else
 						NextController = new ReservationChangeController(_tour, _visitor);
 				}

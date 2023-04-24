@@ -24,7 +24,7 @@ namespace HetDepot.Controllers
 
 			if (_forGroup)
 			{
-				title = Program.SettingService.GetConsoleText("consoleVisitorRequestCodeSelectedTourForGroup") + _tour.StartTime;
+				title = Program.SettingService.GetConsoleText("consoleVisitorRequestCodeSelectedTourForGroup") + _tour.GetTime();
 				textToUser = Program.SettingService.GetConsoleText("consoleLogonOpeningWelcomeForGroup");
 			}
 
@@ -48,7 +48,8 @@ namespace HetDepot.Controllers
 				}
 			}
 
-			NextController = person == null ? new ShowToursController() : new ValidateTourPickController(_tour, person);
+			NextController = person == null ? new ShowToursController() : 
+				new ValidateTourPickController(_tour, person, _forGroup);
 		}
 
 		private Person? GetPerson(string userCode)

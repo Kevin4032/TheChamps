@@ -23,7 +23,7 @@ namespace HetDepot.Controllers
 				["time"] = _tour.GetTime(),
 			});
 
-			new AlertView(message, AlertView.Info).Show();
+			new AlertView(message, AlertView.Success).Show();
 
 			NextController = new ReservationForGroupController(_tour);
 		}

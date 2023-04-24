@@ -48,7 +48,7 @@ namespace HetDepot.Controllers
                     {
                         ["time"] = tourCurrentlySelected.GetTime(),
                     });
-                new AlertView(messageNotChanged, AlertView.Info).Show();
+                new AlertView(messageNotChanged, AlertView.Success).Show();
                 return;
             }
 
@@ -62,7 +62,9 @@ namespace HetDepot.Controllers
                     ["newTime"] = _tour.GetTime(),
                 });
 
-            new AlertView(messageChanged, AlertView.Info).Show();
+            new AlertView(messageChanged, AlertView.Success).Show();
+            
+            NextController = new ReservationForGroupController(_tour);
         }
     }
 }
