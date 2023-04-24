@@ -9,11 +9,13 @@ namespace HetDepot.Controllers
     {
         private Tour _tour;
         private Visitor _visitor;
+        private bool _forGroup;
 
-        public ReservationChangeController(Tour tour, Visitor visitor) : base()
+        public ReservationChangeController(Tour tour, Visitor visitor, bool forGroup = false) : base()
         {
             _tour = tour;
             _visitor = visitor;
+            _forGroup = forGroup;
         }
 
         public override void Execute()
@@ -24,11 +26,12 @@ namespace HetDepot.Controllers
                 return; // Kan dit voorkomen? Zo ja, wanneer?
 
             var question = Program.SettingService
-                .GetConsoleText("consoleVisitorReservationChangeTourInfo", new()
+                .GetConsoleText(_forGroup ? "consoleVisitorReservationChangeTourInfoForGroup" : 
+                    "consoleVisitorReservationChangeTourInfo", new()
                 {
                     ["prevTime"] = tourCurrentlySelected.GetTime(),
                 });
-
+            
             var subquestion = Program.SettingService
                 .GetConsoleText("consoleVisitorReservationCancellationRequestionConfirmation");
 
@@ -56,7 +59,8 @@ namespace HetDepot.Controllers
             Program.TourService.AddTourReservation(_tour, _visitor);
 
             var messageChanged = Program.SettingService.GetConsoleText(
-                "consoleVisitorReservationChangeTourConfirmation", new()
+                _forGroup ? "consoleVisitorReservationChangeTourConfirmationForGroup" : 
+                    "consoleVisitorReservationChangeTourConfirmation", new()
                 {
                     ["currentTime"] = tourCurrentlySelected.GetTime(),
                     ["newTime"] = _tour.GetTime(),

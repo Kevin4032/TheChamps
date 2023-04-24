@@ -56,7 +56,7 @@ namespace HetDepot.Controllers
 			
 			var messageCancled = Program.SettingService.GetConsoleText("consoleVisitorReservationCancellationConfirmation");
 
-			new AlertView(messageCancled, AlertView.Success).Show();
+			new AlertView(messageCancled, AlertView.Info).Show();
 		}
 	}
 }
