@@ -12,10 +12,10 @@ namespace HetDepot.Controllers
 
 		public override void Execute()
 		{
-			var tours = _tourService.Tours;
+			var tours = Program.TourService.Tours;
 
 			//TODO: Opmerking Kevin: Als alle rondleidingen vol zitten, 'hangt' de interface
-			ListView tourOverviewVisitorWithInterface = new ListView("Welkom bij het depot", tours.ToList<IListableObject>());
+			ListView tourOverviewVisitorWithInterface = new ListView(Program.SettingService.GetConsoleText("consoleWelcome"), tours.ToList<IListableObject>());
 			Tour selectedTour = (Tour)tourOverviewVisitorWithInterface.ShowAndGetResult();
 
 			NextController = new RequestAuthenticationController(selectedTour);

@@ -1,3 +1,4 @@
+using HetDepot;
 using HetDepot.Tours.Model;
 using HetDepot.Views.Interface;
 using HetDepot.Views.Parts;
@@ -24,7 +25,7 @@ class TomsTestController : Controller
          * gebruikt kan worden in een list. IListableObject verplicht de class een instance function
          * ToListableItem() te hebben de instance convert naar een ListableItem.
          */
-		var tours = _tourService.Tours;
+		var tours = Program.TourService.Tours;
 		ListView tourOverviewVisitorWithInterface = new ListView("Welkom bij het depot", tours.ToList<IListableObject>());
 
         /*

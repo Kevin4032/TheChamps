@@ -15,53 +15,44 @@ namespace HetDepot.Controllers
 
 		public override void Execute()
 		{
-			var title = _settingService.GetConsoleText("consoleVisitorRequestCodeSelectedTour") + _tour.StartTime;
-			var textToUser = _settingService.GetConsoleText("consoleLogonOpeningWelcome");
+			var title = Program.SettingService.GetConsoleText("consoleVisitorRequestCodeSelectedTour", new() {
+				["time"] = _tour.StartTime.ToString(),
+			});
+			var textToUser = Program.SettingService.GetConsoleText("consoleLogonOpeningWelcome");
 
-			var success = false;
 			Person? person = null;
 			string userCode;
 
-			do
+			while (person == null)
 			{
-				userCode = (new InputView(title, textToUser)).ShowAndGetResult() ?? "No input";
+				userCode = (new InputView(title, textToUser)).ShowAndGetResult() ?? "";
 
 				if (userCode.ToLower() == "q")
-				{
-					success = true;
-				}
-				else
-				{
-					person = GetPerson(userCode);
+					break;
+				
+				person = userCode == "" ? null : GetPerson(userCode);
 
-					if (person != null)
-						success = true;
-					else
-					{
-						var errorMessage = _settingService.GetConsoleText("consoleVisitorLogonCodeInvalid");
-						new AlertView(errorMessage, AlertView.Error).Show();
-					}
+				if (person == null)
+				{
+					var errorMessage = Program.SettingService.GetConsoleText("consoleVisitorLogonCodeInvalid");
+					new AlertView(errorMessage, AlertView.Error).Show();
 				}
 			}
-			while (!success);
 
-			if (userCode == "q")
-				NextController = new ShowToursController();
-			else
-				NextController = new ValidateTourPickController(_tour, person);
+			NextController = person == null ? new ShowToursController() : new ValidateTourPickController(_tour, person);
 		}
 
 		private Person? GetPerson(string userCode)
 		{
-			Person person = null;
+			Person? person = null;
 
 			try
 			{
-				person = _peopleService.GetById(userCode);
+				person = Program.PeopleService.GetById(userCode);
 			}
 			catch (Exception ex)
 			{
-				_errorLogger.LogError($"{this.GetType()} - {ex.Message}");
+				Program.ErrorLogger.LogError($"{this.GetType()} - {ex.Message}");
 			}
 
 			return person;

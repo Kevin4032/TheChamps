@@ -17,9 +17,11 @@ namespace HetDepot.Controllers
 
 		public override void Execute()
 		{
-			_tourService.AddTourReservation(_tour, _visitor);
+			Program.TourService.AddTourReservation(_tour, _visitor);
 
-			var message = _settingService.GetConsoleText("consoleVisitorReservationConfirmation").Replace("{tijdstip}", _tour.StartTime.ToString());
+			var message = Program.SettingService.GetConsoleText("consoleVisitorReservationConfirmation", new() {
+				["time"] = _tour.StartTime.ToString(),
+			});
 
 			new AlertView(message, AlertView.Info).Show();
 
