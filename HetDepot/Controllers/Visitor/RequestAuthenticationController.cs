@@ -24,7 +24,10 @@ namespace HetDepot.Controllers
 
 			if (_forGroup)
 			{
-				title = Program.SettingService.GetConsoleText("consoleVisitorRequestCodeSelectedTourForGroup") + _tour.GetTime();
+				title = Program.SettingService.GetConsoleText("consoleVisitorRequestCodeSelectedTourForGroup", new Dictionary<string, string>()
+				{
+					["time"] = _tour.GetTime()
+				});
 				textToUser = Program.SettingService.GetConsoleText("consoleLogonOpeningWelcomeForGroup");
 			}
 

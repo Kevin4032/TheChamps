@@ -7,7 +7,7 @@
     "consoleTourNoFreeSpaces": "Vol",
     "consoleVisitorRequestCodeSelectedTour": "U wilt zich aanmelden voor de rondleiding van {time}",
     "consoleLogonOpeningWelcomeForGroup": "Voer de unieke code in van het entreebewijs van de persoon die u aan wilt melden of 'Q' om terug te gaan naar het overzicht:",
-    "consoleVisitorRequestCodeSelectedTourForGroup": "Persoon in gezelschap aanmelden voor de rondleiding van ",
+    "consoleVisitorRequestCodeSelectedTourForGroup": "Persoon in gezelschap aanmelden voor de rondleiding van {time}",
     "consoleVisitorReservationMaking": "U kunt een reservering maken door een tijdstip te selecteren.",
     "consoleVisitorReservationAlreadyHavingOne": "U heeft al een reservering voor dit tijdstip. Wilt u deze annuleren?.",
     "consoleVisitorReservationAlreadyHavingOneForGroup": "De persoon die u aan wilt melden heeft al een reservering voor dit tijdstip.",
