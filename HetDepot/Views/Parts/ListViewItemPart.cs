@@ -6,7 +6,7 @@ public class ListViewItemPart
     /*
      * This is a Part used in the ListViewItem. Each part has a text and width
      */
-    
+
     public string Text;
     public int? Width;
 

@@ -2,14 +2,14 @@
 
 namespace HetDepot.Errorlogging
 {
-	public class DepotErrorJson 
-	{
-		public DepotErrorJson() { }
+    public class DepotErrorJson
+    {
+        public DepotErrorJson() { }
 
-		public void Append<T>(string filePath, T objectToWrite)
-		{
-			var rawJson = JsonSerializer.Serialize(objectToWrite);
-			File.AppendAllLines(filePath, new List<string>() { rawJson });
-		}
-	}
+        public void Append<T>(string filePath, T objectToWrite)
+        {
+            var rawJson = JsonSerializer.Serialize(objectToWrite);
+            File.AppendAllLines(filePath, new List<string>() { rawJson });
+        }
+    }
 }

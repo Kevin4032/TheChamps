@@ -2,12 +2,12 @@
 
 class ListViewItem : ListableItem
 {
-    
+
     /*
      * Item that can be listed in ListView. It can take a string as its text or a list of ListViewItemParts.
      * With the ListViewItemPart there is more control over the rendering and just the string is more simple.
      */
-    
+
     public readonly List<ListViewItemPart> Parts;
 
     public ListViewItem(string text, object value, bool disabled = false, int textAlignment = 0) : base(value, disabled, textAlignment)

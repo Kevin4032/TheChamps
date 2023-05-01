@@ -18,7 +18,7 @@ public class ReservationForGroupController : Controller
     {
         // Update tour to have the latest data
         _tour = Program.TourService.getTourByStartTime(_tour.StartTime);
-        
+
         int freeTourSpaces = _tour.FreeSpaces();
 
         if (freeTourSpaces <= 0)
@@ -30,7 +30,8 @@ public class ReservationForGroupController : Controller
         var groupReservationQuestion =
             new ListView(
                 Program.SettingService.GetConsoleText("consoleVisitorReservationForGroupQuestion"),
-                Program.SettingService.GetConsoleText("consoleVisitorReservationForGroupSubquestion", new() {
+                Program.SettingService.GetConsoleText("consoleVisitorReservationForGroupSubquestion", new()
+                {
                     ["FreeSpaces"] = freeTourSpaces.ToString(),
                 }),
                 new List<ListableItem>()
@@ -52,7 +53,7 @@ public class ReservationForGroupController : Controller
             NextController = new ShowToursController();
             return;
         }
-        
+
         NextController = new RequestAuthenticationController(_tour, true);
     }
 }
