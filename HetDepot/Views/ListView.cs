@@ -16,6 +16,7 @@ public class ListView<T>
     private readonly string _title;
     private readonly string? _subtitle;
     private readonly List<ListableItem<T>> _listViewItems;
+	private ListableItem<T>? _selectedListViewItem;
 
     public ListView(string title, List<ListableItem<T>> listViewItems)
     {
@@ -143,14 +144,14 @@ public class ListView<T>
 					if (_selectedItemIndex < 0 || _selectedItemIndex >= _listViewItems.Count)
 						break;
 
-					ListableItem<T> selectedListViewItem = _listViewItems[_selectedItemIndex];
+					_selectedListViewItem = _listViewItems[_selectedItemIndex];
 
-					if (selectedListViewItem.Disabled)
+					if (_selectedListViewItem.Disabled)
 					{
 						continue;
 					}
 
-					return selectedListViewItem.Value;
+					return _selectedListViewItem.Value;
 				case ConsoleKey.UpArrow:
 					previousSelection = _selectedItemIndex;
 					_selectedItemIndex--;
@@ -192,6 +193,13 @@ public class ListView<T>
 				_selectedItemIndex = _listViewItems.Count - itemOffset - 1;
 			}
 		}
+	}
+
+	public T? ShowAndGetResult<TExtra>(out TExtra? extraResult)
+	{
+		T? result = ShowAndGetResult();
+		extraResult = (_selectedListViewItem is IListableExtraItem<TExtra> extra) ? extra.GetExtraItem() : default(TExtra);
+		return result;
 	}
 
 	private static void WriteListItem(ListableItem<T> listableItem, bool selected = false)
