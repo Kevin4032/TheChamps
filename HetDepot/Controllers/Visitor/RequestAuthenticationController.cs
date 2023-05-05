@@ -18,13 +18,16 @@ namespace HetDepot.Controllers
 		public override void Execute()
 		{
 			var title = Program.SettingService.GetConsoleText("consoleVisitorRequestCodeSelectedTour", new() {
-				["time"] = _tour.StartTime.ToString(),
+				["time"] = _tour.GetTime(),
 			});
 			var textToUser = Program.SettingService.GetConsoleText("consoleLogonOpeningWelcome");
 
 			if (_forGroup)
 			{
-				title = Program.SettingService.GetConsoleText("consoleVisitorRequestCodeSelectedTourForGroup") + _tour.StartTime;
+				title = Program.SettingService.GetConsoleText("consoleVisitorRequestCodeSelectedTourForGroup", new Dictionary<string, string>()
+				{
+					["time"] = _tour.GetTime()
+				});
 				textToUser = Program.SettingService.GetConsoleText("consoleLogonOpeningWelcomeForGroup");
 			}
 
@@ -48,7 +51,8 @@ namespace HetDepot.Controllers
 				}
 			}
 
-			NextController = person == null ? new ShowToursController() : new ValidateTourPickController(_tour, person);
+			NextController = person == null ? new ShowToursController() : 
+				new ValidateTourPickController(_tour, person, _forGroup);
 		}
 
 		private Person? GetPerson(string userCode)
