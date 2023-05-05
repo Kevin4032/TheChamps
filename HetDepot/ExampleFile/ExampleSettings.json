@@ -5,6 +5,7 @@
     "consoleTourFreeSpaces": "{count} plaatsen",
     "consoleTourOneFreeSpace": "{count} plaats",
     "consoleTourNoFreeSpaces": "Vol",
+    "consoleGuideLogin": "Inloggen als gids",
     "consoleVisitorRequestCodeSelectedTour": "U wilt zich aanmelden voor de rondleiding van {time}",
     "consoleLogonOpeningWelcomeForGroup": "Voer de unieke code in van het entreebewijs van de persoon die u aan wilt melden of 'Q' om terug te gaan naar het overzicht:",
     "consoleVisitorRequestCodeSelectedTourForGroup": "Persoon in gezelschap aanmelden voor de rondleiding van {time}",

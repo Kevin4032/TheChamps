@@ -1,6 +1,6 @@
 ﻿namespace HetDepot.Views.Parts;
 
-class ListViewItem : ListableItem
+class ListViewItem<T> : ListableItem<T>
 {
     
     /*
@@ -10,12 +10,12 @@ class ListViewItem : ListableItem
     
     public readonly List<ListViewItemPart> Parts;
 
-    public ListViewItem(string text, object value, bool disabled = false, int textAlignment = 0) : base(value, disabled, textAlignment)
+    public ListViewItem(string text, T? value, bool disabled = false, int textAlignment = 0) : base(value, disabled, textAlignment)
     {
         Parts = new List<ListViewItemPart> { new(text) };
     }
 
-    public ListViewItem(List<ListViewItemPart> parts, object value, bool disabled = false, int textAlignment = 0) : base(value, disabled, textAlignment)
+    public ListViewItem(List<ListViewItemPart> parts, T? value, bool disabled = false, int textAlignment = 0) : base(value, disabled, textAlignment)
     {
         Parts = parts;
     }
