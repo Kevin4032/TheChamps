@@ -3,7 +3,7 @@ using HetDepot.Views.Parts;
 
 namespace HetDepot.Views;
 
-public class ListView
+public class ListView<T>
 {
 
     /*
@@ -15,41 +15,42 @@ public class ListView
     private int _selectedItemIndex;
     private readonly string _title;
     private readonly string? _subtitle;
-    private readonly List<ListableItem> _listViewItems;
+    private readonly List<ListableItem<T>> _listViewItems;
+    private ListableItem<T>? _selectedListViewItem;
 
-    public ListView(string title, List<ListableItem> listViewItems)
+    public ListView(string title, List<ListableItem<T>> listViewItems)
     {
         _title = title;
         _listViewItems = listViewItems;
     }
 
-    public ListView(string title, string subtitle, List<ListableItem> listViewItems)
+    public ListView(string title, string subtitle, List<ListableItem<T>> listViewItems)
     {
         _title = title;
         _subtitle = subtitle;
         _listViewItems = listViewItems;
     }
 
-    public ListView(string title, List<IListableObject> listViewObjects, List<ListableItem>? extraOptions = null)
+    public ListView(string title, List<IListableObject<T>> listViewObjects, List<ListableItem<T>>? extraOptions = null)
     {
         _title = title;
 
-        List<ListableItem> listViewItems = listViewObjects.Select(x => x.ToListableItem()).ToList();
+        List<ListableItem<T>> listViewItems = listViewObjects.Select(x => x.ToListableItem()).ToList();
         if (extraOptions != null) listViewItems!.AddRange(extraOptions);
         _listViewItems = listViewItems;
     }
 
-    public ListView(string title, string subtitle, List<IListableObject> listViewObjects, List<ListableItem>? extraOptions = null)
+    public ListView(string title, string subtitle, List<IListableObject<T>> listViewObjects, List<ListableItem<T>>? extraOptions = null)
     {
         _title = title;
         _subtitle = subtitle;
 
-        List<ListableItem> listViewItems = listViewObjects.Select(x => x.ToListableItem()).ToList();
+        List<ListableItem<T>> listViewItems = listViewObjects.Select(x => x.ToListableItem()).ToList();
         if (extraOptions != null) listViewItems!.AddRange(extraOptions);
         _listViewItems = listViewItems;
     }
 
-    public object ShowAndGetResult()
+    public T? ShowAndGetResult()
     {
         // Show the Tour List screen: Draw it on the console and wait for the user to press a key
         bool redraw = true;
@@ -143,14 +144,14 @@ public class ListView
                     if (_selectedItemIndex < 0 || _selectedItemIndex >= _listViewItems.Count)
                         break;
 
-                    ListableItem selectedListViewItem = _listViewItems[_selectedItemIndex];
+                    _selectedListViewItem = _listViewItems[_selectedItemIndex];
 
-                    if (selectedListViewItem.Disabled)
+                    if (_selectedListViewItem.Disabled)
                     {
                         continue;
                     }
 
-                    return selectedListViewItem.Value;
+                    return _selectedListViewItem.Value;
                 case ConsoleKey.UpArrow:
                     previousSelection = _selectedItemIndex;
                     _selectedItemIndex--;
@@ -194,7 +195,14 @@ public class ListView
         }
     }
 
-    private static void WriteListItem(ListableItem listableItem, bool selected = false)
+    public T? ShowAndGetResult<TExtra>(out TExtra? extraResult)
+    {
+        T? result = ShowAndGetResult();
+        extraResult = (_selectedListViewItem is IListableExtraItem<TExtra> extra) ? extra.GetExtraItem() : default(TExtra);
+        return result;
+    }
+
+    private static void WriteListItem(ListableItem<T> listableItem, bool selected = false)
     {
         ConsoleColor color = ConsoleColor.White;
         ConsoleColor background = ConsoleColor.Black;

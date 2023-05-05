@@ -6,7 +6,7 @@ using HetDepot.Views.Parts;
 
 namespace HetDepot.Tours.Model
 {
-    public class Tour : IListableObject
+    public class Tour : IListableObject<Tour>
     {
         private List<Visitor> _reservations;
         private List<Visitor> _admissions;
@@ -68,7 +68,7 @@ namespace HetDepot.Tours.Model
             return _admissions.Remove(admissionToRemove);
         }
 
-        public ListableItem ToListableItem()
+        public ListableItem<Tour> ToListableItem()
         {
             /*
              * Geef een ListViewPartedItem terug met tijd en aantal plaatsen
@@ -80,7 +80,7 @@ namespace HetDepot.Tours.Model
             var freeSpaces = FreeSpaces();
             var spacesString = freeSpaces <= 0 ? "consoleTourNoFreeSpaces" : (freeSpaces == 1 ? "consoleTourOneFreeSpace" : "consoleTourFreeSpaces");
 
-            return new ListViewItem(
+            return new ListViewItem<Tour>(
                 new List<ListViewItemPart>()
                 {
                     new (GetTime(), 10),

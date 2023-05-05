@@ -21,10 +21,10 @@ namespace HetDepot.Controllers
 
             var message = Program.SettingService.GetConsoleText("consoleVisitorReservationConfirmation", new()
             {
-                ["time"] = _tour.StartTime.ToString(),
+                ["time"] = _tour.GetTime(),
             });
 
-            new AlertView(message, AlertView.Info).Show();
+            new AlertView(message, AlertView.Success).Show();
 
             NextController = new ReservationForGroupController(_tour);
         }

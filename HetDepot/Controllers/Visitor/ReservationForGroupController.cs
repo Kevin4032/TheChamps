@@ -7,7 +7,7 @@ namespace HetDepot.Controllers;
 
 public class ReservationForGroupController : Controller
 {
-    private Tour _tour;
+    private Tour? _tour;
 
     public ReservationForGroupController(Tour tour) : base()
     {
@@ -16,8 +16,14 @@ public class ReservationForGroupController : Controller
 
     public override void Execute()
     {
+        if (_tour == null)
+            return;
+
         // Update tour to have the latest data
         _tour = Program.TourService.getTourByStartTime(_tour.StartTime);
+
+        if (_tour == null) // Tour may have existed before, but not anymore
+            return;
 
         int freeTourSpaces = _tour.FreeSpaces();
 
@@ -27,26 +33,25 @@ public class ReservationForGroupController : Controller
             return;
         }
 
-        var groupReservationQuestion =
-            new ListView(
-                Program.SettingService.GetConsoleText("consoleVisitorReservationForGroupQuestion"),
-                Program.SettingService.GetConsoleText("consoleVisitorReservationForGroupSubquestion", new()
+        ListView<bool> groupReservationQuestion = new(
+            Program.SettingService.GetConsoleText("consoleVisitorReservationForGroupQuestion"),
+            Program.SettingService.GetConsoleText("consoleVisitorReservationForGroupSubquestion", new()
+            {
+                ["FreeSpaces"] = freeTourSpaces.ToString(),
+            }),
+            new()
+            {
+                new ListViewItem<bool>(new List<ListViewItemPart>()
                 {
-                    ["FreeSpaces"] = freeTourSpaces.ToString(),
-                }),
-                new List<ListableItem>()
+                    new ("Nee", 10)
+                }, false, false, 1),
+                new ListViewItem<bool>(new List<ListViewItemPart>()
                 {
-                    new ListViewItem(new List<ListViewItemPart>()
-                    {
-                        new ("Nee", 10)
-                    }, false, false, 1),
-                    new ListViewItem(new List<ListViewItemPart>()
-                    {
-                        new ("Ja", 10)
-                    }, true, false, 1),
-                }
-            );
-        bool anotherReservation = (bool)groupReservationQuestion.ShowAndGetResult();
+                    new ("Ja", 10)
+                }, true, false, 1),
+            }
+        );
+        bool anotherReservation = groupReservationQuestion.ShowAndGetResult();
 
         if (!anotherReservation)
         {
