@@ -24,7 +24,6 @@ public class ReservationForGroupController : Controller
 
         if (_tour == null) // Tour may have existed before, but not anymore
             return;
-
         int freeTourSpaces = _tour.FreeSpaces();
 
         if (freeTourSpaces <= 0)
