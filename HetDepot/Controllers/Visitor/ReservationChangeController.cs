@@ -26,21 +26,21 @@ namespace HetDepot.Controllers
                 return; // Kan dit voorkomen? Zo ja, wanneer?
 
             var question = Program.SettingService
-                .GetConsoleText(_forGroup ? "consoleVisitorReservationChangeTourInfoForGroup" : 
+                .GetConsoleText(_forGroup ? "consoleVisitorReservationChangeTourInfoForGroup" :
                     "consoleVisitorReservationChangeTourInfo", new()
-                {
-                    ["prevTime"] = tourCurrentlySelected.GetTime(),
-                });
-            
+                    {
+                        ["prevTime"] = tourCurrentlySelected.GetTime(),
+                    });
+
             var subquestion = Program.SettingService
                 .GetConsoleText("consoleVisitorReservationCancellationRequestionConfirmation");
 
-            ListView replaceCurrentQuestion = new ListView(question, subquestion, new List<ListableItem>()
+            ListView<bool> replaceCurrentQuestion = new(question, subquestion, new List<ListableItem<bool>>()
             {
-                new ListViewItem("Ja", true),
-                new ListViewItem("Nee", false),
+                new ListViewItem<bool>("Ja", true),
+                new ListViewItem<bool>("Nee", false),
             });
-            bool replacePrev = (bool)replaceCurrentQuestion.ShowAndGetResult();
+            bool replacePrev = replaceCurrentQuestion.ShowAndGetResult();
 
             NextController = new ShowToursController();
 
@@ -59,15 +59,15 @@ namespace HetDepot.Controllers
             Program.TourService.AddTourReservation(_tour, _visitor);
 
             var messageChanged = Program.SettingService.GetConsoleText(
-                _forGroup ? "consoleVisitorReservationChangeTourConfirmationForGroup" : 
+                _forGroup ? "consoleVisitorReservationChangeTourConfirmationForGroup" :
                     "consoleVisitorReservationChangeTourConfirmation", new()
-                {
-                    ["currentTime"] = tourCurrentlySelected.GetTime(),
-                    ["newTime"] = _tour.GetTime(),
-                });
+                    {
+                        ["currentTime"] = tourCurrentlySelected.GetTime(),
+                        ["newTime"] = _tour.GetTime(),
+                    });
 
             new AlertView(messageChanged, AlertView.Success).Show();
-            
+
             NextController = new ReservationForGroupController(_tour);
         }
     }

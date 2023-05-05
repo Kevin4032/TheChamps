@@ -2,7 +2,7 @@
 
 public class InputView
 {
-    
+
     /*
      * The input view displays a title and message in the console together with an console input.
      * The method ShowAndGetResult() displays the texts and the input in the console and returns the input given by
@@ -28,7 +28,7 @@ public class InputView
         {
             result = RenderInputScreen();
         } while (string.IsNullOrEmpty(result));
-        
+
         return result;
     }
 
@@ -45,5 +45,5 @@ public class InputView
         Renderer.ConsoleNewline();
         return Renderer.ConsoleWriteInput(_message);
     }
-    
+
 }

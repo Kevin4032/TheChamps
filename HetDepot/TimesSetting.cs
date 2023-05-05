@@ -1,10 +1,10 @@
 namespace HetDepot;
 
-class TimesSetting 
+class TimesSetting
 {
-    public string Name {get; set;}
-    public List<string> Value {get; set;}
-    
+    public string Name { get; set; }
+    public List<string> Value { get; set; }
+
     public TimesSetting(string name, List<string> value)
     {
         Name = name;

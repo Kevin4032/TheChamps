@@ -2,11 +2,11 @@ namespace HetDepot;
 
 using HetDepot.Controllers;
 using HetDepot.Controllers.Tests;
+using HetDepot.Errorlogging;
 using HetDepot.People;
+using HetDepot.Persistence;
 using HetDepot.Settings;
 using HetDepot.Tours;
-using HetDepot.Errorlogging;
-using HetDepot.Persistence;
 
 internal class Program
 {
@@ -18,9 +18,9 @@ internal class Program
     public static Controller? CurrentController { get; private set; }
 
     public static readonly IDepotErrorLogger ErrorLogger;
-	public static readonly ITourService TourService;
-	public static readonly IPeopleService PeopleService;
-	public static readonly ISettingService SettingService;
+    public static readonly ITourService TourService;
+    public static readonly IPeopleService PeopleService;
+    public static readonly ISettingService SettingService;
 
     private static Controller? _createDefaultController()
     {
@@ -32,12 +32,12 @@ internal class Program
     static Program()
     {
         ErrorLogger = new DepotErrorLogger(new DepotErrorJson());
-		var repository = new Repository(new DepotJson(ErrorLogger), ErrorLogger, new DepotDataValidator());
+        var repository = new Repository(new DepotJson(ErrorLogger), ErrorLogger, new DepotDataValidator());
 
         // Het idee van Services is toch dat ze overal beschikbaar zijn? Daarom hier naartoe verplaatst vanuit Controller (Ruben)
-		SettingService = new SettingService(repository, ErrorLogger);
-		PeopleService = new PeopleService(repository, ErrorLogger);
-		TourService = new TourService(repository, ErrorLogger);
+        SettingService = new SettingService(repository, ErrorLogger);
+        PeopleService = new PeopleService(repository, ErrorLogger);
+        TourService = new TourService(repository, ErrorLogger);
     }
 
     public static void Main(string[] args)
@@ -51,7 +51,7 @@ internal class Program
         {
             // Execute the current controller
             CurrentController.Execute();
-            
+
             // Set up the next controller (the "NextController" that was set by the controller that just executed, or else the default controller if NextController is null)
             CurrentController = Controller.NextController ?? _createDefaultController();
             Controller.ResetNextController(); // Reset NextController to null

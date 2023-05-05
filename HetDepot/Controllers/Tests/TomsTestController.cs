@@ -15,7 +15,7 @@ class TomsTestController : Controller
 
     public override void Execute()
     {
-		/*
+        /*
          * Hieronder ListView gemaakt. Deze ListView bied de mogelijkheid een selecteerbare lijst te
          * tonen in de console. ListView heeft 2 parameters string Title en listViewItems.
          * listViewItems moet een List zijn van classes die de IListableObject interface extenden of
@@ -25,8 +25,8 @@ class TomsTestController : Controller
          * gebruikt kan worden in een list. IListableObject verplicht de class een instance function
          * ToListableItem() te hebben de instance convert naar een ListableItem.
          */
-		var tours = Program.TourService.Tours;
-		ListView<Tour> tourOverviewVisitorWithInterface = new("Welkom bij het depot", tours.ToList<IListableObject<Tour>>());
+        var tours = Program.TourService.Tours;
+        ListView<Tour> tourOverviewVisitorWithInterface = new("Welkom bij het depot", tours.ToList<IListableObject<Tour>>());
 
         /*
          * Wanner de ListView is aangemaakt kan deze worden weergegeven en kan de keuze opgehaald worden
@@ -84,7 +84,7 @@ class TomsTestController : Controller
         {
             (new AlertView("Uw reservering wordt behouden", AlertView.Info)).Show();
         }
-        
+
         Renderer.ResetConsole();
     }
 }

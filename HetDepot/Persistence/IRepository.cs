@@ -4,11 +4,11 @@ using HetDepot.Tours.Model;
 
 namespace HetDepot.Persistence
 {
-	public interface IRepository
-	{
-		List<Person> GetPeople();
-		List<Tour> GetTours();
-		Setting GetSettings();
-		void Write<T>(T objectToWrite);
-	}
+    public interface IRepository
+    {
+        List<Person> GetPeople();
+        List<Tour> GetTours();
+        Setting GetSettings();
+        void Write<T>(T objectToWrite);
+    }
 }
