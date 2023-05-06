@@ -16,40 +16,71 @@ class GuideStartTourAdmissionController : Controller
     {
         _tour = tour;
     }
+    
 
     public override void Execute()
     {
         // Willen wij niet het aantal aanmeldingen in de titel laten zien? Dat kan met deze code:
-        //var personIDToVerify = new InputView($"{_tour.Admissions} bezoekers hebben zich aangemeld.", " Voer jouw unieke code in, of typ \"start\" om de rondleiding te starten zonder anderen aan te melden ").ShowAndGetResult();
-        
-        //Print: Aanmelden voor deze reservering. Voer jouw unieke code in:
         string title = Program.SettingService.GetConsoleText("ConsoleGuideTourAdmissionTitle");
         string message = Program.SettingService.GetConsoleText("consoleGuideTourAdmissionEnterVisitorCode");
-        var personIDToVerify = new InputView(title,message).ShowAndGetResult();
+
+        string countZero = Program.SettingService.GetConsoleText("consoleGuideTourAdmissionCountZero");
+        string countOne = Program.SettingService.GetConsoleText("consoleGuideTourAdmissionCountOne");
+        string countMulA = Program.SettingService.GetConsoleText("consoleGuideTourAdmissionCountMultiple");
+        string countMul = $"{_tour.Admissions.Count} {countMulA}";
+        //string countMul = Program.SettingService.GetConsoleText("consoleGuideTourAdmissionCountMultiple");
+
+        var personIDToVerify = string.Empty;
+        
+        
+        if (_tour.Admissions.Count == 0)
+        {
+            personIDToVerify = new InputView(countZero, message).ShowAndGetResult();
+        }
+        
+        else if (_tour.Admissions.Count == 1)
+        {
+            personIDToVerify = new InputView(countOne, message).ShowAndGetResult();
+        }
+        else
+        {
+            personIDToVerify = new InputView(countMul, message).ShowAndGetResult();
+        }
+        // var personIDToVerify = new InputView($"{_tour.Admissions.Count} bezoekers hebben zich aangemeld.", message).ShowAndGetResult();
+        //Print: Aanmelden voor deze reservering. Voer jouw unieke code in:
+
+        //var AdmissionOptions = new List<string> {title,message};
+    
+        //var personIDToVerify = new InputView(title,message).ShowAndGetResult();
+        
+
          
         
-        if (_tour.Reservations.Count == _tour.MaxReservations)
+        if (_tour.Reservations.Count == _tour.MaxReservations || personIDToVerify == "s" || personIDToVerify == "S")
         {
             /*if maxreservations reached or if user chooses start tour anyway while not everyone checked in, 
             next controller default voor volgende tour of bezoeker aanmelding.
-            Remove tour from list? */
+            TODO: Remove tour from list? */
             //start the tour:
+            var message_Tour_Starts = Program.SettingService.GetConsoleText("consoleGuideTourAllReservationsValidated");
+            new AlertView(message_Tour_Starts, ConsoleColor.Blue).Show();
+            NextController = new ShowToursController();
 
         }
         //check of PersonIDToverify een reservering heeft:
-        if (Program.TourService.HasReservation(new Visitor(personIDToVerify)))
+        else if (Program.TourService.HasReservation(new Visitor(personIDToVerify)))
         {
             _tour.AddAdmission(new Visitor(personIDToVerify));
             //TODO: voer piepgeluid uit
             //Moet deze reservering gemarkeerd worden als gebruikt?
             // Aanmelden voor deze rondleiding
-            var message_success = Program.SettingService.GetConsoleText("ConsoleGuideTourAdmissionTitle");
+            var message_success = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeValid");
 
             //var message = _settingService.GetConsoleText("");
             // in de toekomst vervangen door: var message = _settingService.GetConsoleText("DeCodeIsOngeldig");
 
             // Gids ziet pop-up met de melding hierboven. Keert terug naar nieuwe instance van deze controller
-            new AlertView(message, AlertView.Info).Show();
+            new AlertView(message_success, ConsoleColor.Green).Show();
             //Doorgaan met volgende aanmelding:
             NextController = this;
 
@@ -59,8 +90,8 @@ class GuideStartTourAdmissionController : Controller
         {
             //print: Je bent niet aangemeld. De code is niet geldig. Controleer uw code en probeer het nog eens
 
-            var message_problem = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeNotValid" + "consoleVisitorLogonCodeInvalid");
-            new AlertView(message, AlertView.Info).Show();
+            var message_problem = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeNotValid" + " " +"consoleVisitorLogonCodeInvalid");
+            new AlertView(message, ConsoleColor.Red).Show();
             //Doorgaan met volgende aanmelding:
             NextController = this;
         }
