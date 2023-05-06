@@ -7,6 +7,7 @@ using HetDepot.People.Model;
 
 
 
+
 namespace HetDepot.Controllers;
 
 public class GuideController : Controller
@@ -22,17 +23,21 @@ public class GuideController : Controller
         //instance of Peopleservice:
 
 
-        //PeopleService _peopleService = new PeopleService();
-        //Guide guide = _peopleService.GetGuide();
-        //bool isGuide = personnelCode == guide.Id;
+ 
+        Guide guide = Program.PeopleService.GetGuide();
+        bool isGuide = personnelCode == guide.Id;
 
 
-        if (true) // TODO Check if personnelCode is valid
+        if (isGuide) // TODO Check if personnelCode is valid
         {
             // TODO: Create Tour overview
             //(new AlertView("TODO: Create Tour overview", AlertView.Info)).Show();
             NextController = new GuideShowAndSelectTourController();
             return;
+        }
+        else if (isGuide == false)
+        {
+            NextController = new StaffInvalidLoginController();
         }
 
     }
