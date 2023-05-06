@@ -8,14 +8,10 @@ class TedsTestController : Controller
 
     public override void Execute()
     {
-        var showTours = new GuideShowAndSelectTourController();
-		showTours.Execute();
-      /*   List<TimesSetting> settings = new() {
+        List<TimesSetting> settings = new() {
             new("tourTimes", new () {"11:00","11:20","11:40","12:00","12:20","12:40","13:00","13:20","13:40","14:00"})
         };
         ReadJsonFile.JSONread();
-        ReadJsonFile.JSONwrite(settings); */
-
+        ReadJsonFile.JSONwrite(settings);
     }
-    
 }

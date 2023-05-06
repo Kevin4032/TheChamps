@@ -2,8 +2,8 @@
 
 namespace HetDepot.Views.Interface;
 
-public interface IListableObject
+public interface IListableObject<T>
 {
-    public ListableItem ToListableItem();
+    public ListableItem<T> ToListableItem();
 
 }

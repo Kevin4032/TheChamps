@@ -1,6 +1,6 @@
 ﻿namespace HetDepot.Persistence
 {
-	public interface IDepotDataReadWrite : IDepotReader, IDepotWriter
-	{
-	}
+    public interface IDepotDataReadWrite : IDepotReader, IDepotWriter
+    {
+    }
 }

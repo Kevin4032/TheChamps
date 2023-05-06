@@ -1,5 +1,5 @@
-﻿using HetDepot.Tours.Model;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
+using HetDepot.Tours.Model;
 
 namespace HetDepot.People.Model
 {

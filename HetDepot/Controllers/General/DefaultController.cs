@@ -10,11 +10,10 @@ public class DefaultController : Controller
     public override void Execute()
     {
 
-		var showTours = new ShowToursController();
-		showTours.Execute();
+        NextController = new ShowToursController();
 
-	}
-    
-    
-    
+    }
+
+
+
 }
