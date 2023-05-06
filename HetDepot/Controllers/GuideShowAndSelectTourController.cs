@@ -56,7 +56,7 @@ namespace HetDepot.Controllers
 
             // Extra optie "Inloggen als gids":
             tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("consoleBack"), () => new ShowToursController()));
-            ListView<Tour> tourOverviewVisitorWithInterface = new(Program.SettingService.GetConsoleText("consoleGuideTourVisitorTourStartOption"), tourList);
+            ListView<Tour> tourOverviewVisitorWithInterface = new(Program.SettingService.GetConsoleText("consoleGuideTourShowToursToStart"), tourList);
 
             Controller? otherController;
             Tour? selectedTour = tourOverviewVisitorWithInterface.ShowAndGetResult<Controller>(out otherController);

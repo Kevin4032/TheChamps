@@ -2,6 +2,10 @@
 using HetDepot.Views;
 using HetDepot.Views.Interface;
 using HetDepot.Views.Parts;
+using HetDepot.People;
+using HetDepot.People.Model;
+
+
 
 namespace HetDepot.Controllers;
 
@@ -14,6 +18,15 @@ public class GuideController : Controller
             Program.SettingService.GetConsoleText("consoleGuidePersonnelNumber"))
         ).ShowAndGetResult();
 
+        //check Guide ID (password). From the exampleGuide.json, it is D0000000002
+        //instance of Peopleservice:
+
+
+        //PeopleService _peopleService = new PeopleService();
+        //Guide guide = _peopleService.GetGuide();
+        //bool isGuide = personnelCode == guide.Id;
+
+
         if (true) // TODO Check if personnelCode is valid
         {
             // TODO: Create Tour overview
@@ -22,12 +35,5 @@ public class GuideController : Controller
             return;
         }
 
-
-        /*** UNREACHABLE:
-
-        (new AlertView("Personeels nummer ongeldig", AlertView.Error)).Show();
-        NextController = new GuideController();
-        
-        ***/
     }
 }
