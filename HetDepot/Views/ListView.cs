@@ -31,24 +31,26 @@ public class ListView<T>
         _listViewItems = listViewItems;
     }
 
-    public ListView(string title, List<IListableObject<T>> listViewObjects, List<ListableItem<T>>? extraOptions = null)
-    {
-        _title = title;
+    /*
+        public ListView(string title, List<IListableObject<T>> listViewObjects, List<ListableItem<T>>? extraOptions = null)
+        {
+            _title = title;
 
-        List<ListableItem<T>> listViewItems = listViewObjects.Select(x => x.ToListableItem()).ToList();
-        if (extraOptions != null) listViewItems!.AddRange(extraOptions);
-        _listViewItems = listViewItems;
-    }
+            List<ListableItem<T>> listViewItems = listViewObjects.Select(x => x.ToListableItem()).ToList();
+            if (extraOptions != null) listViewItems!.AddRange(extraOptions);
+            _listViewItems = listViewItems;
+        }
 
-    public ListView(string title, string subtitle, List<IListableObject<T>> listViewObjects, List<ListableItem<T>>? extraOptions = null)
-    {
-        _title = title;
-        _subtitle = subtitle;
+        public ListView(string title, string subtitle, List<IListableObject<T>> listViewObjects, List<ListableItem<T>>? extraOptions = null)
+        {
+            _title = title;
+            _subtitle = subtitle;
 
-        List<ListableItem<T>> listViewItems = listViewObjects.Select(x => x.ToListableItem()).ToList();
-        if (extraOptions != null) listViewItems!.AddRange(extraOptions);
-        _listViewItems = listViewItems;
-    }
+            List<ListableItem<T>> listViewItems = listViewObjects.Select(x => x.ToListableItem()).ToList();
+            if (extraOptions != null) listViewItems!.AddRange(extraOptions);
+            _listViewItems = listViewItems;
+        }
+    */
 
     public T? ShowAndGetResult()
     {

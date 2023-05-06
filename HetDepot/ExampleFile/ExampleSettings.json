@@ -2,10 +2,11 @@
   "ConsoleText": {
     "consoleLogonOpeningWelcome": "Voer uw unieke code in van uw entreebewijs of 'Q' om terug te gaan naar het overzicht:",
     "consoleWelcome": "Welkom bij Het Depot",
+    "consoleBack": "Terug",
     "consoleTourFreeSpaces": "{count} plaatsen",
     "consoleTourOneFreeSpace": "{count} plaats",
     "consoleTourNoFreeSpaces": "Vol",    
-    "consoleTourRervations": "{count} reserveringen",
+    "consoleTourReservations": "{count} reserveringen",
     "consoleTourOneReservation": "{count} reservering",
     "consoleTourNoReservations": "Geen reserveringen",
     "consoleGuideLogin": "Inloggen als gids",
