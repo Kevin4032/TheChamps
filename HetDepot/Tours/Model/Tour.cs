@@ -69,7 +69,7 @@ namespace HetDepot.Tours.Model
             return _admissions.Remove(admissionToRemove);
         }
 
-        public ListableItem<Tour> ToListableItem() => ToListableItem("", false);
+        public ListableItem<Tour> ToListableItem() => new ListViewItem<Tour>(GetTime(), this); // Geen extra info
         public ListableItem<Tour> ToListableItem(string info) => ToListableItem(info, false);
         public ListableItem<Tour> ToListableItem(string info, bool disabled)
         {
