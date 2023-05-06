@@ -26,7 +26,7 @@ class TomsTestController : Controller
          * ToListableItem() te hebben de instance convert naar een ListableItem.
          */
         var tours = Program.TourService.Tours;
-        ListView<Tour> tourOverviewVisitorWithInterface = new("Welkom bij het depot", tours.ToList<IListableObject<Tour>>());
+        ListView<Tour> tourOverviewVisitorWithInterface = new("Welkom bij het depot", tours.Select(x => x.ToListableItem()).ToList());
 
         /*
          * Wanner de ListView is aangemaakt kan deze worden weergegeven en kan de keuze opgehaald worden

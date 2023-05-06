@@ -24,7 +24,9 @@ namespace HetDepot.Tours.Model
 
         public DateTime StartTime { get; private set; }
         public Guide Guide { get; set; }
-        public int MaxReservations { get { return _maxReservations; } }
+        public int MaxReservations { get => _maxReservations; }
+        public int FreeSpaces { get => Math.Max(0, _maxReservations - Reservations.Count); }
+
         public ReadOnlyCollection<Visitor> Reservations
         {
             get { return _reservations.AsReadOnly(); }
@@ -36,7 +38,6 @@ namespace HetDepot.Tours.Model
         }
 
         public string GetTime() => StartTime.ToString("H:mm");
-        public int FreeSpaces() => Math.Max(0, _maxReservations - Reservations.Count);
 
         public override string ToString() => GetTime();
 
@@ -68,39 +69,29 @@ namespace HetDepot.Tours.Model
             return _admissions.Remove(admissionToRemove);
         }
 
-        public ListableItem<Tour> ToListableItem() => ToListableItem(false);
-        public ListableItem<Tour> ToListableItem(bool countReservations)
+        public ListableItem<Tour> ToListableItem() => ToListableItem("", false);
+        public ListableItem<Tour> ToListableItem(Func<string> info) => ToListableItem(info(), false);
+        public ListableItem<Tour> ToListableItem(Func<string> info, Func<bool> disabled) => ToListableItem(info(), disabled());
+        public ListableItem<Tour> ToListableItem(string info, bool disabled)
         {
             /*
-             * Geef een ListViewPartedItem terug met tijd en aantal plaatsen
-             * Wanneer er geen vrije plaatsen zijn zet Disabled op true. Dit zorgt ervoor dat de optie niet gekozen mag
-             * worden.
+             * Geef een ListViewPartedItem terug met tijd en info. Info is standaard leeg maar kan een string of callback zijn zoals
+             * "x beschikbare plaatsen" of "x reserveringen" (de controller bepaalt dat)
+             * Als disabled true is (bool of callback) kan het item niet geselecteerd worden
              */
 
-            var settingService = Program.SettingService;
-            var freeSpaces = FreeSpaces();
-            var spacesString = "";
-            if (countReservations == false)
-            {
-                spacesString = freeSpaces <= 0 ? "consoleTourNoFreeSpaces" : (freeSpaces == 1 ? "consoleTourOneFreeSpace" : "consoleTourFreeSpaces");
-            }
-            else
-            {
-                spacesString = Reservations.Count <= 0 ? "consoleTourNoReservations" : (Reservations.Count == 1 ? "consoleTourOneReservation" : "consoleTourRervations");
-            }
-            
+            //Reservations.Count <= 0 ? "consoleTourNoReservations" : (Reservations.Count == 1 ? "consoleTourOneReservation" : "consoleTourRervations");
+            //
+
 
             return new ListViewItem<Tour>(
                 new List<ListViewItemPart>()
                 {
                     new (GetTime(), 10),
-                    new (Program.SettingService.GetConsoleText(spacesString, new ()
-                    {
-                        ["count"] = countReservations ? Reservations.Count.ToString() : freeSpaces.ToString()
-                    }))
+                    new (info),
                 },
                 this,
-                freeSpaces <= 0
+                disabled
             );
         }
     }

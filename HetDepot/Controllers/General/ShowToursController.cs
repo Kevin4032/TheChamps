@@ -15,17 +15,23 @@ namespace HetDepot.Controllers
         {
             var tours = Program.TourService.Tours;
 
-            var tourList = tours.ToList<IListableObject<Tour>>();
+            // Genereer lijst van rondleidingen met informatie over aantal vrije plaatsen
+            var tourList = tours.Select(tour => tour.ToListableItem(
+                () => Program.SettingService.GetConsoleText(
+                    tour.FreeSpaces <= 0 ? "consoleTourNoFreeSpaces" : (tour.FreeSpaces == 1 ? "consoleTourOneFreeSpace" : "consoleTourFreeSpaces"),
+                    new()
+                    {
+                        ["count"] = tour.FreeSpaces.ToString(),
+                    }
+                ),
+                () => tour.FreeSpaces == 0 // Disabled (niet selecteerbaar) als er geen vrije plaatsen zijn
+            )).ToList();
 
             // Extra optie "Inloggen als gids":
-            var extraOptions = new List<ListableItem<Tour>>
-            {
-                //new ListViewExtraItem<Tour,Controller>(Program.SettingService.GetConsoleText("consoleGuideLogin"), () => new GuideShowAndSelectTourController()),
-                new ListViewExtraItem<Tour,Controller>(Program.SettingService.GetConsoleText("consoleGuideLogin"), () => new GuideController()),
-            };
+            tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("consoleGuideLogin"), () => new GuideController()));
 
             //TODO: Opmerking Kevin: Als alle rondleidingen vol zitten, 'hangt' de interface
-            ListView<Tour> tourOverviewVisitorWithInterface = new(Program.SettingService.GetConsoleText("consoleWelcome"), tourList, extraOptions);
+            ListView<Tour> tourOverviewVisitorWithInterface = new(Program.SettingService.GetConsoleText("consoleWelcome"), tourList);
 
             Controller? otherController;
             Tour? selectedTour = tourOverviewVisitorWithInterface.ShowAndGetResult<Controller>(out otherController);
