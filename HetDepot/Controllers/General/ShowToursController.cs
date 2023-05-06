@@ -17,14 +17,14 @@ namespace HetDepot.Controllers
 
             // Genereer lijst van rondleidingen met informatie over aantal vrije plaatsen
             var tourList = tours.Select(tour => tour.ToListableItem(
-                () => Program.SettingService.GetConsoleText(
+                Program.SettingService.GetConsoleText(
                     tour.FreeSpaces <= 0 ? "consoleTourNoFreeSpaces" : (tour.FreeSpaces == 1 ? "consoleTourOneFreeSpace" : "consoleTourFreeSpaces"),
                     new()
                     {
                         ["count"] = tour.FreeSpaces.ToString(),
                     }
                 ),
-                () => tour.FreeSpaces == 0 // Disabled (niet selecteerbaar) als er geen vrije plaatsen zijn
+                tour.FreeSpaces == 0 // Disabled (niet selecteerbaar) als er geen vrije plaatsen zijn
             )).ToList();
 
             // Extra optie "Inloggen als gids":

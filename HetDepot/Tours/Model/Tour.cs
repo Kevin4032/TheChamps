@@ -70,8 +70,7 @@ namespace HetDepot.Tours.Model
         }
 
         public ListableItem<Tour> ToListableItem() => ToListableItem("", false);
-        public ListableItem<Tour> ToListableItem(Func<string> info) => ToListableItem(info(), false);
-        public ListableItem<Tour> ToListableItem(Func<string> info, Func<bool> disabled) => ToListableItem(info(), disabled());
+        public ListableItem<Tour> ToListableItem(string info) => ToListableItem(info, false);
         public ListableItem<Tour> ToListableItem(string info, bool disabled)
         {
             /*

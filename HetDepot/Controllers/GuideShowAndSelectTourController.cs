@@ -45,7 +45,7 @@ namespace HetDepot.Controllers
 
             // Genereer lijst van rondleidingen met informatie over aantal reserveringen
             var tourList = tours.Select(tour => tour.ToListableItem(
-                () => Program.SettingService.GetConsoleText(
+                Program.SettingService.GetConsoleText(
                     tour.Reservations.Count <= 0 ? "consoleTourNoReservations" : (tour.Reservations.Count == 1 ? "consoleTourOneReservation" : "consoleTourReservations"),
                     new()
                     {
