@@ -19,7 +19,7 @@ using HetDepot.Views.Parts;
                 // If you don't do this (or use "null"), the next controller will be the default controller set in Program.cs (the "home screen")
             
             //Ik hoop dat de nextTour van de vorige controller nog steeds dezelfde is. Als dat zo is, kunnen wij hier nog een instance hiervan maken:
-            var nextTour = _tourService.GetNextTour(); 
+            var nextTour = Program.TourService.GetNextTour(); 
             //check of PersonIDToverify een reservering heeft:
             var personIDToVerify = new InputView($"{nextTour.Admissions.Count()} bezoekers hebben zich aangemeld."," Voer jouw unieke code in, of typ \"start\" om de rondleiding te starten zonder anderen aan te melden ").ShowAndGetResult();
             
@@ -60,7 +60,7 @@ using HetDepot.Views.Parts;
                 Remove tour from list? */
             }
 
-            if (_tourService.HasReservation(new Visitor(personIDToVerify)))
+            if (Program.TourService.HasReservation(new Visitor(personIDToVerify)))
             {
                 nextTour.AddAdmission(new Visitor(personIDToVerify));
                 //voer piepgeluid uit

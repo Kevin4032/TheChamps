@@ -128,5 +128,21 @@ namespace HetDepot.Tours
 
             return tours;
         }
+        public Tour GetNextTour()
+        {
+            /* Geeft de volgende tour-tijd voor gebruik in de GuideShowAndSelectTour Controller */
+            DateTime currentTime = DateTime.Now;
+            var tours = GetTours();
+            // Filter tours that have not yet started
+            var upcomingTours = tours.Where(tour => tour.StartTime > currentTime).ToList();
+
+            // Sort tours by start time in ascending order
+            upcomingTours.Sort((tour1, tour2) => tour1.StartTime.CompareTo(tour2.StartTime));
+
+            // Get the first tour in the sorted list, which will be the next upcoming tour
+            Tour nextTour = upcomingTours.FirstOrDefault();
+
+            return nextTour;
+        }
     }
 }
