@@ -74,14 +74,10 @@ namespace HetDepot.Tours.Model
         public ListableItem<Tour> ToListableItem(string info, bool disabled)
         {
             /*
-             * Geef een ListViewPartedItem terug met tijd en info. Info is standaard leeg maar kan een string of callback zijn zoals
+             * Geef een ListViewPartedItem terug met tijd en info. Info is standaard leeg maar kan een string zijn zoals
              * "x beschikbare plaatsen" of "x reserveringen" (de controller bepaalt dat)
-             * Als disabled true is (bool of callback) kan het item niet geselecteerd worden
+             * Als disabled true is (standaard is false) kan het item niet geselecteerd worden
              */
-
-            //Reservations.Count <= 0 ? "consoleTourNoReservations" : (Reservations.Count == 1 ? "consoleTourOneReservation" : "consoleTourRervations");
-            //
-
 
             return new ListViewItem<Tour>(
                 new List<ListViewItemPart>()
