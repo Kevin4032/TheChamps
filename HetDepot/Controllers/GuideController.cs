@@ -12,13 +12,10 @@ public class GuideController : Controller
         string personnelCode = 
             (new InputView("Gids | Voer uw personeels nummer in", "Personeels nummer:")).ShowAndGetResult();
         
-        // string contains Guide ID from ExampleGuide.json
-        string jsonContentGuide = ReadJsonFile.JSONreadGuide();
-        // string contains Guide ID from ExampleGuide.json
-        string jsonContentManager = ReadJsonFile.JSONreadManager();
+        //_peopleService.GetGuide().Id
       
-        
-        if (personnelCode == jsonContentGuide || personnelCode == jsonContentManager) // TODO Check if personnelCode is valid
+        bool isGuide = personnelCode == _peopleService.GetGuide().Id;
+        if (isGuide || personnelCode == _peopleService.GetManager().Id) // TODO Check if personnelCode is valid
         {            
             NextController = new GuideShowAndSelectTourController();
             return;

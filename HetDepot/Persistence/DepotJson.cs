@@ -45,6 +45,7 @@ namespace HetDepot.Persistence
 			var rawJson = JsonSerializer.Serialize(objectToWrite);			
 			File.AppendAllLines(filePath, new List<string>() { rawJson });
 		}
+		
 
 	}
 }
