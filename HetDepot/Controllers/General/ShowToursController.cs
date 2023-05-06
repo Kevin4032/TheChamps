@@ -20,8 +20,8 @@ namespace HetDepot.Controllers
             // Extra optie "Inloggen als gids":
             var extraOptions = new List<ListableItem<Tour>>
             {
-                new ListViewExtraItem<Tour,Controller>(Program.SettingService.GetConsoleText("consoleGuideLogin"), () => new GuideShowAndSelectTourController()),
-                //new ListViewExtraItem<Tour,Controller>(Program.SettingService.GetConsoleText("consoleGuideLogin"), () => new GuideController()),
+                //new ListViewExtraItem<Tour,Controller>(Program.SettingService.GetConsoleText("consoleGuideLogin"), () => new GuideShowAndSelectTourController()),
+                new ListViewExtraItem<Tour,Controller>(Program.SettingService.GetConsoleText("consoleGuideLogin"), () => new GuideController()),
             };
 
             //TODO: Opmerking Kevin: Als alle rondleidingen vol zitten, 'hangt' de interface

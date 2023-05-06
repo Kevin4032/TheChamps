@@ -17,9 +17,11 @@ public class GuideController : Controller
         if (true) // TODO Check if personnelCode is valid
         {
             // TODO: Create Tour overview
-            (new AlertView("TODO: Create Tour overview", AlertView.Info)).Show();
+            //(new AlertView("TODO: Create Tour overview", AlertView.Info)).Show();
+            NextController = new GuideShowAndSelectTourController();
             return;
         }
+
 
         /*** UNREACHABLE:
 

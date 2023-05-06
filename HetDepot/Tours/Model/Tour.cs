@@ -68,7 +68,8 @@ namespace HetDepot.Tours.Model
             return _admissions.Remove(admissionToRemove);
         }
 
-        public ListableItem<Tour> ToListableItem()
+        public ListableItem<Tour> ToListableItem() => ToListableItem(false);
+        public ListableItem<Tour> ToListableItem(bool countReservations)
         {
             /*
              * Geef een ListViewPartedItem terug met tijd en aantal plaatsen
@@ -78,7 +79,16 @@ namespace HetDepot.Tours.Model
 
             var settingService = Program.SettingService;
             var freeSpaces = FreeSpaces();
-            var spacesString = freeSpaces <= 0 ? "consoleTourNoFreeSpaces" : (freeSpaces == 1 ? "consoleTourOneFreeSpace" : "consoleTourFreeSpaces");
+            var spacesString = "";
+            if (countReservations == false)
+            {
+                spacesString = freeSpaces <= 0 ? "consoleTourNoFreeSpaces" : (freeSpaces == 1 ? "consoleTourOneFreeSpace" : "consoleTourFreeSpaces");
+            }
+            else
+            {
+                spacesString = Reservations.Count <= 0 ? "consoleTourNoReservations" : (Reservations.Count == 1 ? "consoleTourOneReservation" : "consoleTourRervations");
+            }
+            
 
             return new ListViewItem<Tour>(
                 new List<ListViewItemPart>()
@@ -86,7 +96,7 @@ namespace HetDepot.Tours.Model
                     new (GetTime(), 10),
                     new (Program.SettingService.GetConsoleText(spacesString, new ()
                     {
-                        ["count"] = freeSpaces.ToString(),
+                        ["count"] = countReservations ? Reservations.Count.ToString() : freeSpaces.ToString()
                     }))
                 },
                 this,
