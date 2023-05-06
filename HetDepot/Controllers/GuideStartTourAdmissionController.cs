@@ -3,12 +3,20 @@ using HetDepot.Views;
 using HetDepot.People.Model;
 using HetDepot.Views.Interface;
 using HetDepot.Views.Parts;
+using HetDepot.Tours.Model;
 
 
         namespace HetDepot.Controllers;
         
         class GuideStartTourAdmissionController : Controller
         {
+            private Tour _tour;
+
+            public GuideStartTourAdmissionController(Tour tour) : base()
+            {
+                _tour = tour;
+            }
+
             public override void Execute()
             {
                 // Your code here: Load some models, call up a view
@@ -18,10 +26,11 @@ using HetDepot.Views.Parts;
                 //NextController = new SomeOtherController());
                 // If you don't do this (or use "null"), the next controller will be the default controller set in Program.cs (the "home screen")
             
-            //Ik hoop dat de nextTour van de vorige controller nog steeds dezelfde is. Als dat zo is, kunnen wij hier nog een instance hiervan maken:
-            var nextTour = Program.TourService.GetNextTour(); 
+            //Ik hoop dat de _tour van de vorige controller nog steeds dezelfde is. Als dat zo is, kunnen wij hier nog een instance hiervan maken:
+
+
             //check of PersonIDToverify een reservering heeft:
-            var personIDToVerify = new InputView($"{nextTour.Admissions.Count()} bezoekers hebben zich aangemeld."," Voer jouw unieke code in, of typ \"start\" om de rondleiding te starten zonder anderen aan te melden ").ShowAndGetResult();
+            var personIDToVerify = new InputView($"{_tour.Admissions.Count()} bezoekers hebben zich aangemeld."," Voer jouw unieke code in, of typ \"start\" om de rondleiding te starten zonder anderen aan te melden ").ShowAndGetResult();
             
 
 /*             var guideChoicesList = new List<string>() {
@@ -53,7 +62,7 @@ using HetDepot.Views.Parts;
             
      
 			
-            if (nextTour.Reservations.Count == nextTour.MaxReservations)
+            if (_tour.Reservations.Count == _tour.MaxReservations)
             {
                 /*if maxreservations reached or if user chooses start tour anyway while not everyone checked in, 
                 next controller default voor volgende tour of bezoeker aanmelding.
@@ -62,7 +71,7 @@ using HetDepot.Views.Parts;
 
             if (Program.TourService.HasReservation(new Visitor(personIDToVerify)))
             {
-                nextTour.AddAdmission(new Visitor(personIDToVerify));
+                _tour.AddAdmission(new Visitor(personIDToVerify));
                 //voer piepgeluid uit
                 //Moet deze reservering gemarkeerd worden als gebruikt?
 
@@ -76,7 +85,7 @@ using HetDepot.Views.Parts;
                 // Gids ziet pop-up met de melding hierboven. Keert terug naar nieuwe instance van deze controller
 			    new AlertView(message, AlertView.Info).Show();
 
-			    NextController = new GuideStartTourAdmissionController();
+			    NextController = this;
             }
             }
 

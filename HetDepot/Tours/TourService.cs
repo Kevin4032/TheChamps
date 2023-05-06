@@ -128,7 +128,7 @@ namespace HetDepot.Tours
 
             return tours;
         }
-        public Tour GetNextTour()
+        public Tour? GetNextTour()
         {
             /* Geeft de volgende tour-tijd voor gebruik in de GuideShowAndSelectTour Controller */
             DateTime currentTime = DateTime.Now;
@@ -140,7 +140,7 @@ namespace HetDepot.Tours
             upcomingTours.Sort((tour1, tour2) => tour1.StartTime.CompareTo(tour2.StartTime));
 
             // Get the first tour in the sorted list, which will be the next upcoming tour
-            Tour nextTour = upcomingTours.FirstOrDefault();
+            Tour? nextTour = upcomingTours.FirstOrDefault();
 
             return nextTour;
         }

@@ -36,8 +36,11 @@ public class AlertView
         Renderer.ResetConsole(false);
         Renderer.ConsoleNewline(true);
         Renderer.ConsoleWrite("", 0, 0, 1, ' ', ConsoleColor.White, _backgroundColor);
+        Renderer.ConsoleNewline();
         Renderer.ConsoleWrite(_message, 0, 0, 1, ' ', ConsoleColor.White, _backgroundColor);
+        Renderer.ConsoleNewline();
         Renderer.ConsoleWrite("", 0, 0, 1, ' ', ConsoleColor.White, _backgroundColor);
+        Renderer.ConsoleNewline();
         Thread.Sleep(sleepTime);
     }
 }

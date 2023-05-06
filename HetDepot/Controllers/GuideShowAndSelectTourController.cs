@@ -14,7 +14,17 @@ namespace HetDepot.Controllers
 
             {
                 //nextTour is nu de huidige rondleiding:
-                var nextTour = Program.TourService.GetNextTour(); 
+                var nextTour = Program.TourService.GetNextTour();
+                if (nextTour == null)
+                {
+                    var message = Program.SettingService.GetConsoleText("consoleGuideTourNoToursAvailable");
+
+                    new AlertView(message, AlertView.Info).Show();
+
+
+                    NextController = new ShowToursController();
+                    return;
+                } 
 
                 // Toon op console hudige rondleiding {volgende rondleiding}. guideConfirmTourCheckInStart is een string als user input geeft,anders null
                 var guideConfirmTourCheckInStart = new InputView("Huidige rondleiding: " + (nextTour != null ? nextTour.ToString() : "Er zijn geen rondleidingen meer beschikbaar"), "Start deze rondleiding").ShowAndGetResult();
@@ -22,7 +32,7 @@ namespace HetDepot.Controllers
                 //Klik enter om te starten i.pv. ja intikken?
                 if (guideConfirmTourCheckInStart == "ja")
                 {
-                    NextController = new GuideStartTourAdmissionController();
+                    NextController = new GuideStartTourAdmissionController(nextTour!);
                 }
                 else
                 {
