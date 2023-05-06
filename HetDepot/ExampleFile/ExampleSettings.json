@@ -35,6 +35,7 @@
     "consoleGuideLogonCodeInvalid": "Uw code is niet geldig. Werkt u hier wel?",
     "consoleGuideTourCurrent": "Huidige rondleiding {time}",
     "consoleGuideTourStart": "Rondleiding starten?",
+    "consoleGuideTourShowToursToStart": "Rondleiding overzicht",
     "consoleGuideTourNoToursAvailable": "Er zijn geen rondleidingen meer beschikbaar",
     "consoleGuideTourVisitorValidationStarted": "Er zijn {reservationCount}",
     "consoleGuideTourVisitorValidationVisitorValidated": "{count} van {reservationCount} aangemeld.",

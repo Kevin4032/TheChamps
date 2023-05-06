@@ -53,7 +53,7 @@ namespace HetDepot.Controllers
             };
 
             //TODO: Opmerking Kevin: Als alle rondleidingen vol zitten, 'hangt' de interface
-            ListView<Tour> tourOverviewVisitorWithInterface = new(Program.SettingService.GetConsoleText("consoleGuideTourVisitorTourStartOption"), tourList, extraOptions);
+            ListView<Tour> tourOverviewVisitorWithInterface = new(Program.SettingService.GetConsoleText("consoleGuideTourShowToursToStart"), tourList, extraOptions);
 
             Controller? otherController;
             Tour? selectedTour = tourOverviewVisitorWithInterface.ShowAndGetResult<Controller>(out otherController);
