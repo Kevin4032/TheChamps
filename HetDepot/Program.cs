@@ -37,7 +37,64 @@ internal class Program
         // Het idee van Services is toch dat ze overal beschikbaar zijn? Daarom hier naartoe verplaatst vanuit Controller (Ruben)
         SettingService = new SettingService(repository, ErrorLogger);
         PeopleService = new PeopleService(repository, ErrorLogger);
+
+        // Controle dat data correct is
+        CheckProperInit();
+
         TourService = new TourService(repository, ErrorLogger);
+    }
+
+    private static void CheckProperInit()
+    {
+        CheckVisitors();
+        CheckGuide();
+        CheckManager();
+    }
+
+    private static void CheckVisitors()
+    {
+        try
+        {
+            var visitorCount = Program.PeopleService.GetVisitors().Count;
+            if (visitorCount == 0)
+            {
+                throw new Exception("No Visitor Found");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            Console.WriteLine("Please look at 'Errorlog.txt' and fix the ExampleVisitors.json");
+            Environment.Exit(1);
+        }
+    }
+
+    private static void CheckGuide()
+    {
+        try
+        {
+            var guide = Program.PeopleService.GetGuide();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            Console.WriteLine("Please look at 'Errorlog.txt' and fix the ExampleGuide.json");
+            Environment.Exit(1);
+        }
+    }
+
+    private static void CheckManager()
+    {
+        try
+        {
+            var guide = Program.PeopleService.GetManager();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            Console.WriteLine("Please look at 'Errorlog.txt' and fix the ExampleManager.json");
+            Environment.Exit(1);
+        }
     }
 
     public static void Main(string[] args)
