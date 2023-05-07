@@ -1,5 +1,7 @@
-﻿using HetDepot.Errorlogging;
+﻿using System.Text.Json;
+using HetDepot.Errorlogging;
 using HetDepot.People.Model;
+using HetDepot.Settings;
 using HetDepot.Settings.Model;
 using HetDepot.Tours.Model;
 
@@ -12,8 +14,6 @@ namespace HetDepot.Persistence
 		private string _visitorsPath;
 		private string _settingsPath;
 		private string _toursPath;
-
-		private string _kapotToursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleToursBestaatniet.json");
 
 		private IDepotDataReadWrite _depotDataReadWrite;
 		private IDepotErrorLogger _errorLogger;
@@ -28,9 +28,9 @@ namespace HetDepot.Persistence
 			_managersPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleManager.json");
 			_visitorsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleVisitor.json");
 			_settingsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleSettings.json");
-			_toursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleTours.json");
+			_toursPath =  SettingService.GetToursPath();
 		}
-
+		
 		public void TestErrorlog()
 		{
 			_errorLogger.LogError("Test error in repository.");
@@ -50,7 +50,7 @@ namespace HetDepot.Persistence
 		{
 			var result = new List<Tour>();
 
-			var tours = _depotDataReadWrite.Read<List<TourJsonModel>>(_kapotToursPath);
+			var tours = _depotDataReadWrite.Read<List<TourJsonModel>>(_toursPath);
 
 			if (tours == null)
 				return result;
@@ -58,8 +58,8 @@ namespace HetDepot.Persistence
 			{
 				foreach (var tour in tours)
 				{
-					if (tour != null && tour.Guide != null)
-						result.Add(new Tour(tour.StartTime, tour.Guide, tour.MaxReservations, tour.Reservations ?? new(), tour.Admissions ?? new()));
+					if (tour != null)
+						result.Add(new Tour(tour.StartTime, tour.MaxReservations, tour.Reservations ?? new(), tour.Admissions ?? new()));
 				}
 			}
 
@@ -77,7 +77,7 @@ namespace HetDepot.Persistence
 				throw new NullReferenceException("No object to write");
 
 			if (objectToWrite.GetType() == typeof(List<Tour>))
-				_depotDataReadWrite.Write(_kapotToursPath, objectToWrite);
+				_depotDataReadWrite.Write(_toursPath, objectToWrite);
 		}
 
 		private List<T> GetPeople<T>(string path) where T : Person
@@ -95,6 +95,7 @@ namespace HetDepot.Persistence
 
 			return result;
 		}
+
 	}
 }
 

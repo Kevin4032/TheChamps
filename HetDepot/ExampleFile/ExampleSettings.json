@@ -20,7 +20,8 @@
     "consoleVisitorReservationCancellationRequestionConfirmation": "Wilt u deze rondleiding annuleren? Ja/Nee.",
     "consoleVisitorReservationCancellationConfirmation": "Reservering geannuleerd",
     "consoleVisitorReservationChangeTourConfirmation": "U bent uitgeschreven voor {currentTime}\u201D. Uw nieuwe rondleiding start om {newTime}",
-    "consoleGuideTitle": "Gids | Voer uw personeelsnummer in",
+    "consoleGuideTitle": "Voer uw personeelsnummer in",
+    "consoleEnterPersonnelCode": "Voer uw personeelsnummer in",
     "consoleGuidePersonnelNumber": "Personeelsnummer:",
     "consoleGuideTourVisitorValidationStart": "U kunt de rondleiding starten.",
     "consoleGuideLogonCodeInvalid": "Uw code is niet geldig. Werkt u hier wel?",
@@ -39,7 +40,9 @@
     "consoleManagerLogonCodeInvalid": "Uw code is niet geldig.",
     "consoleVisitorAlreadyHasTourAdmission": "U heeft al deelgenomen aan een rondleiding vandaag. Morgen weer een kans.",
     "consoleVisitorReservationForGroupQuestion": "Nog iemand aanmelden voor de rondleiding?",
-    "consoleVisitorReservationForGroupSubquestion": "Nog {FreeSpaces} plek(ken) beschikbaar"
+    "consoleVisitorReservationForGroupSubquestion": "Nog {FreeSpaces} plek(ken) beschikbaar",
+    "consoleHomeLoginAsGuide": "Inloggen als gids",
+    "consoleHomeLoginAsManager": "Inloggen als afdelingshoofd"
   },
   "TourTimes": [
     "11:00",

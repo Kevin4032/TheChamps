@@ -123,7 +123,7 @@ namespace HetDepot.Tours
 
 			foreach (var time in tourTimes)
 			{
-				tours.Add(new Tour(DateTime.Parse(time), guide, maxReservations, new List<Visitor>(), new List<Visitor>()));
+				tours.Add(new Tour(DateTime.Parse(time), maxReservations, new List<Visitor>(), new List<Visitor>()));
 			}
 
 			return tours;

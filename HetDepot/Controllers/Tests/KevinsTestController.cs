@@ -19,12 +19,12 @@ class KevinsTestController : Controller
 
     public KevinsTestController()
     {
-        _toursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleTours.json");
+        // _toursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleTours.json");
 	}
 
     public override void Execute()
     {
-		Testje20230326_001();
+		// Testje20230326_001();
         //Testje20230320_001();
         //Testje20230320_002();
         //Testje20230320_003();
@@ -186,7 +186,6 @@ class KevinsTestController : Controller
                             
         foreach (var tour in ts.Tours)
         {
-            Console.WriteLine($"StartTime: {tour.StartTime} --==-- Gids: {tour.Guide.Id}");
         }
 
 
@@ -214,8 +213,8 @@ class KevinsTestController : Controller
     {
         var list = new List<Tour>();
 
-        var t1 = new Tour(DateTime.Now, new Guide("D1234567890"), 13, new List<Visitor>(), new List<Visitor>());
-		var t2 = new Tour(DateTime.Now, new Guide("D1234567890"), 13, new List<Visitor>(), new List<Visitor>());
+        var t1 = new Tour(DateTime.Now, 13, new List<Visitor>(), new List<Visitor>());
+		var t2 = new Tour(DateTime.Now, 13, new List<Visitor>(), new List<Visitor>());
 
         t1.AddReservation(new Visitor("E1234567890"));
 		t1.AddAdmission(new Visitor("E1234567890"));

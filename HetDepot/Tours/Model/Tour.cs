@@ -13,17 +13,15 @@ namespace HetDepot.Tours.Model
         private int _maxReservations;
 
         [JsonConstructor]
-		public Tour(DateTime startTime, Guide guide, int maxReservations, List<Visitor> reservations, List<Visitor> admissions)
+		public Tour(DateTime startTime, int maxReservations, List<Visitor> reservations, List<Visitor> admissions)
 		{
 			StartTime = startTime;
             _reservations = reservations;
             _admissions = admissions;
             _maxReservations = maxReservations;
-			Guide = guide;
 		}
 
         public DateTime StartTime { get; private set; }
-        public Guide Guide { get; set; }
         public int MaxReservations { get { return _maxReservations; } }
         public ReadOnlyCollection<Visitor> Reservations
         { 
