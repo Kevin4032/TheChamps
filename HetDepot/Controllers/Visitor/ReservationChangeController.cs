@@ -1,37 +1,74 @@
 ﻿using HetDepot.People.Model;
 using HetDepot.Tours.Model;
 using HetDepot.Views;
+using HetDepot.Views.Parts;
 
 namespace HetDepot.Controllers
 {
-	public class ReservationChangeController : Controller
-	{
-		private Tour _tour;
-		private Visitor _visitor;
+    public class ReservationChangeController : Controller
+    {
+        private Tour _tour;
+        private Visitor _visitor;
+        private bool _forGroup;
 
-		public ReservationChangeController(Tour tour, Visitor visitor) : base()
-		{ 
-			_tour = tour;
-			_visitor = visitor;
-		}
-		public override void Execute()
-		{
-			var tourCurrentlySelected = Program.TourService.GetReservation(_visitor);
+        public ReservationChangeController(Tour tour, Visitor visitor, bool forGroup = false) : base()
+        {
+            _tour = tour;
+            _visitor = visitor;
+            _forGroup = forGroup;
+        }
 
-			if (tourCurrentlySelected == null || _tour == null)
-				return; // Kan dit voorkomen? Zo ja, wanneer?
+        public override void Execute()
+        {
+            var tourCurrentlySelected = Program.TourService.GetReservation(_visitor);
 
-			Program.TourService.RemoveTourReservation(tourCurrentlySelected, _visitor);
-			Program.TourService.AddTourReservation(_tour, _visitor);
+            if (tourCurrentlySelected == null || _tour == null)
+                return; // Kan dit voorkomen? Zo ja, wanneer?
 
-			var message = Program.SettingService.GetConsoleText("consoleVisitorReservationChangeTourConfirmation", new() {
-				["currentTime"] = tourCurrentlySelected.StartTime.ToString(),
-				["newTime"] = _tour.StartTime.ToString(),
-			});
+            var question = Program.SettingService
+                .GetConsoleText(_forGroup ? "consoleVisitorReservationChangeTourInfoForGroup" :
+                    "consoleVisitorReservationChangeTourInfo", new()
+                    {
+                        ["prevTime"] = tourCurrentlySelected.GetTime(),
+                    });
 
-			new AlertView(message, AlertView.Info).Show();
+            var subquestion = Program.SettingService
+                .GetConsoleText("consoleVisitorReservationCancellationRequestionConfirmation");
 
-			NextController = new ReservationForGroupController(_tour);
-		}
-	}
+            ListView<bool> replaceCurrentQuestion = new(question, subquestion, new List<ListableItem<bool>>()
+            {
+                new ListViewItem<bool>("Ja", true),
+                new ListViewItem<bool>("Nee", false),
+            });
+            bool replacePrev = replaceCurrentQuestion.ShowAndGetResult();
+
+            NextController = new ShowToursController();
+
+            if (!replacePrev)
+            {
+                var messageNotChanged = Program.SettingService
+                    .GetConsoleText("consoleVisitorReservationChangeNotChanges", new()
+                    {
+                        ["time"] = tourCurrentlySelected.GetTime(),
+                    });
+                new AlertView(messageNotChanged, AlertView.Success).Show();
+                return;
+            }
+
+            Program.TourService.RemoveTourReservation(tourCurrentlySelected, _visitor);
+            Program.TourService.AddTourReservation(_tour, _visitor);
+
+            var messageChanged = Program.SettingService.GetConsoleText(
+                _forGroup ? "consoleVisitorReservationChangeTourConfirmationForGroup" :
+                    "consoleVisitorReservationChangeTourConfirmation", new()
+                    {
+                        ["currentTime"] = tourCurrentlySelected.GetTime(),
+                        ["newTime"] = _tour.GetTime(),
+                    });
+
+            new AlertView(messageChanged, AlertView.Success).Show();
+
+            NextController = new ReservationForGroupController(_tour);
+        }
+    }
 }

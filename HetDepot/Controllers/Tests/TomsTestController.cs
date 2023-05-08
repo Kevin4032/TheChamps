@@ -15,7 +15,7 @@ class TomsTestController : Controller
 
     public override void Execute()
     {
-		/*
+        /*
          * Hieronder ListView gemaakt. Deze ListView bied de mogelijkheid een selecteerbare lijst te
          * tonen in de console. ListView heeft 2 parameters string Title en listViewItems.
          * listViewItems moet een List zijn van classes die de IListableObject interface extenden of
@@ -25,8 +25,8 @@ class TomsTestController : Controller
          * gebruikt kan worden in een list. IListableObject verplicht de class een instance function
          * ToListableItem() te hebben de instance convert naar een ListableItem.
          */
-		var tours = Program.TourService.Tours;
-		ListView tourOverviewVisitorWithInterface = new ListView("Welkom bij het depot", tours.ToList<IListableObject>());
+        var tours = Program.TourService.Tours;
+        ListView<Tour> tourOverviewVisitorWithInterface = new("Welkom bij het depot", tours.ToList<IListableObject<Tour>>());
 
         /*
          * Wanner de ListView is aangemaakt kan deze worden weergegeven en kan de keuze opgehaald worden
@@ -37,7 +37,10 @@ class TomsTestController : Controller
          * is deze object in ShowAndGetResult. Maar om te zorgen dat de compiler het nog snapt worden de value
          * hier expliciet terug gezet naar Tour via de casting (Tour)
          */
-        Tour selectedTourListItem = (Tour)tourOverviewVisitorWithInterface.ShowAndGetResult();
+        Tour? selectedTourListItem = tourOverviewVisitorWithInterface.ShowAndGetResult();
+
+        if (selectedTourListItem == null)
+            return; // Terug waar we vandaan kwamen
 
         /*
          * Hieronder word een InputView gemaakt deze lijkt op de list view alleen heeft deze in plaats van
@@ -53,17 +56,17 @@ class TomsTestController : Controller
         /*
          * Hieronder weer de listview maar dan met een Subtitle en Directe ListViewItems 
          */
-        ListView changeExisitingReservation = new ListView("Er is al een reservering voor vandaag. Wilt u doorgaan?",
-            "Als u doorgaat wordt de vorige reservering verwijderd.", new List<ListableItem>()
+        ListView<bool> changeExisitingReservation = new("Er is al een reservering voor vandaag. Wilt u doorgaan?",
+            "Als u doorgaat wordt de vorige reservering verwijderd.", new()
             {
-                new ListViewItem("Ja", true, false, 1),
-                new ListViewItem("Nee", false, false, 1)
+                new ListViewItem<bool>("Ja", true, false, 1),
+                new ListViewItem<bool>("Nee", false, false, 1)
             });
 
         /*
          * Hier word de Value die terug word gegeven als object terug omgezet naar een boolean
          */
-        bool deletePrev = (bool)changeExisitingReservation.ShowAndGetResult();
+        bool deletePrev = changeExisitingReservation.ShowAndGetResult();
 
         /*
          *
@@ -81,7 +84,7 @@ class TomsTestController : Controller
         {
             (new AlertView("Uw reservering wordt behouden", AlertView.Info)).Show();
         }
-        
+
         Renderer.ResetConsole();
     }
 }

@@ -106,7 +106,6 @@ namespace HetDepot.Persistence
 
             return result;
         }
-
     }
 }
 

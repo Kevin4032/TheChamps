@@ -1,6 +1,6 @@
-﻿using HetDepot.People.Model;
+﻿using System.Collections.ObjectModel;
+using HetDepot.People.Model;
 using HetDepot.Tours.Model;
-using System.Collections.ObjectModel;
 
 namespace HetDepot.Tours
 {

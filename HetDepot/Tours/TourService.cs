@@ -1,10 +1,10 @@
-﻿using HetDepot.Errorlogging;
+﻿using System.Collections.ObjectModel;
+using HetDepot.Errorlogging;
 using HetDepot.People;
 using HetDepot.People.Model;
 using HetDepot.Persistence;
 using HetDepot.Settings;
 using HetDepot.Tours.Model;
-using System.Collections.ObjectModel;
 
 namespace HetDepot.Tours
 {

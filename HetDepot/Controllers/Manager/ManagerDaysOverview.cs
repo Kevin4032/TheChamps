@@ -10,27 +10,31 @@ public class ManagerDaysOverview : Controller
     public override void Execute()
     {
         var allTours = Program.TourService.GetAllTours();
-        List<ListableItem> tourList = new List<ListableItem>();
+        List<ListableItem<List<Tour>>> tourList = new();
 
         foreach (var tours in allTours)
         {
             if (tours.Count == 0)
                 continue;
 
-            tourList.Add(new ListViewItem(tours[0].StartTime.ToString("dd/MM/yyyy"), tours));
+            tourList.Add(new ListViewItem<List<Tour>>(tours[0].StartTime.ToString("dd/MM/yyyy"), tours));
         }
 
-        tourList.Add(new ListViewItem(Program.SettingService.GetConsoleText("backToHome"), "back"));
+        ListView<List<Tour>> daysOverview =
+            new(Program.SettingService.GetConsoleText("managerSelectDayQuestion"),
+                tourList,
+                new List<ListableItem<List<Tour>>>()
+                {
+                    new ListViewExtraItem<List<Tour>, Controller>(
+                        Program.SettingService.GetConsoleText("backToHome"),
+                        () => new ShowToursController())
+                });
 
-        ListView daysOverview = new ListView(Program.SettingService.GetConsoleText("managerSelectDayQuestion"), tourList);
-        var selectedTours = daysOverview.ShowAndGetResult();
+        Controller? otherController;
+        List<Tour>? selectedTours = daysOverview.ShowAndGetResult<Controller>(out otherController);
+        NextController = otherController; // Alleen als extra optie gekozen is
 
-        if (selectedTours == "back")
-        {
-            return;
-        }
-
-        NextController = new ManagerTypeQuestion((List<Tour>)selectedTours);
-
+        if(selectedTours != null)
+            NextController = new ManagerTypeQuestion(selectedTours);
     }
 }

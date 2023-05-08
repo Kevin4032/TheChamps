@@ -1,21 +1,21 @@
-﻿using HetDepot.People.Model;
+﻿using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
+using HetDepot.People.Model;
 using HetDepot.Views.Interface;
 using HetDepot.Views.Parts;
-using System.Collections.ObjectModel;
-using System.Text.Json.Serialization;
 
 namespace HetDepot.Tours.Model
 {
-    public class Tour : IListableObject
+    public class Tour : IListableObject<Tour>
     {
         private List<Visitor> _reservations;
         private List<Visitor> _admissions;
         private int _maxReservations;
 
         [JsonConstructor]
-		public Tour(DateTime startTime, int maxReservations, List<Visitor> reservations, List<Visitor> admissions)
-		{
-			StartTime = startTime;
+        public Tour(DateTime startTime, int maxReservations, List<Visitor> reservations, List<Visitor> admissions)
+        {
+            StartTime = startTime;
             _reservations = reservations;
             _admissions = admissions;
             _maxReservations = maxReservations;
@@ -24,7 +24,7 @@ namespace HetDepot.Tours.Model
         public DateTime StartTime { get; private set; }
         public int MaxReservations { get { return _maxReservations; } }
         public ReadOnlyCollection<Visitor> Reservations
-        { 
+        {
             get { return _reservations.AsReadOnly(); }
         }
 
@@ -35,7 +35,7 @@ namespace HetDepot.Tours.Model
 
         public string GetTime() => StartTime.ToString("H:mm");
         public int FreeSpaces() => Math.Max(0, _maxReservations - Reservations.Count);
-        
+
         public override string ToString() => GetTime();
 
         public bool AddReservation(Visitor visitor)
@@ -60,26 +60,26 @@ namespace HetDepot.Tours.Model
 
         public bool RemoveAdmission(Visitor visitor)
         {
-			var admissionToRemove = _admissions.FirstOrDefault(v => v.Id == visitor.Id);
+            var admissionToRemove = _admissions.FirstOrDefault(v => v.Id == visitor.Id);
             if (admissionToRemove == null)
                 return false;
-			return _admissions.Remove(admissionToRemove);
+            return _admissions.Remove(admissionToRemove);
         }
 
-        public ListableItem ToListableItem()
+        public ListableItem<Tour> ToListableItem()
         {
             /*
              * Geef een ListViewPartedItem terug met tijd en aantal plaatsen
              * Wanneer er geen vrije plaatsen zijn zet Disabled op true. Dit zorgt ervoor dat de optie niet gekozen mag
              * worden.
              */
-            
+
             var settingService = Program.SettingService;
             var freeSpaces = FreeSpaces();
             var spacesString = freeSpaces <= 0 ? "consoleTourNoFreeSpaces" : (freeSpaces == 1 ? "consoleTourOneFreeSpace" : "consoleTourFreeSpaces");
 
-            return new ListViewItem(
-                new List<ListViewItemPart> ()
+            return new ListViewItem<Tour>(
+                new List<ListViewItemPart>()
                 {
                     new (GetTime(), 10),
                     new (Program.SettingService.GetConsoleText(spacesString, new ()

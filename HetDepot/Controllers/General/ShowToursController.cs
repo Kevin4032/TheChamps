@@ -1,7 +1,7 @@
-﻿using HetDepot.Controllers.General;
+using HetDepot.Controllers.General;
 using HetDepot.Tours.Model;
-using HetDepot.Views.Interface;
 using HetDepot.Views;
+using HetDepot.Views.Interface;
 using HetDepot.Views.Parts;
 
 namespace HetDepot.Controllers
@@ -16,31 +16,25 @@ namespace HetDepot.Controllers
         {
             var tours = Program.TourService.Tours;
 
-            ListView tourOverviewVisitorWithInterface = new ListView(Program.SettingService.GetConsoleText("consoleWelcome"),
-                tours.ToList<IListableObject>(), new List<ListableItem>()
-                {
-                    new ListViewItem(Program.SettingService.GetConsoleText("consoleHomeLoginAsGuide"), "guide"),
-                    new ListViewItem(Program.SettingService.GetConsoleText("consoleHomeLoginAsManager"), "manager")
-                });
-            object selectedTour = tourOverviewVisitorWithInterface.ShowAndGetResult();
+            var tourList = tours.ToList<IListableObject<Tour>>();
 
-            if (selectedTour is Tour)
+            var extraOptions = new List<ListableItem<Tour>>
             {
-                NextController = new RequestAuthenticationController((Tour)selectedTour);
-                return;
-            }
+                new ListViewExtraItem<Tour,Controller>(Program.SettingService.GetConsoleText("consoleGuideLogin"),
+                    () => new GuideController()),
+                new ListViewExtraItem<Tour,Controller>(Program.SettingService.GetConsoleText("consoleHomeLoginAsManager"),
+                    () => new ManagerController()),
+            };
 
-            if ((string)selectedTour == "guide")
-            {
-                NextController = new GuideController();
-                return;
-            }
+            ListView<Tour> tourOverviewVisitorWithInterface =
+                new(Program.SettingService.GetConsoleText("consoleWelcome"), tourList, extraOptions);
 
-            if ((string)selectedTour == "manager")
-            {
-                NextController = new ManagerController();
-                return;
-            }
+            Controller? otherController;
+            Tour? selectedTour = tourOverviewVisitorWithInterface.ShowAndGetResult<Controller>(out otherController);
+            NextController = otherController; // Alleen als extra optie gekozen is
+
+            if (selectedTour != null)
+                NextController = new RequestAuthenticationController(selectedTour);
         }
     }
 }
