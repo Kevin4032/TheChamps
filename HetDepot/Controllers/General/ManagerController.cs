@@ -1,4 +1,5 @@
-﻿using HetDepot.Tours.Model;
+﻿using HetDepot.Controllers.Manager;
+using HetDepot.Tours.Model;
 using HetDepot.Views;
 using HetDepot.Views.Interface;
 using HetDepot.Views.Parts;
@@ -13,12 +14,10 @@ public class ManagerController : Controller
             Program.SettingService.GetConsoleText("consoleEnterPersonnelCode"),
             Program.SettingService.GetConsoleText("consoleGuidePersonnelNumber"))
         ).ShowAndGetResult();
-        
+
         if (true) // TODO Check if personnelCode is valid
         {
-            
-            
-            
+            NextController = new ManagerDaysOverview();
         }
     }
 }
