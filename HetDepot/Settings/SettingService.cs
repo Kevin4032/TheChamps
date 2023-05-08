@@ -13,6 +13,7 @@ namespace HetDepot.Settings
         private Setting _settings;
         private IRepository _repository;
         private IDepotErrorLogger _errorLogger;
+        public const string TourFilePrefix = "tours_";
 
         public SettingService(IRepository repository, IDepotErrorLogger errorLogger)
         {
@@ -62,7 +63,7 @@ namespace HetDepot.Settings
             {
                 Directory.CreateDirectory(settingsDir);
             }
-            
+
             if (File.Exists(path))
             {
                 // Do not generate tours
@@ -95,7 +96,7 @@ namespace HetDepot.Settings
             return;
         }
 
-        private static string GetSettingDir()
+        public static string GetSettingDir()
         {
             // Create the tours file for today is it does not exist
             string workingDir = Directory.GetCurrentDirectory();
@@ -107,7 +108,7 @@ namespace HetDepot.Settings
         private static string GetToursFilename()
         {
             DateTime today = DateTime.Today;
-            return $"tours_{today.Day}_{today.Month}_{today.Year}.json";
+            return $"{TourFilePrefix}{today.Day}_{today.Month}_{today.Year}.json";
         }
 
         public static string GetToursPath()
