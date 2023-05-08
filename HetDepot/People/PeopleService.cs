@@ -38,7 +38,21 @@ namespace HetDepot.People
         /// <exception cref="NullReferenceException">
         /// Thrown when no id found
         /// </exception>
-        public Guide GetGuide() => _people.FirstOrDefault(p => p.GetType() == typeof(Guide)) as Guide ?? throw new NullReferenceException("No Guide Found");
+        public Guide GetGuide()
+        {
+            var guides = _people.Where(p => p.GetType() == typeof(Guide));
+
+            //if (guides.Count() > 1)
+            //    throw new NullReferenceException("Te veel Gidsen opgevoerd in ExampleGuide.json, er mag maar 1 Gids zijn opgevoerd.");
+
+            var hoi = guides.GroupBy(p => p.Id);
+            foreach (var q in hoi)
+                Console.WriteLine(q);
+
+            Console.ReadLine();
+
+            return _people.FirstOrDefault(p => p.GetType() == typeof(Guide)) as Guide ?? throw new NullReferenceException("No Guide Found");
+        }
         /// <exception cref="NullReferenceException">
         /// Thrown when no id found
         /// </exception>

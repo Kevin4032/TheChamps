@@ -34,8 +34,8 @@ namespace HetDepot.Persistence
             var result = new List<Person>();
 
             result.AddRange(GetPeople<Guide>(_guidesPath));
-            result.AddRange(GetPeople<Manager>(_managersPath));
-            result.AddRange(GetPeople<Visitor>(_visitorsPath));
+            //result.AddRange(GetPeople<Manager>(_managersPath));
+            //result.AddRange(GetPeople<Visitor>(_visitorsPath));
 
             return result;
         }
@@ -80,6 +80,11 @@ namespace HetDepot.Persistence
 
             foreach (var person in people)
             {
+                if (result.Contains(person))
+                    Console.WriteLine($"dubbeleid: {person.Id}");
+
+                Console.WriteLine($"REPO: {person.Id}");
+
                 if (_validator.ValidForAdministration(person))
                     result.Add(person);
                 else
