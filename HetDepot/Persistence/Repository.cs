@@ -27,6 +27,30 @@ namespace HetDepot.Persistence
             _visitorsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleVisitor.json");
             _settingsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleSettings.json");
             _toursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleTours.json");
+
+            CheckPaths();
+        }
+
+        private void CheckPaths()
+        {
+            if (!File.Exists(_guidesPath))
+                LogError(_guidesPath);
+
+            if (!File.Exists(_managersPath))
+                LogError(_managersPath);
+
+            if (!File.Exists(_visitorsPath))
+                LogError(_visitorsPath);
+
+            if (!File.Exists(_settingsPath))
+                LogError(_settingsPath);
+        }
+
+        private void LogError(string path)
+        {
+            var eMsg = $"Pad bestaat niet - {path}";
+            _errorLogger.LogError(eMsg);
+            throw new NullReferenceException(eMsg);
         }
 
         public List<Person> GetPeople()
@@ -76,14 +100,24 @@ namespace HetDepot.Persistence
         private List<T> GetPeople<T>(string path) where T : Person
         {
             var people = _depotDataReadWrite.Read<List<T>>(path);
+
+            if (people == null)
+            {
+                throw new NullReferenceException($"Bestand niet in orde - {path}");
+            }
+
             var result = new List<T>();
 
             foreach (var person in people)
             {
-                if (_validator.ValidForAdministration(person))
+                var alreadyHasPerson = result.Contains(person);
+                if (alreadyHasPerson)
+                    _errorLogger.LogError($"Dubbele ID - {person.GetType()} - {person.Id}");
+
+                if (_validator.ValidForAdministration(person) && !alreadyHasPerson)
                     result.Add(person);
                 else
-                    _errorLogger.LogError($"Onjuiste data - {person.GetType()} - {person.Id}");
+                    _errorLogger.LogError($"Onjuiste ID - {person.GetType()} - {person.Id}");
             }
 
             return result;
