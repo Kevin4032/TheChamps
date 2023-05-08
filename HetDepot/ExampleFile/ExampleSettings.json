@@ -42,7 +42,14 @@
     "consoleVisitorReservationForGroupQuestion": "Nog iemand aanmelden voor de rondleiding?",
     "consoleVisitorReservationForGroupSubquestion": "Nog {FreeSpaces} plek(ken) beschikbaar",
     "consoleHomeLoginAsGuide": "Inloggen als gids",
-    "consoleHomeLoginAsManager": "Inloggen als afdelingshoofd"
+    "consoleHomeLoginAsManager": "Inloggen als afdelingshoofd",
+    "managerOccupancyForDayTitle": "Bezettingsgraad voor {date}",
+    "managerSelectDayQuestion": "Selecteer een dag om bezettingsgraad in te zien",
+    "backToHome": "Terug naar home",
+    "backToOverview": "Terug naar overzicht",
+    "reservations": "Reserveringen",
+    "admissions": "Aanmeldingen",
+    "managerTypeQuestion": "Welke gegevens wilt u bekijken?"
   },
   "TourTimes": [
     "11:00",
