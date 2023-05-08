@@ -32,6 +32,7 @@ internal class Program
     {
         ErrorLogger = new DepotErrorLogger(new DepotErrorJson());
         Repository repository = null;
+        
         try
         {
             repository = new Repository(new DepotJson(ErrorLogger), ErrorLogger, new DepotDataValidator());
@@ -43,7 +44,15 @@ internal class Program
 
         // Het idee van Services is toch dat ze overal beschikbaar zijn? Daarom hier naartoe verplaatst vanuit Controller (Ruben)
         SettingService = new SettingService(repository, ErrorLogger);
-        PeopleService = new PeopleService(repository, ErrorLogger);
+
+        try
+        {
+            PeopleService = new PeopleService(repository, ErrorLogger);
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+        }
 
         // Controle dat data correct is
         CheckProperInit();

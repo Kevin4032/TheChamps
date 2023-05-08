@@ -100,6 +100,12 @@ namespace HetDepot.Persistence
         private List<T> GetPeople<T>(string path) where T : Person
         {
             var people = _depotDataReadWrite.Read<List<T>>(path);
+
+            if (people == null)
+            {
+                throw new NullReferenceException($"Bestand niet in orde - {path}");
+            }
+
             var result = new List<T>();
 
             foreach (var person in people)
