@@ -42,20 +42,28 @@ namespace HetDepot.People
         {
             var guides = _people.Where(p => p.GetType() == typeof(Guide));
 
-            //if (guides.Count() > 1)
-            //    throw new NullReferenceException("Te veel Gidsen opgevoerd in ExampleGuide.json, er mag maar 1 Gids zijn opgevoerd.");
+            if (guides.Count() > 1)
+                LogError("Te veel Gidsen opgevoerd in ExampleGuide.json, er mag maar 1 Gids zijn opgevoerd.");
 
-            var hoi = guides.GroupBy(p => p.Id);
-            foreach (var q in hoi)
-                Console.WriteLine(q);
-
-            Console.ReadLine();
-
-            return _people.FirstOrDefault(p => p.GetType() == typeof(Guide)) as Guide ?? throw new NullReferenceException("No Guide Found");
+            return _people.FirstOrDefault(p => p.GetType() == typeof(Guide)) as Guide ?? throw new NullReferenceException("Geen gids gevonden.");
         }
         /// <exception cref="NullReferenceException">
         /// Thrown when no id found
         /// </exception>
-        public Manager GetManager() => _people.FirstOrDefault(p => p.GetType() == typeof(Manager)) as Manager ?? throw new NullReferenceException("No Manager Found");
+        public Manager GetManager()
+        {
+            var managers = _people.Where(p => p.GetType() == typeof(Manager));
+
+            if (managers.Count() > 1)
+                LogError("Te veel Afdelingshoofden opgevoerd in ExampleManager.json, er mag maar 1 Afdelingshoofd zijn opgevoerd.");
+
+            return _people.FirstOrDefault(p => p.GetType() == typeof(Manager)) as Manager ?? throw new NullReferenceException("Geen afdelingshoofd gevonden.");
+        }
+
+        private void LogError(string eMsg)
+        {
+            _errorLogger.LogError(eMsg);
+            throw new NullReferenceException(eMsg);
+        }
     }
 }

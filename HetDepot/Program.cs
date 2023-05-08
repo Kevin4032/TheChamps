@@ -1,7 +1,6 @@
 namespace HetDepot;
 
 using HetDepot.Controllers;
-using HetDepot.Controllers.Tests;
 using HetDepot.Errorlogging;
 using HetDepot.People;
 using HetDepot.Persistence;
@@ -49,6 +48,7 @@ internal class Program
         CheckVisitors();
         CheckGuide();
         CheckManager();
+        ManagerAndGuideSameId();
     }
 
     private static void CheckVisitors()
@@ -64,7 +64,7 @@ internal class Program
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
-            Console.WriteLine("Please look at 'Errorlog.txt' and fix the ExampleVisitors.json");
+            Console.WriteLine("Zie 'Errorlog.txt' en los het probleem op in ExampleVisitors.json");
             Environment.Exit(1);
         }
     }
@@ -78,7 +78,7 @@ internal class Program
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
-            Console.WriteLine("Please look at 'Errorlog.txt' and fix the ExampleGuide.json");
+            Console.WriteLine("Zie 'Errorlog.txt' en los het probleem op in ExampleGuide.json");
             Environment.Exit(1);
         }
     }
@@ -92,7 +92,7 @@ internal class Program
         catch (Exception ex)
         {
             Console.WriteLine(ex.Message);
-            Console.WriteLine("Please look at 'Errorlog.txt' and fix the ExampleManager.json");
+            Console.WriteLine("Zie 'Errorlog.txt' en los het probleem op in ExampleManager.json");
             Environment.Exit(1);
         }
     }
@@ -112,6 +112,20 @@ internal class Program
             // Set up the next controller (the "NextController" that was set by the controller that just executed, or else the default controller if NextController is null)
             CurrentController = Controller.NextController ?? _createDefaultController();
             Controller.ResetNextController(); // Reset NextController to null
+        }
+    }
+
+    private static void ManagerAndGuideSameId()
+    {
+        var guide = PeopleService.GetGuide();
+        var manager = PeopleService.GetManager();
+
+        if (guide.Equals(manager))
+        {
+            ErrorLogger.LogError("ID van Gids en Afdelingshoofd is gelijk. Zie ExampleManager.json / ExampleGuide.json");
+            Console.WriteLine("ID van Gids en Afdelingshoofd is gelijk.");
+            Console.WriteLine("Zie 'Errorlog.txt' en los het probleem op in ExampleManager.json / ExampleGuide.json");
+            Environment.Exit(1);
         }
     }
 }

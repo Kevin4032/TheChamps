@@ -34,8 +34,8 @@ namespace HetDepot.Persistence
             var result = new List<Person>();
 
             result.AddRange(GetPeople<Guide>(_guidesPath));
-            //result.AddRange(GetPeople<Manager>(_managersPath));
-            //result.AddRange(GetPeople<Visitor>(_visitorsPath));
+            result.AddRange(GetPeople<Manager>(_managersPath));
+            result.AddRange(GetPeople<Visitor>(_visitorsPath));
 
             return result;
         }
@@ -80,15 +80,14 @@ namespace HetDepot.Persistence
 
             foreach (var person in people)
             {
-                if (result.Contains(person))
-                    Console.WriteLine($"dubbeleid: {person.Id}");
+                var alreadyHasPerson = result.Contains(person);
+                if (alreadyHasPerson)
+                    _errorLogger.LogError($"Dubbele ID - {person.GetType()} - {person.Id}");
 
-                Console.WriteLine($"REPO: {person.Id}");
-
-                if (_validator.ValidForAdministration(person))
+                if (_validator.ValidForAdministration(person) && !alreadyHasPerson)
                     result.Add(person);
                 else
-                    _errorLogger.LogError($"Onjuiste data - {person.GetType()} - {person.Id}");
+                    _errorLogger.LogError($"Onjuiste ID - {person.GetType()} - {person.Id}");
             }
 
             return result;
