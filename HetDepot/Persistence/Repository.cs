@@ -31,11 +31,6 @@ namespace HetDepot.Persistence
             _toursPath = SettingService.GetToursPath();
         }
 
-        public void TestErrorlog()
-        {
-            _errorLogger.LogError("Test error in repository.");
-        }
-
         public List<Person> GetPeople()
         {
             var result = new List<Person>();
@@ -101,7 +96,7 @@ namespace HetDepot.Persistence
                 if (_validator.ValidForAdministration(person))
                     result.Add(person);
                 else
-                    _errorLogger.LogError($"Onjuiste bezoekerdata - {person.Id}");
+                    _errorLogger.LogError($"Onjuiste data - {person.GetType()} - {person.Id}");
             }
 
             return result;
