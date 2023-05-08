@@ -17,8 +17,8 @@ public class ReservationForGroupController : Controller
     public override void Execute()
     {
         // Update tour to have the latest data
-        _tour = Program.TourService.getTourByStartTime(_tour.StartTime);
-        
+        _tour = Program.TourService.GetTourByStartTime(_tour.StartTime);
+
         int freeTourSpaces = _tour.FreeSpaces();
 
         if (freeTourSpaces <= 0)
@@ -52,7 +52,7 @@ public class ReservationForGroupController : Controller
             NextController = new ShowToursController();
             return;
         }
-        
+
         NextController = new RequestAuthenticationController(_tour, true);
     }
 }
