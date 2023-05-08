@@ -299,7 +299,7 @@ class KevinsTestController : Controller
         Console.WriteLine("===========================================");
         Console.WriteLine("==                Errorlog               ==");
         Console.WriteLine("===========================================");
-        repository.TestErrorlog();
+        
 
         var errorz = File.ReadAllLines(Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleErrorlog.txt"));
 

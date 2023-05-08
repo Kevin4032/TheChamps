@@ -13,8 +13,6 @@ namespace HetDepot.Persistence
         private string _settingsPath;
         private string _toursPath;
 
-        private string _kapotToursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleToursBestaatniet.json");
-
         private IDepotDataReadWrite _depotDataReadWrite;
         private IDepotErrorLogger _errorLogger;
         private IDepotDataValidator _validator;
@@ -31,11 +29,6 @@ namespace HetDepot.Persistence
             _toursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleTours.json");
         }
 
-        public void TestErrorlog()
-        {
-            _errorLogger.LogError("Test error in repository.");
-        }
-
         public List<Person> GetPeople()
         {
             var result = new List<Person>();
@@ -50,7 +43,7 @@ namespace HetDepot.Persistence
         {
             var result = new List<Tour>();
 
-            var tours = _depotDataReadWrite.Read<List<TourJsonModel>>(_kapotToursPath);
+            var tours = _depotDataReadWrite.Read<List<TourJsonModel>>(_toursPath);
 
             if (tours == null)
                 return result;
@@ -77,7 +70,7 @@ namespace HetDepot.Persistence
                 throw new NullReferenceException("No object to write");
 
             if (objectToWrite.GetType() == typeof(List<Tour>))
-                _depotDataReadWrite.Write(_kapotToursPath, objectToWrite);
+                _depotDataReadWrite.Write(_toursPath, objectToWrite);
         }
 
         private List<T> GetPeople<T>(string path) where T : Person
@@ -90,7 +83,7 @@ namespace HetDepot.Persistence
                 if (_validator.ValidForAdministration(person))
                     result.Add(person);
                 else
-                    _errorLogger.LogError($"Onjuiste bezoekerdata - {person.Id}");
+                    _errorLogger.LogError($"Onjuiste data - {person.GetType()} - {person.Id}");
             }
 
             return result;
