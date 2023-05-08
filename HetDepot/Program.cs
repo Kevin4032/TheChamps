@@ -31,7 +31,15 @@ internal class Program
     static Program()
     {
         ErrorLogger = new DepotErrorLogger(new DepotErrorJson());
-        var repository = new Repository(new DepotJson(ErrorLogger), ErrorLogger, new DepotDataValidator());
+        Repository repository = null;
+        try
+        {
+            repository = new Repository(new DepotJson(ErrorLogger), ErrorLogger, new DepotDataValidator());
+        }
+        catch (Exception ex)
+        {
+            LogError(ex);
+        }
 
         // Het idee van Services is toch dat ze overal beschikbaar zijn? Daarom hier naartoe verplaatst vanuit Controller (Ruben)
         SettingService = new SettingService(repository, ErrorLogger);
@@ -41,6 +49,13 @@ internal class Program
         CheckProperInit();
 
         TourService = new TourService(repository, ErrorLogger);
+    }
+
+    private static void LogError(Exception ex)
+    {
+        Console.WriteLine(ex.Message);
+        Console.WriteLine("Zie 'Errorlog.txt' en los het probleem op");
+        Environment.Exit(1);
     }
 
     private static void CheckProperInit()
@@ -58,14 +73,12 @@ internal class Program
             var visitorCount = Program.PeopleService.GetVisitors().Count;
             if (visitorCount == 0)
             {
-                throw new Exception("No Visitor Found");
+                throw new Exception("Geen bezoekers gevonden, zie ExampleVisitors.json");
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
-            Console.WriteLine("Zie 'Errorlog.txt' en los het probleem op in ExampleVisitors.json");
-            Environment.Exit(1);
+            LogError(ex);
         }
     }
 
@@ -77,9 +90,7 @@ internal class Program
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
-            Console.WriteLine("Zie 'Errorlog.txt' en los het probleem op in ExampleGuide.json");
-            Environment.Exit(1);
+            LogError(ex);
         }
     }
 
@@ -91,9 +102,7 @@ internal class Program
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message);
-            Console.WriteLine("Zie 'Errorlog.txt' en los het probleem op in ExampleManager.json");
-            Environment.Exit(1);
+            LogError(ex);
         }
     }
 
@@ -124,7 +133,7 @@ internal class Program
         {
             ErrorLogger.LogError("ID van Gids en Afdelingshoofd is gelijk. Zie ExampleManager.json / ExampleGuide.json");
             Console.WriteLine("ID van Gids en Afdelingshoofd is gelijk.");
-            Console.WriteLine("Zie 'Errorlog.txt' en los het probleem op in ExampleManager.json / ExampleGuide.json");
+            Console.WriteLine("Zie 'Errorlog.txt' en los het probleem op.");
             Environment.Exit(1);
         }
     }

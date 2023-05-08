@@ -27,6 +27,30 @@ namespace HetDepot.Persistence
             _visitorsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleVisitor.json");
             _settingsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleSettings.json");
             _toursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleTours.json");
+
+            CheckPaths();
+        }
+
+        private void CheckPaths()
+        {
+            if (!File.Exists(_guidesPath))
+                LogError(_guidesPath);
+
+            if (!File.Exists(_managersPath))
+                LogError(_managersPath);
+
+            if (!File.Exists(_visitorsPath))
+                LogError(_visitorsPath);
+
+            if (!File.Exists(_settingsPath))
+                LogError(_settingsPath);
+        }
+
+        private void LogError(string path)
+        {
+            var eMsg = $"Pad bestaat niet - {path}";
+            _errorLogger.LogError(eMsg);
+            throw new NullReferenceException(eMsg);
         }
 
         public List<Person> GetPeople()
