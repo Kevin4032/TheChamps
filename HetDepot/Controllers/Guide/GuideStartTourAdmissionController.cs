@@ -36,6 +36,18 @@ class GuideStartTourAdmissionController : Controller
         if (_tour.Admissions.Count == 0)
         {
             personIDToVerify = new InputView(countZero, message).ShowAndGetResult();
+
+/*             ListView<bool> goBack = new("terug", new List<ListableItem<bool>>()
+            {
+                new ListViewItem<bool>("terug", true),
+                //new ListViewItem<bool>("Nee", false),
+            });
+            bool replacePrev = goBack.ShowAndGetResult();
+            if (replacePrev == false)
+            {
+                NextController = new ShowToursController();
+            
+            } */
         }
         
         else if (_tour.Admissions.Count == 1)
@@ -68,9 +80,9 @@ class GuideStartTourAdmissionController : Controller
 
         }
         //check of PersonIDToverify een reservering heeft:
-        else if (Program.TourService.HasReservation(new Visitor(personIDToVerify)))
+        else if (Program.TourService.HasReservation(Program.PeopleService.GetVisitorById(personIDToVerify)))
         {
-            _tour.AddAdmission(new Visitor(personIDToVerify));
+            _tour.AddAdmission(Program.PeopleService.GetVisitorById(personIDToVerify));
             //TODO: voer piepgeluid uit
             //Moet deze reservering gemarkeerd worden als gebruikt?
             // Aanmelden voor deze rondleiding
