@@ -76,7 +76,6 @@ namespace HetDepot.Tours.Model
              * worden.
              */
 
-            var settingService = Program.SettingService;
             var freeSpaces = FreeSpaces();
             var spacesString = freeSpaces <= 0 ? "consoleTourNoFreeSpaces" : (freeSpaces == 1 ? "consoleTourOneFreeSpace" : "consoleTourFreeSpaces");
 
