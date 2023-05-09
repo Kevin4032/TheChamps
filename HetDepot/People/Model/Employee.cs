@@ -4,6 +4,7 @@
     {
         public Employee(string id) : base(id)
         {
+
         }
     }
 }
