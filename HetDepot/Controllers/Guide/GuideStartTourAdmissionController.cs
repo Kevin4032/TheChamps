@@ -4,7 +4,7 @@ using HetDepot.Tours.Model;
 using HetDepot.Views;
 using HetDepot.Views.Interface;
 using HetDepot.Views.Parts;
-
+using System.Media;
 
 namespace HetDepot.Controllers;
 
@@ -79,11 +79,13 @@ class GuideStartTourAdmissionController : Controller
             NextController = new ShowToursController();
 
         }
-        //check of PersonIDToverify een reservering heeft:
-        else if (Program.TourService.HasReservation(Program.PeopleService.GetVisitorById(personIDToVerify)))
+        //Om toegelaten te worden tot de tour, moet visitor een reservering hebben, en nog geen admission hebben gehad:
+        else if (Program.TourService.HasReservation(Program.PeopleService.GetVisitorById(personIDToVerify)) && (Program.TourService.HasAdmission(Program.PeopleService.GetVisitorById(personIDToVerify)) == false))
         {
+            //the tour person now has admission:
             _tour.AddAdmission(Program.PeopleService.GetVisitorById(personIDToVerify));
-            //TODO: voer piepgeluid uit
+            //a console beep is played as confirmation:
+            System.Console.Beep();
             
             //Moet deze reservering gemarkeerd worden als gebruikt?
             // Aanmelden voor deze rondleiding
