@@ -84,6 +84,7 @@ class GuideStartTourAdmissionController : Controller
         {
             _tour.AddAdmission(Program.PeopleService.GetVisitorById(personIDToVerify));
             //TODO: voer piepgeluid uit
+            
             //Moet deze reservering gemarkeerd worden als gebruikt?
             // Aanmelden voor deze rondleiding
             var message_success = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeValid");
