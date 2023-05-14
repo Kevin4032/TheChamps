@@ -7,10 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HetDepot", "HetDepot\HetDep
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A48A32A0-7813-4024-9EB9-8BB4B169A7B2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HetDepotUnitTests", "HetDepotUnitTests\HetDepotUnitTests.csproj", "{086461A2-ABC2-4AF7-A7D4-6575C3B6FC4C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{8DFF8B51-B8EF-4FC6-A8E5-F1A19C2D7F17}"
 	ProjectSection(SolutionItems) = preProject
+		CodeConventions.md = CodeConventions.md
+		Controllers.md = Controllers.md
 		Glossary.md = Glossary.md
 		Services.md = Services.md
 	EndProjectSection
@@ -25,10 +25,6 @@ Global
 		{6D92DAEC-0FB8-44C2-9F34-5B877D80D9DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D92DAEC-0FB8-44C2-9F34-5B877D80D9DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D92DAEC-0FB8-44C2-9F34-5B877D80D9DC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{086461A2-ABC2-4AF7-A7D4-6575C3B6FC4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{086461A2-ABC2-4AF7-A7D4-6575C3B6FC4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{086461A2-ABC2-4AF7-A7D4-6575C3B6FC4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{086461A2-ABC2-4AF7-A7D4-6575C3B6FC4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
