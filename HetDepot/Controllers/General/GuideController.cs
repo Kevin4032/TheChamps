@@ -1,7 +1,4 @@
-﻿using HetDepot.Tours.Model;
-using HetDepot.Views;
-using HetDepot.Views.Interface;
-using HetDepot.Views.Parts;
+﻿using HetDepot.Views;
 
 namespace HetDepot.Controllers;
 

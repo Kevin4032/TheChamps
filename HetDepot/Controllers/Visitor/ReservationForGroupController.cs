@@ -1,5 +1,4 @@
-﻿using HetDepot.People.Model;
-using HetDepot.Tours.Model;
+﻿using HetDepot.Tours.Model;
 using HetDepot.Views;
 using HetDepot.Views.Parts;
 
