@@ -1,4 +1,5 @@
-﻿using HetDepot.Tours.Model;
+using HetDepot.Controllers.General;
+using HetDepot.Tours.Model;
 using HetDepot.Views;
 using HetDepot.Views.Interface;
 using HetDepot.Views.Parts;
@@ -27,8 +28,9 @@ namespace HetDepot.Controllers
                 tour.FreeSpaces == 0 // Disabled (niet selecteerbaar) als er geen vrije plaatsen zijn
             )).ToList();
 
-            // Extra optie "Inloggen als gids":
+            // Extra opties "Inloggen als gids" en "Inloggen als afdelingshoofd":
             tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("consoleGuideLogin"), () => new GuideController()));
+            tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("consoleHomeLoginAsManager"), () => new ManagerController()));
 
             //TODO: Opmerking Kevin: Als alle rondleidingen vol zitten, 'hangt' de interface
             ListView<Tour> tourOverviewVisitorWithInterface = new(Program.SettingService.GetConsoleText("consoleWelcome"), tourList);

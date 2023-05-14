@@ -15,7 +15,7 @@ class GuideNoReservationsForThisTourController : Controller
         var pressedH = Console.ReadLine();
         if (pressedH == "H" || pressedH == "h")
         {
-            NextController = new GuideController();
+            NextController = new GuideShowAndSelectTourController();
         }
 
         // NextController = new SomeOtherController();

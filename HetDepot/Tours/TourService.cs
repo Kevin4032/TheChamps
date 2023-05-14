@@ -71,10 +71,17 @@ namespace HetDepot.Tours
             return false;
         }
 
-        public Tour? getTourByStartTime(DateTime startTime)
+        public Tour? GetTourByStartTime(DateTime startTime)
         {
             _tours = GetTours();
             return _tours.Single(t => t.StartTime == startTime);
+        }
+
+        public List<List<Tour>> GetAllTours()
+        {
+            var tours = _repository.GetAllTours();
+
+            return tours;
         }
 
         private bool ToursUpdateInvokeMethod(Tour tour, Visitor visitor, string method)
@@ -121,7 +128,7 @@ namespace HetDepot.Tours
 
             foreach (var time in tourTimes)
             {
-                tours.Add(new Tour(DateTime.Parse(time), guide, maxReservations, new List<Visitor>(), new List<Visitor>()));
+                tours.Add(new Tour(DateTime.Parse(time), maxReservations, new List<Visitor>(), new List<Visitor>()));
             }
 
             return tours;

@@ -13,8 +13,9 @@ namespace HetDepot.Tours
         Tour? GetReservation(Visitor visitor);
         bool HasReservation(Visitor visitor);
         bool HasAdmission(Visitor visitor);
-        Tour? getTourByStartTime(DateTime startTime);
+        Tour? GetTourByStartTime(DateTime startTime);
         Tour? GetNextTour();
+        List<List<Tour>> GetAllTours();
 
     }
 }
