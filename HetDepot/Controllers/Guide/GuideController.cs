@@ -28,7 +28,7 @@ public class GuideController : Controller
         bool isGuide = personnelCode == guide.Id;
 
 
-        if (isGuide) // TODO Check if personnelCode is valid
+        if (isGuide)
         {
             // TODO: Create Tour overview
             //(new AlertView("TODO: Create Tour overview", AlertView.Info)).Show();
@@ -37,7 +37,7 @@ public class GuideController : Controller
         }
         else if (isGuide == false)
         {
-            NextController = new StaffInvalidLoginController();
+            NextController = new EmployeeInvalidLoginController();
         }
 
     }

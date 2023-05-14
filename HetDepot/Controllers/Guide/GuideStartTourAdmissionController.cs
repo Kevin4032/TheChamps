@@ -4,6 +4,7 @@ using HetDepot.Tours.Model;
 using HetDepot.Views;
 using HetDepot.Views.Interface;
 using HetDepot.Views.Parts;
+using System.Media;
 
 
 namespace HetDepot.Controllers;
@@ -36,18 +37,6 @@ class GuideStartTourAdmissionController : Controller
         if (_tour.Admissions.Count == 0)
         {
             personIDToVerify = new InputView(countZero, message).ShowAndGetResult();
-
-/*             ListView<bool> goBack = new("terug", new List<ListableItem<bool>>()
-            {
-                new ListViewItem<bool>("terug", true),
-                //new ListViewItem<bool>("Nee", false),
-            });
-            bool replacePrev = goBack.ShowAndGetResult();
-            if (replacePrev == false)
-            {
-                NextController = new ShowToursController();
-            
-            } */
         }
         
         else if (_tour.Admissions.Count == 1)
@@ -61,9 +50,6 @@ class GuideStartTourAdmissionController : Controller
         // var personIDToVerify = new InputView($"{_tour.Admissions.Count} bezoekers hebben zich aangemeld.", message).ShowAndGetResult();
         //Print: Aanmelden voor deze reservering. Voer jouw unieke code in:
 
-        //var AdmissionOptions = new List<string> {title,message};
-    
-        //var personIDToVerify = new InputView(title,message).ShowAndGetResult();
         
 
          
@@ -77,13 +63,20 @@ class GuideStartTourAdmissionController : Controller
             var message_Tour_Starts = Program.SettingService.GetConsoleText("consoleGuideTourAllReservationsValidated");
             new AlertView(message_Tour_Starts, ConsoleColor.Blue).Show();
             NextController = new ShowToursController();
-
         }
-        //check of PersonIDToverify een reservering heeft:
-        else if (Program.TourService.HasReservation(Program.PeopleService.GetVisitorById(personIDToVerify)))
+        
+        //Om toegelaten te worden tot de tour, moet visitor een reservering hebben, en nog geen admission hebben gehad:
+
+        //Getvisitor aanroepen met PersonIDtoVerify geeft een Null Reference exception. 
+        //Daarom verander ik het weer naar method aanroepen met nieuwe instance van visitor. 
+        //else if (Program.TourService.HasReservation(Program.PeopleService.GetVisitorById(personIDToVerify)) && (Program.TourService.HasAdmission(Program.PeopleService.GetVisitorById(personIDToVerify)) == false))
+        else if (Program.TourService.HasReservation(new Visitor(personIDToVerify)) && (Program.TourService.HasAdmission(Program.PeopleService.GetVisitorById(personIDToVerify)) == false))
         {
+            //the tour person now has admission:
             _tour.AddAdmission(Program.PeopleService.GetVisitorById(personIDToVerify));
-            //TODO: voer piepgeluid uit
+            //a console beep is played as confirmation:
+            System.Console.Beep();
+            
             //Moet deze reservering gemarkeerd worden als gebruikt?
             // Aanmelden voor deze rondleiding
             var message_success = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeValid");
@@ -107,6 +100,11 @@ class GuideStartTourAdmissionController : Controller
             //Doorgaan met volgende aanmelding:
             NextController = this;
         }
+        //als visitor ID geldig is, maar er geen reservering is:
+        else if (Program.PeopleService.GetVisitorById != null)
+        {
+            NextController = new GuideReservationCreateController(_tour, new Visitor(personIDToVerify));
+        }
         else 
         //Als niet alles afgevangen kan worden door de twee hierboven, bijvoorbeeld als code al gebruikt is, of code is geldig maar heeft geen 
         //Reservering, dan moet hieronder de reden aangepast worden.
@@ -114,7 +112,7 @@ class GuideStartTourAdmissionController : Controller
         {
             string message_problem_a = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeNotValid");
             string message_problem_b =  Program.SettingService.GetConsoleText("consoleVisitorLogonCodeInvalid");
-            string message_problem_c = message_problem_a + message_problem_b;
+            string message_problem_c = message_problem_a + ". " + message_problem_b;
             new AlertView(message_problem_c.ToString(), ConsoleColor.Red).Show();
             //Doorgaan met volgende aanmelding:
             NextController = this;
