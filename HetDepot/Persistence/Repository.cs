@@ -13,8 +13,6 @@ namespace HetDepot.Persistence
         private string _settingsPath;
         private string _toursPath;
 
-        private string _kapotToursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleToursBestaatniet.json");
-
         private IDepotDataReadWrite _depotDataReadWrite;
         private IDepotErrorLogger _errorLogger;
         private IDepotDataValidator _validator;
@@ -29,11 +27,30 @@ namespace HetDepot.Persistence
             _visitorsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleVisitor.json");
             _settingsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleSettings.json");
             _toursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleTours.json");
+
+            CheckPaths();
         }
 
-        public void TestErrorlog()
+        private void CheckPaths()
         {
-            _errorLogger.LogError("Test error in repository.");
+            if (!File.Exists(_guidesPath))
+                LogError(_guidesPath);
+
+            if (!File.Exists(_managersPath))
+                LogError(_managersPath);
+
+            if (!File.Exists(_visitorsPath))
+                LogError(_visitorsPath);
+
+            if (!File.Exists(_settingsPath))
+                LogError(_settingsPath);
+        }
+
+        private void LogError(string path)
+        {
+            var eMsg = $"Pad bestaat niet - {path}";
+            _errorLogger.LogError(eMsg);
+            throw new NullReferenceException(eMsg);
         }
 
         public List<Person> GetPeople()
@@ -50,7 +67,7 @@ namespace HetDepot.Persistence
         {
             var result = new List<Tour>();
 
-            var tours = _depotDataReadWrite.Read<List<TourJsonModel>>(_kapotToursPath);
+            var tours = _depotDataReadWrite.Read<List<TourJsonModel>>(_toursPath);
 
             if (tours == null)
                 return result;
@@ -77,20 +94,30 @@ namespace HetDepot.Persistence
                 throw new NullReferenceException("No object to write");
 
             if (objectToWrite.GetType() == typeof(List<Tour>))
-                _depotDataReadWrite.Write(_kapotToursPath, objectToWrite);
+                _depotDataReadWrite.Write(_toursPath, objectToWrite);
         }
 
         private List<T> GetPeople<T>(string path) where T : Person
         {
             var people = _depotDataReadWrite.Read<List<T>>(path);
+
+            if (people == null)
+            {
+                throw new NullReferenceException($"Bestand niet in orde - {path}");
+            }
+
             var result = new List<T>();
 
             foreach (var person in people)
             {
-                if (_validator.ValidForAdministration(person))
+                var alreadyHasPerson = result.Contains(person);
+                if (alreadyHasPerson)
+                    _errorLogger.LogError($"Dubbele ID - {person.GetType()} - {person.Id}");
+
+                if (_validator.ValidForAdministration(person) && !alreadyHasPerson)
                     result.Add(person);
                 else
-                    _errorLogger.LogError($"Onjuiste bezoekerdata - {person.Id}");
+                    _errorLogger.LogError($"Onjuiste ID - {person.GetType()} - {person.Id}");
             }
 
             return result;

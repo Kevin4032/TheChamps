@@ -10,8 +10,8 @@ namespace HetDepot.Persistence
 
         public DepotDataValidator()
         {
-            _employeeCheckId = new Regex(@"^[dD]\d{10}");
-            _visitorCheckId = new Regex(@"^[eE]\d{10}");
+            _employeeCheckId = new Regex(@"^[dD]\d{10}$");
+            _visitorCheckId = new Regex(@"^[eE]\d{10}$");
         }
 
         public bool ValidForAdministration<T>(T dataToValidate) where T : Person
