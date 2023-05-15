@@ -28,18 +28,18 @@ class GuideStartTourAdmissionController : Controller
         string countZero = Program.SettingService.GetConsoleText("consoleGuideTourAdmissionCountZero");
         string countOne = Program.SettingService.GetConsoleText("consoleGuideTourAdmissionCountOne");
         string countMulA = Program.SettingService.GetConsoleText("consoleGuideTourAdmissionCountMultiple");
-        string countMul = $"{_tour.Admissions.Count} {countMulA}";
+        string countMul = $"{_tour.Reservations.Count} {countMulA}";
         //string countMul = Program.SettingService.GetConsoleText("consoleGuideTourAdmissionCountMultiple");
 
         var personIDToVerify = string.Empty;
         
         
-        if (_tour.Admissions.Count == 0)
+        if (_tour.Reservations.Count == 0)
         {
             personIDToVerify = new InputView(countZero, message).ShowAndGetResult();
         }
         
-        else if (_tour.Admissions.Count == 1)
+        else if (_tour.Reservations.Count == 1)
         {
             personIDToVerify = new InputView(countOne, message).ShowAndGetResult();
         }
