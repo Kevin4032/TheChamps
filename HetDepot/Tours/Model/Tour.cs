@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Text.Json.Serialization;
 using HetDepot.People.Model;
 using HetDepot.Views.Interface;
@@ -13,17 +14,15 @@ namespace HetDepot.Tours.Model
         private int _maxReservations;
 
         [JsonConstructor]
-        public Tour(DateTime startTime, Guide guide, int maxReservations, List<Visitor> reservations, List<Visitor> admissions)
+        public Tour(DateTime startTime, int maxReservations, List<Visitor> reservations, List<Visitor> admissions)
         {
             StartTime = startTime;
             _reservations = reservations;
             _admissions = admissions;
             _maxReservations = maxReservations;
-            Guide = guide;
-        }
+		}
 
         public DateTime StartTime { get; private set; }
-        public Guide Guide { get; set; }
         public int MaxReservations { get { return _maxReservations; } }
         public ReadOnlyCollection<Visitor> Reservations
         {
@@ -37,7 +36,6 @@ namespace HetDepot.Tours.Model
 
         public string GetTime() => StartTime.ToString("H:mm");
         public int FreeSpaces() => Math.Max(0, _maxReservations - Reservations.Count);
-
         public override string ToString() => GetTime();
 
         public bool AddReservation(Visitor visitor)
@@ -93,5 +91,30 @@ namespace HetDepot.Tours.Model
                 freeSpaces <= 0
             );
         }
+
+        public string getYearAndWeek()
+        {
+            /* Used for manager statistics */
+
+            return "Week " + GetIso8601WeekOfYear(StartTime) + " " + StartTime.Year;
+        }
+
+        // This presumes that weeks start with Monday.
+// Week 1 is the 1st week of the year with a Thursday in it.
+        private static int GetIso8601WeekOfYear(DateTime time)
+        {
+            // Seriously cheat.  If its Monday, Tuesday or Wednesday, then it'll
+            // be the same week# as whatever Thursday, Friday or Saturday are,
+            // and we always get those right
+            DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
+            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
+            {
+                time = time.AddDays(3);
+            }
+
+            // Return the week of our adjusted day
+            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+        }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using HetDepot.Tours.Model;
+using HetDepot.Controllers.General;
+using HetDepot.Tours.Model;
 using HetDepot.Views;
 using HetDepot.Views.Interface;
 using HetDepot.Views.Parts;
@@ -17,14 +18,16 @@ namespace HetDepot.Controllers
 
             var tourList = tours.ToList<IListableObject<Tour>>();
 
-            // Extra optie "Inloggen als gids":
             var extraOptions = new List<ListableItem<Tour>>
             {
-                new ListViewExtraItem<Tour,Controller>(Program.SettingService.GetConsoleText("consoleGuideLogin"), () => new GuideController()),
+                new ListViewExtraItem<Tour,Controller>(Program.SettingService.GetConsoleText("consoleGuideLogin"),
+                    () => new GuideController()),
+                new ListViewExtraItem<Tour,Controller>(Program.SettingService.GetConsoleText("consoleHomeLoginAsManager"),
+                    () => new ManagerController()),
             };
 
-            //TODO: Opmerking Kevin: Als alle rondleidingen vol zitten, 'hangt' de interface
-            ListView<Tour> tourOverviewVisitorWithInterface = new(Program.SettingService.GetConsoleText("consoleWelcome"), tourList, extraOptions);
+            ListView<Tour> tourOverviewVisitorWithInterface =
+                new(Program.SettingService.GetConsoleText("consoleWelcome"), tourList, extraOptions);
 
             Controller? otherController;
             Tour? selectedTour = tourOverviewVisitorWithInterface.ShowAndGetResult<Controller>(out otherController);

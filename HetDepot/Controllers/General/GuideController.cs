@@ -1,6 +1,6 @@
 ﻿using HetDepot.Views;
 
-namespace HetDepot.Controllers;
+namespace HetDepot.Controllers.General;
 
 public class GuideController : Controller
 {

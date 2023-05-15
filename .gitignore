@@ -367,3 +367,6 @@ MigrationBackup/
 FodyWeavers.xsd
 
 .idea/
+
+WorkingFiles/
+WorkingFile/

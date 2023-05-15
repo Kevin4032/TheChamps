@@ -7,7 +7,8 @@ namespace HetDepot.Persistence
     public interface IRepository
     {
         List<Person> GetPeople();
-        List<Tour> GetTours();
+        List<Tour> GetTours(string alternativeTourPath = null);
+        List<List<Tour>> GetAllTours();
         Setting GetSettings();
         void Write<T>(T objectToWrite);
     }

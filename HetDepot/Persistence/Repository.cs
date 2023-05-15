@@ -1,5 +1,8 @@
-﻿using HetDepot.Errorlogging;
+﻿using System.Globalization;
+using System.Text.Json;
+using HetDepot.Errorlogging;
 using HetDepot.People.Model;
+using HetDepot.Settings;
 using HetDepot.Settings.Model;
 using HetDepot.Tours.Model;
 
@@ -26,7 +29,7 @@ namespace HetDepot.Persistence
             _managersPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleManager.json");
             _visitorsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleVisitor.json");
             _settingsPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleSettings.json");
-            _toursPath = Path.Combine(Directory.GetCurrentDirectory(), "ExampleFile", "ExampleTours.json");
+            _toursPath = SettingService.GetToursPath();
 
             CheckPaths();
         }
@@ -63,11 +66,11 @@ namespace HetDepot.Persistence
 
             return result;
         }
-        public List<Tour> GetTours()
+        public List<Tour> GetTours(string alternativeTourPath = null)
         {
             var result = new List<Tour>();
 
-            var tours = _depotDataReadWrite.Read<List<TourJsonModel>>(_toursPath);
+            var tours = _depotDataReadWrite.Read<List<TourJsonModel>>(alternativeTourPath ?? _toursPath);
 
             if (tours == null)
                 return result;
@@ -75,12 +78,34 @@ namespace HetDepot.Persistence
             {
                 foreach (var tour in tours)
                 {
-                    if (tour != null && tour.Guide != null)
-                        result.Add(new Tour(tour.StartTime, tour.Guide, tour.MaxReservations, tour.Reservations ?? new(), tour.Admissions ?? new()));
+                    if (tour != null)
+                        result.Add(new Tour(tour.StartTime, tour.MaxReservations, tour.Reservations ?? new(), tour.Admissions ?? new()));
                 }
             }
 
             return result;
+        }
+
+        public List<List<Tour>> GetAllTours()
+        {
+            var workingDir = SettingService.GetSettingDir();
+
+            if (!Directory.Exists(workingDir))
+            {
+                return new List<List<Tour>>();
+            }
+
+            var allTourFiles =
+                Directory.GetFiles(workingDir, $"{SettingService.TourFilePrefix}*.json").ToList();
+
+            if (allTourFiles.Count < 1)
+            {
+                return new List<List<Tour>>();
+            }
+
+            allTourFiles.Sort(CompareByFileName);
+
+            return allTourFiles.Select(tourPath => GetTours(tourPath)).ToList();
         }
 
         public Setting GetSettings()
@@ -122,6 +147,17 @@ namespace HetDepot.Persistence
 
             return result;
         }
+
+        private static int CompareByFileName(string path1, string path2)
+        {
+            string fileName2 = Path.GetFileName(path1).Replace(".json", "").Replace("tours_", "");
+            string fileName1 = Path.GetFileName(path2).Replace(".json", "").Replace("tours_", "");
+
+            return DateTime.Compare(
+                DateTime.ParseExact(fileName1, "d_m_yyyy", CultureInfo.InvariantCulture),
+                DateTime.ParseExact(fileName2, "d_m_yyyy", CultureInfo.InvariantCulture));
+        }
+
     }
 }
 

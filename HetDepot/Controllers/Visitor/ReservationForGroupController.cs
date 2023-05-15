@@ -19,10 +19,11 @@ public class ReservationForGroupController : Controller
             return;
 
         // Update tour to have the latest data
-        _tour = Program.TourService.getTourByStartTime(_tour.StartTime);
+        _tour = Program.TourService.GetTourByStartTime(_tour.StartTime);
 
         if (_tour == null) // Tour may have existed before, but not anymore
             return;
+
         int freeTourSpaces = _tour.FreeSpaces();
 
         if (freeTourSpaces <= 0)

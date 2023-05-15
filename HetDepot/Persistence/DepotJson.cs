@@ -37,6 +37,8 @@ namespace HetDepot.Persistence
 
         public void Write<T>(string filePath, T objectToWrite)
         {
+            TryCreateDirs(filePath);
+
             var rawJson = JsonSerializer.Serialize<T>(objectToWrite);
             File.WriteAllText(filePath, rawJson);
         }
@@ -44,6 +46,16 @@ namespace HetDepot.Persistence
         {
             var rawJson = JsonSerializer.Serialize(objectToWrite);
             File.AppendAllLines(filePath, new List<string>() { rawJson });
+        }
+
+        private void TryCreateDirs(string filePath)
+        {
+            string fileLocation = filePath.Replace(Path.GetFileName(filePath), "");
+
+            if (!Directory.Exists(fileLocation))
+            {
+                Directory.CreateDirectory(fileLocation);
+            }
         }
 
     }
