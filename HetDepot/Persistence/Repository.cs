@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Globalization;
+using System.Text.Json;
 using HetDepot.Errorlogging;
 using HetDepot.People.Model;
 using HetDepot.Settings;
@@ -88,8 +89,19 @@ namespace HetDepot.Persistence
         public List<List<Tour>> GetAllTours()
         {
             var workingDir = SettingService.GetSettingDir();
+
+            if (!Directory.Exists(workingDir))
+            {
+                return new List<List<Tour>>();
+            }
+
             var allTourFiles =
                 Directory.GetFiles(workingDir, $"{SettingService.TourFilePrefix}*.json").ToList();
+
+            if (allTourFiles.Count < 1)
+            {
+                return new List<List<Tour>>();
+            }
 
             allTourFiles.Sort(CompareByFileName);
 
@@ -138,10 +150,12 @@ namespace HetDepot.Persistence
 
         private static int CompareByFileName(string path1, string path2)
         {
-            string fileName1 = Path.GetFileName(path1).Replace(".json", "").Replace("tours_", "");
-            string fileName2 = Path.GetFileName(path2).Replace(".json", "").Replace("tours_", "");
+            string fileName2 = Path.GetFileName(path1).Replace(".json", "").Replace("tours_", "");
+            string fileName1 = Path.GetFileName(path2).Replace(".json", "").Replace("tours_", "");
 
-            return DateTime.Compare(DateTime.ParseExact(fileName1), DateTime.ParseExact(fileName2));
+            return DateTime.Compare(
+                DateTime.ParseExact(fileName1, "d_m_yyyy", CultureInfo.InvariantCulture),
+                DateTime.ParseExact(fileName2, "d_m_yyyy", CultureInfo.InvariantCulture));
         }
 
     }

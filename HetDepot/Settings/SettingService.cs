@@ -59,7 +59,7 @@ namespace HetDepot.Settings
         {
             // Create the tours file for today is it does not exist
             string workingDir = Directory.GetCurrentDirectory();
-            string settingsDir = workingDir + "/WorkingFiles/";
+            string settingsDir = Path.Combine(workingDir, "WorkingFile", "Tours");
 
             return settingsDir;
         }
@@ -72,7 +72,7 @@ namespace HetDepot.Settings
 
         public static string GetToursPath()
         {
-            return GetSettingDir() + GetToursFilename();
+            return Path.Combine(GetSettingDir(), GetToursFilename());
         }
     }
 }

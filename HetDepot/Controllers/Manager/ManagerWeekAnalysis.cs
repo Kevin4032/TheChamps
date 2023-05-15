@@ -93,9 +93,9 @@ public class ManagerWeekAnalysis : Controller
         }
 
         ListView<string> weekAnalysis =
-            new("Analyse " + _toursOfWeek[0][0].getYearAndWeek(), "Voorstellen per tijd op basis van bezettingsgraad",
+            new("Analyse " + _toursOfWeek[0][0].getYearAndWeek() + ", voorstellen per tijd op basis van bezettingsgraad",
                 recommendations);
-        weekAnalysis.ShowAndGetResult();
+        weekAnalysis.Show();
 
         NextController = new ManagerWeeksOverview();
     }
