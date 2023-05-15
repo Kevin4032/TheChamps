@@ -25,7 +25,7 @@ namespace HetDepot.Controllers
 
                 NextController = new ShowToursController();
                 return;
-            } 
+            }
 
             // Toon op console hudige rondleiding {volgende rondleiding}. guideConfirmTourCheckInStart is een string als user input geeft,anders null
             var guideConfirmTourCheckInStart = new InputView("Huidige rondleiding: " + (nextTour != null ? nextTour.ToString() : "Er zijn geen rondleidingen meer beschikbaar"), "Start deze rondleiding").ShowAndGetResult();
@@ -41,7 +41,7 @@ namespace HetDepot.Controllers
             }
             */
 
-            var tours = Program.TourService.Tours;
+            var tours = Program.TourService.GetOpenTours();
 
             // Genereer lijst van rondleidingen met informatie over aantal reserveringen
             var tourList = tours.Select(tour => tour.ToListableItem(

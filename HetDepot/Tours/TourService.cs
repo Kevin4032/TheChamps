@@ -84,6 +84,11 @@ namespace HetDepot.Tours
             return _tours.Single(t => t.StartTime == startTime);
         }
 
+        public List<Tour> GetOpenTours()
+        {
+            return _tours.Where(tour => tour.StartedAt == null).ToList();
+        }
+
         public List<List<Tour>> GetAllTours()
         {
             var tours = _repository.GetAllTours();

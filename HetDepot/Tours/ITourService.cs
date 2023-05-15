@@ -17,6 +17,7 @@ namespace HetDepot.Tours
         Tour? GetTourByStartTime(DateTime startTime);
         Tour? GetNextTour();
         List<List<Tour>> GetAllTours();
+        List<Tour> GetOpenTours();
 
     }
 }

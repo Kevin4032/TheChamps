@@ -14,7 +14,7 @@ namespace HetDepot.Controllers
 
         public override void Execute()
         {
-            var tours = Program.TourService.Tours;
+            var tours = Program.TourService.GetOpenTours();
 
             // Genereer lijst van rondleidingen met informatie over aantal vrije plaatsen
             var tourList = tours.Select(tour => tour.ToListableItem(
