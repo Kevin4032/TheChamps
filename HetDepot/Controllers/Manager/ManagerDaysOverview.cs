@@ -26,8 +26,8 @@ public class ManagerDaysOverview : Controller
                 new List<ListableItem<List<Tour>>>()
                 {
                     new ListViewExtraItem<List<Tour>, Controller>(
-                        Program.SettingService.GetConsoleText("backToHome"),
-                        () => new ShowToursController())
+                        Program.SettingService.GetConsoleText("back"),
+                        () => new ManagerPeriodQuestion())
                 });
 
         Controller? otherController;

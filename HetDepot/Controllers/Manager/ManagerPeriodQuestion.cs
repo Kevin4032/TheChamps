@@ -28,8 +28,8 @@ public class ManagerPeriodQuestion : Controller
             new List<ListableItem<int>>()
             {
                 new ListViewExtraItem<int, Controller>(
-                    Program.SettingService.GetConsoleText("backToOverview"),
-                    () => new ManagerDaysOverview()),
+                    Program.SettingService.GetConsoleText("backToHome"),
+                    () => new ShowToursController()),
             }
         );
 

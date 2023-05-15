@@ -22,8 +22,8 @@ public class ManagerWeekAnalysis : Controller
         minimalReservations = Program.SettingService.GetMaxTourReservations() / 2;
     }
 
-    public override void Execute() {
-
+    public override void Execute()
+    {
         /*
          *  When the reservations are less then half (13 / 2 = 7) flag for removal
          *  When the reservations are at max (13) for at least 2 tours flag for more tours
@@ -33,12 +33,11 @@ public class ManagerWeekAnalysis : Controller
          *
          */
 
-        Dictionary<TimeOnly, List<string>> flags = new ();
+        Dictionary<TimeOnly, List<string>> flags = new();
 
         // Add the flags
         foreach (var weekTours in _toursOfWeek)
         {
-
             foreach (var tour in weekTours)
             {
                 int reservationsForTour = tour.Reservations.Count;
@@ -54,51 +53,50 @@ public class ManagerWeekAnalysis : Controller
                 {
                     flags[flagKey].Add(AddFlag);
                 }
-
             }
-
         }
 
         var recommendations = new List<ListableItem<string>>();
 
         foreach (var flaggedTime in flags)
         {
-
             int removeFlags = flaggedTime.Value.Where(flag => flag == RemoveFlag).Count();
             int addFlags = flaggedTime.Value.Where(flag => flag == AddFlag).Count();
 
             if (removeFlags >= FlagsForRecommendation)
             {
-                recommendations.Add(new ListViewItem<string>(new List<ListViewItemPart>()
-                {
-                    new (flaggedTime.Key.ToShortTimeString(), 8),
-                    new ("Rondleiding annuleren, lage bezettingsgraad")
-                }, ""));
+                recommendations.Add(new ListViewItem<string>(
+                    new List<ListViewItemPart>()
+                    {
+                        new(flaggedTime.Key.ToShortTimeString(), 8),
+                        new("Rondleiding annuleren, lage bezettingsgraad")
+                    }, ""));
                 continue;
             }
 
             if (addFlags >= FlagsForRecommendation)
             {
-                recommendations.Add(new ListViewItem<string>(new List<ListViewItemPart>()
-                {
-                    new (flaggedTime.Key.ToShortTimeString(), 8),
-                    new ("Rondleiding toevoegen rond deze tijd, hoge bezettingsgraad")
-                }, ""));
+                recommendations.Add(new ListViewItem<string>(
+                    new List<ListViewItemPart>()
+                    {
+                        new(flaggedTime.Key.ToShortTimeString(), 8),
+                        new("Rondleiding toevoegen rond deze tijd, hoge bezettingsgraad")
+                    }, ""));
                 continue;
             }
 
-            recommendations.Add(new ListViewItem<string>(new List<ListViewItemPart>()
-            {
-                new (flaggedTime.Key.ToShortTimeString(), 8),
-                new ("--"),
-            }, "", true
+            recommendations.Add(new ListViewItem<string>(
+                new List<ListViewItemPart>()
+                {
+                    new(flaggedTime.Key.ToShortTimeString(), 8), new("--"),
+                }, ""));
         }
 
         ListView<string> weekAnalysis =
-            new ("Analyse " + _toursOfWeek[0][0].getYearAndWeek(), "Voorstellen per tijd op basis van bezettingsgraad" ,recommendations);
+            new("Analyse " + _toursOfWeek[0][0].getYearAndWeek(), "Voorstellen per tijd op basis van bezettingsgraad",
+                recommendations);
         weekAnalysis.ShowAndGetResult();
 
         NextController = new ManagerWeeksOverview();
-
     }
 }
