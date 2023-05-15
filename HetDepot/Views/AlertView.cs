@@ -60,8 +60,6 @@ public class AlertView
         Renderer.ConsoleNewline();
         Renderer.ConsoleWrite("", 0, 0, 1, ' ', ConsoleColor.White, _backgroundColor);
         Renderer.ConsoleNewline();
-        
-
         _getInput!.Set();
         _gotInput!.WaitOne(sleepTime);
     }
