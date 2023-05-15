@@ -68,7 +68,7 @@ namespace HetDepot.Controllers
 
             new AlertView(messageChanged, AlertView.Success).Show();
             //gaat terug naar de gids aanmelden bezoekers controller.
-            NextController = new GuideStartTourAdmissionController(_tour);
+            NextController = new RequestAuthenticationController(_tour);
         }
     }
 }

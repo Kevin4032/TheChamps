@@ -138,7 +138,7 @@ class GuideStartTourAdmissionController : Controller
             var message_manual_add = Program.SettingService.GetConsoleText("consoleGuideTourVisitorAddWithoutReservationOption");
             new AlertView(message_manual_add,ConsoleColor.Blue).Show();
             //handmarig aanmelden:
-            NextController = new GuideReservationChangeController(_tour, new Visitor(personIDToVerify));
+            NextController = new RequestAuthenticationController(_tour);
         }
         else
         //Als niet alles afgevangen kan worden door de twee hierboven, bijvoorbeeld als code al gebruikt is, of code is geldig maar heeft geen 
