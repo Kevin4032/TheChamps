@@ -50,6 +50,20 @@ class GuideStartTourAdmissionController : Controller
         // var personIDToVerify = new InputView($"{_tour.Admissions.Count} bezoekers hebben zich aangemeld.", message).ShowAndGetResult();
         //Print: Aanmelden voor deze reservering. Voer jouw unieke code in:
         
+        
+        if (_tour.Reservations.Count == _tour.MaxReservations || personIDToVerify == "s" || personIDToVerify == "S")
+        {
+            /*if maxreservations reached or if user chooses start tour anyway while not everyone checked in, 
+            next controller default voor volgende tour of bezoeker aanmelding.
+            TODO: Remove tour from list? */
+            //start the tour:
+            var message_Tour_Starts = Program.SettingService.GetConsoleText("consoleGuideTourAllReservationsValidated");
+            new AlertView(message_Tour_Starts, ConsoleColor.Blue).Show();
+            NextController = new ShowToursController();
+            return;
+        }
+        
+        
         Visitor verified_ID;
         try
         {
@@ -66,20 +80,6 @@ class GuideStartTourAdmissionController : Controller
             return;
         }
         
-        
-
-         
-        
-        if (_tour.Reservations.Count == _tour.MaxReservations || personIDToVerify == "s" || personIDToVerify == "S")
-        {
-            /*if maxreservations reached or if user chooses start tour anyway while not everyone checked in, 
-            next controller default voor volgende tour of bezoeker aanmelding.
-            TODO: Remove tour from list? */
-            //start the tour:
-            var message_Tour_Starts = Program.SettingService.GetConsoleText("consoleGuideTourAllReservationsValidated");
-            new AlertView(message_Tour_Starts, ConsoleColor.Blue).Show();
-            NextController = new ShowToursController();
-        }
         
         //Om toegelaten te worden tot de tour, moet visitor een reservering hebben, en nog geen admission hebben gehad:
 
