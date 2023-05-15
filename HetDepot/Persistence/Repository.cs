@@ -91,7 +91,7 @@ namespace HetDepot.Persistence
             var allTourFiles =
                 Directory.GetFiles(workingDir, $"{SettingService.TourFilePrefix}*.json").ToList();
 
-            allTourFiles.Reverse(); // Newest first
+            allTourFiles.Sort(CompareByFileName);
 
             return allTourFiles.Select(tourPath => GetTours(tourPath)).ToList();
         }
@@ -135,6 +135,15 @@ namespace HetDepot.Persistence
 
             return result;
         }
+
+        private static int CompareByFileName(string path1, string path2)
+        {
+            string fileName1 = Path.GetFileName(path1).Replace(".json", "").Replace("tours_", "");
+            string fileName2 = Path.GetFileName(path2).Replace(".json", "").Replace("tours_", "");
+
+            return DateTime.Compare(DateTime.ParseExact(fileName1), DateTime.ParseExact(fileName2));
+        }
+
     }
 }
 
