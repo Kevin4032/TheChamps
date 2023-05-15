@@ -62,18 +62,21 @@ class GuideStartTourAdmissionController : Controller
             NextController = new ShowToursController();
             return;
         }
-        
+
         
         Visitor verified_ID;
+        string message_problem_a;
+        string message_problem_b;
+        string message_problem_c;
         try
         {
             verified_ID = Program.PeopleService.GetVisitorById(personIDToVerify);
         }
         catch (System.Exception)
         {
-            string message_problem_a = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeNotValid");
-            string message_problem_b =  Program.SettingService.GetConsoleText("consoleVisitorLogonCodeInvalid");
-            string message_problem_c = message_problem_a + ". " + message_problem_b;
+            message_problem_a = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeNotValid");
+            message_problem_b =  Program.SettingService.GetConsoleText("consoleVisitorLogonCodeInvalid");
+            message_problem_c = message_problem_a + ". " + message_problem_b;
             new AlertView(message_problem_c.ToString(), ConsoleColor.Red).Show();
             //Doorgaan met volgende aanmelding:
             NextController = this;
@@ -86,7 +89,7 @@ class GuideStartTourAdmissionController : Controller
         //Getvisitor aanroepen met PersonIDtoVerify geeft een Null Reference exception. 
         //Daarom verander ik het weer naar method aanroepen met nieuwe instance van visitor. 
         //else if (Program.TourService.HasReservation(Program.PeopleService.GetVisitorById(personIDToVerify)) && (Program.TourService.HasAdmission(Program.PeopleService.GetVisitorById(personIDToVerify)) == false))
-        else if (Program.TourService.HasReservation(verified_ID) && (Program.TourService.HasAdmission(verified_ID) == false))
+        if (Program.TourService.HasReservation(verified_ID) && (Program.TourService.HasAdmission(verified_ID) == false))
         {
             //the tour person now has admission:
             _tour.AddAdmission(verified_ID);
@@ -110,11 +113,11 @@ class GuideStartTourAdmissionController : Controller
         //Als code niet geldig is:
         //var check_id = Program.PeopleService.GetVisitorById(personIDToVerify);
 
-        else if (verified_ID == null)    
+        if (verified_ID == null)    
         {
             try
             {
-            var message_problem_a = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeNotValid" + " " +"consoleVisitorLogonCodeInvalid");
+            message_problem_a = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeNotValid" + " " +"consoleVisitorLogonCodeInvalid");
             new AlertView(message, ConsoleColor.Red).Show();
             //Doorgaan met volgende aanmelding:
             NextController = this;
@@ -130,32 +133,31 @@ class GuideStartTourAdmissionController : Controller
             new AlertView(message, ConsoleColor.Red).Show();
             //Doorgaan met volgende aanmelding:
             NextController = this; */
+            return;
         }
         //als visitor ID geldig is, maar er geen reservering is:
-        else if (Program.PeopleService.GetVisitorById(personIDToVerify) != null )
+        
+        if (Program.PeopleService.GetVisitorById(personIDToVerify) != null )
         {
             //Alert: handmatig aanmelden:
             var message_manual_add = Program.SettingService.GetConsoleText("consoleGuideTourVisitorAddWithoutReservationOption");
             new AlertView(message_manual_add,ConsoleColor.Blue).Show();
             //handmarig aanmelden:
             NextController = new RequestAuthenticationController(_tour);
+            return;
+
         }
-        else
+        
         //Als niet alles afgevangen kan worden door de twee hierboven, bijvoorbeeld als code al gebruikt is, of code is geldig maar heeft geen 
         //Reservering, dan moet hieronder de reden aangepast worden.
         //Of we kunnen ervoor kiezen om de geldige code hierna naar de controller 'Persoon handmatig toevoegen' te sturen.
-        {
-            string message_problem_a = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeNotValid");
-            string message_problem_b =  Program.SettingService.GetConsoleText("consoleVisitorLogonCodeInvalid");
-            string message_problem_c = message_problem_a + ". " + message_problem_b;
-            new AlertView(message_problem_c.ToString(), ConsoleColor.Red).Show();
-            //Doorgaan met volgende aanmelding:
-            NextController = this;
-        }
-
-        
-
-        
+    
+        message_problem_a = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeNotValid");
+        message_problem_b =  Program.SettingService.GetConsoleText("consoleVisitorLogonCodeInvalid");
+        message_problem_c = message_problem_a + ". " + message_problem_b;
+        new AlertView(message_problem_c.ToString(), ConsoleColor.Red).Show();
+        //Doorgaan met volgende aanmelding:
+        NextController = this;
     }
 
 
