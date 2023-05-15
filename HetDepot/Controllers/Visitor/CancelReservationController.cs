@@ -34,6 +34,12 @@ public class CancelReservationController : Controller
         }
 
         Tour tour = Program.TourService.GetReservation(_visitor);
+
+        if (tour.StartedAt != null)
+        {
+            (new AlertView("Tour is al gestart reservering kan niet geannuleerd worden", AlertView.Info)).Show();
+        }
+
         Program.TourService.RemoveTourReservation(tour, _visitor);
         (new AlertView("Reservering geannuleerd", AlertView.Info)).Show();
     }
