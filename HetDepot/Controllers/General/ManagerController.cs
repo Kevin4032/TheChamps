@@ -15,7 +15,7 @@ public class ManagerController : Controller
             Program.SettingService.GetConsoleText("consoleGuidePersonnelNumber"))
         ).ShowAndGetResult();
 
-        if (Program.PeopleService.GetManager().Equals(new People.Model.Manager(personnelCode)) || true)
+        if (Program.PeopleService.GetManager().Equals(new People.Model.Manager(personnelCode)))
         {
             NextController = new ManagerPeriodQuestion();
         }
