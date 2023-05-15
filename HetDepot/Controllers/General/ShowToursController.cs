@@ -29,7 +29,8 @@ namespace HetDepot.Controllers
             )).ToList();
 
             // Extra opties "Inloggen als gids" en "Inloggen als afdelingshoofd":
-            tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("consoleGuideLogin"), () => new GuideController()));
+            tourList.Add(new ListViewExtraItem<Tour, Controller>("Reservering annuleren", () => new CancelReservationController()));
+            tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("consoleHomeLoginAsManager"), () => new ManagerController()));
             tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("consoleHomeLoginAsManager"), () => new ManagerController()));
 
             //TODO: Opmerking Kevin: Als alle rondleidingen vol zitten, 'hangt' de interface
