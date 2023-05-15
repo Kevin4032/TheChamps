@@ -36,7 +36,7 @@
     "consoleEnterPersonnelCode": "Voer uw personeelsnummer in",
     "consoleGuidePersonnelNumber": "Personeelsnummer:",
     "consoleGuideTourVisitorValidationStart": "U kunt de rondleiding starten.",
-    "consoleGuideLogonCodeInvalid": "Uw code is niet geldig. Werkt u hier wel?",
+    "consoleGuideLogonCodeInvalid": "Uw code is niet geldig.",
     "consoleGuideTourCurrent": "Huidige rondleiding {time}",
     "consoleGuideTourStart": "Rondleiding starten?",
     "consoleGuideTourShowToursToStart": "Rondleiding overzicht",
@@ -69,11 +69,16 @@
     "consoleHomeLoginAsManager": "Inloggen als afdelingshoofd",
     "managerOccupancyForDayTitle": "Bezettingsgraad voor {date}",
     "managerSelectDayQuestion": "Selecteer een dag om bezettingsgraad in te zien",
+    "managerSelectWeekQuestion": "Selecteer een week om advies in te zien",
     "backToHome": "Terug naar home",
     "backToOverview": "Terug naar overzicht",
+    "back": "Terug",
     "reservations": "Reserveringen",
     "admissions": "Aanmeldingen",
-    "managerTypeQuestion": "Welke gegevens wilt u bekijken?"
+    "managerTypeQuestion": "Welke gegevens wilt u bekijken?",
+    "managerTimeRangeQuestion": "In welk tijdsbereik wilt u de gegevens zien?",
+    "perDay": "Per dag",
+    "perWeek": "Per week"
   },
   "TourTimes": [
     "11:00",

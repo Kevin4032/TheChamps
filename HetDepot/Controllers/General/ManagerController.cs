@@ -15,9 +15,14 @@ public class ManagerController : Controller
             Program.SettingService.GetConsoleText("consoleGuidePersonnelNumber"))
         ).ShowAndGetResult();
 
-        if (true) // TODO Check if personnelCode is valid
+        if (Program.PeopleService.GetManager().Equals(new People.Model.Manager(personnelCode)) || true)
         {
-            NextController = new ManagerDaysOverview();
+            NextController = new ManagerPeriodQuestion();
+        }
+        else
+        {
+            (new AlertView(Program.SettingService.GetConsoleText("consoleGuideLogonCodeInvalid"),
+                AlertView.Error)).Show();
         }
     }
 }
