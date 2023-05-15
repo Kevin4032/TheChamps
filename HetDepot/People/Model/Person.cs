@@ -1,5 +1,4 @@
-﻿
-namespace HetDepot.People.Model
+﻿namespace HetDepot.People.Model
 {
     public abstract class Person : IEquatable<Person>, IComparable<Person>
     {

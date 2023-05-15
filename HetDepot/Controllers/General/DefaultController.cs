@@ -1,9 +1,4 @@
-﻿using HetDepot.Tours.Model;
-using HetDepot.Views;
-using HetDepot.Views.Interface;
-using HetDepot.Views.Parts;
-
-namespace HetDepot.Controllers;
+﻿namespace HetDepot.Controllers;
 
 public class DefaultController : Controller
 {
@@ -13,7 +8,4 @@ public class DefaultController : Controller
         NextController = new ShowToursController();
 
     }
-
-
-
 }
