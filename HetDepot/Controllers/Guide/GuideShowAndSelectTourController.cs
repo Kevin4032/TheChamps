@@ -62,19 +62,19 @@ namespace HetDepot.Controllers
             Tour? selectedTour = tourOverviewVisitorWithInterface.ShowAndGetResult<Controller>(out otherController);
             NextController = otherController; // Alleen als extra optie gekozen is
 
+            if (selectedTour == null)
+                return;
+
             //Controleer of selectedTour meer dan nul reserveringen heeft:
-            if (selectedTour!.Reservations.Count == 0)
+            if (selectedTour.Reservations.Count == 0)
             {
                 NextController = new GuideNoReservationsForThisTourController();
             }
-
-            else if (selectedTour != null)
+            else
+            {
                 NextController = new GuideStartTourAdmissionController(selectedTour);
+            }
 
-
-
-        
-        
         }
 
     }
