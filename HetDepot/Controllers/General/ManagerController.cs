@@ -21,8 +21,8 @@ public class ManagerController : Controller
         }
         else
         {
-            (new AlertView(Program.SettingService.GetConsoleText("consoleGuideLogonCodeInvalid"),
-                AlertView.Error)).Show();
+            NextController = new EmployeeInvalidLoginController();
+
         }
     }
 }

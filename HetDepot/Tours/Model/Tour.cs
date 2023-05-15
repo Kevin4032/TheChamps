@@ -9,23 +9,18 @@ namespace HetDepot.Tours.Model
 {
     public class Tour : IListableObject<Tour>
     {
-        private List<Visitor> _reservations;
-        private List<Visitor> _admissions;
-        private int _maxReservations;
-
-        [JsonConstructor]
-        public Tour(DateTime startTime, int maxReservations, List<Visitor> reservations, List<Visitor> admissions)
-        {
-            StartTime = startTime;
-            _reservations = reservations;
-            _admissions = admissions;
-            _maxReservations = maxReservations;
-		}
-
         public DateTime StartTime { get; private set; }
         public Guide Guide { get; set; }
-        public int MaxReservations { get => _maxReservations; }
-        public int FreeSpaces { get => Math.Max(0, _maxReservations - Reservations.Count); }
+
+        public int MaxReservations
+        {
+            get => _maxReservations;
+        }
+
+        public int FreeSpaces
+        {
+            get => Math.Max(0, _maxReservations - Reservations.Count);
+        }
 
         public ReadOnlyCollection<Visitor> Reservations
         {
@@ -36,6 +31,23 @@ namespace HetDepot.Tours.Model
         {
             get { return _admissions.AsReadOnly(); }
         }
+
+        public DateTime? StartedAt { get; set; } = null;
+
+        private List<Visitor> _reservations;
+        private List<Visitor> _admissions;
+        private int _maxReservations;
+
+        [JsonConstructor]
+        public Tour(DateTime startTime, int maxReservations, List<Visitor> reservations, List<Visitor> admissions, DateTime? startedAt)
+        {
+            StartedAt = startedAt;
+            StartTime = startTime;
+            _reservations = reservations;
+            _admissions = admissions;
+            _maxReservations = maxReservations;
+        }
+
 
         public string GetTime() => StartTime.ToString("H:mm");
         public override string ToString() => GetTime();
@@ -70,6 +82,7 @@ namespace HetDepot.Tours.Model
 
         public ListableItem<Tour> ToListableItem() => new ListViewItem<Tour>(GetTime(), this); // Geen extra info
         public ListableItem<Tour> ToListableItem(string info) => ToListableItem(info, false);
+
         public ListableItem<Tour> ToListableItem(string info, bool disabled)
         {
             /*
@@ -79,11 +92,7 @@ namespace HetDepot.Tours.Model
              */
 
             return new ListViewItem<Tour>(
-                new List<ListViewItemPart>()
-                {
-                    new (GetTime(), 10),
-                    new (info),
-                },
+                new List<ListViewItemPart>() { new(GetTime(), 10), new(info), },
                 this,
                 disabled
             );
@@ -97,7 +106,7 @@ namespace HetDepot.Tours.Model
         }
 
         // This presumes that weeks start with Monday.
-// Week 1 is the 1st week of the year with a Thursday in it.
+        // Week 1 is the 1st week of the year with a Thursday in it.
         private static int GetIso8601WeekOfYear(DateTime time)
         {
             // Seriously cheat.  If its Monday, Tuesday or Wednesday, then it'll
@@ -110,8 +119,8 @@ namespace HetDepot.Tours.Model
             }
 
             // Return the week of our adjusted day
-            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek,
+                DayOfWeek.Monday);
         }
-
     }
 }

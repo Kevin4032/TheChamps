@@ -79,7 +79,7 @@ namespace HetDepot.Persistence
                 foreach (var tour in tours)
                 {
                     if (tour != null)
-                        result.Add(new Tour(tour.StartTime, tour.MaxReservations, tour.Reservations ?? new(), tour.Admissions ?? new()));
+                        result.Add(new Tour(tour.StartTime, tour.MaxReservations, tour.Reservations ?? new(), tour.Admissions ?? new(), tour.StartedAt));
                 }
             }
 

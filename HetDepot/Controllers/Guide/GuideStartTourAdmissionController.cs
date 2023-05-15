@@ -5,6 +5,7 @@ using HetDepot.Views;
 using HetDepot.Views.Interface;
 using HetDepot.Views.Parts;
 using System.Media;
+using HetDepot.Tours;
 
 
 namespace HetDepot.Controllers;
@@ -17,7 +18,7 @@ class GuideStartTourAdmissionController : Controller
     {
         _tour = tour;
     }
-    
+
 
     public override void Execute()
     {
@@ -32,14 +33,14 @@ class GuideStartTourAdmissionController : Controller
         //string countMul = Program.SettingService.GetConsoleText("consoleGuideTourAdmissionCountMultiple");
 
         var personIDToVerify = string.Empty;
-        
-        
-        if (_tour.Reservations.Count == 0)
+
+
+        if (_tour.Admissions.Count == 0)
         {
             personIDToVerify = new InputView(countZero, message).ShowAndGetResult();
         }
-        
-        else if (_tour.Reservations.Count == 1)
+
+        else if (_tour.Admissions.Count == 1)
         {
             personIDToVerify = new InputView(countOne, message).ShowAndGetResult();
         }
@@ -47,15 +48,17 @@ class GuideStartTourAdmissionController : Controller
         {
             personIDToVerify = new InputView(countMul, message).ShowAndGetResult();
         }
-        // var personIDToVerify = new InputView($"{_tour.Admissions.Count} bezoekers hebben zich aangemeld.", message).ShowAndGetResult();
-        //Print: Aanmelden voor deze reservering. Voer jouw unieke code in:
-        
-        
+        // var personIDToVerify = new InputView($"{_tour.Admissions.Count} bezoekers hebben zich aangemeld.", message).ShowAndGetResult();//Print: Aanmelden voor deze reservering. Voer jouw unieke code in:
+
+
         if (_tour.Reservations.Count == _tour.MaxReservations || personIDToVerify == "s" || personIDToVerify == "S")
         {
-            /*if maxreservations reached or if user chooses start tour anyway while not everyone checked in, 
+            /*if maxreservations reached or if user chooses start tour anyway while not everyone checked in,
             next controller default voor volgende tour of bezoeker aanmelding.
             TODO: Remove tour from list? */
+
+            Program.TourService.StartTour(_tour);
+
             //start the tour:
             var message_Tour_Starts = Program.SettingService.GetConsoleText("consoleGuideTourAllReservationsValidated");
             new AlertView(message_Tour_Starts, ConsoleColor.Blue).Show();
@@ -63,7 +66,7 @@ class GuideStartTourAdmissionController : Controller
             return;
         }
 
-        
+
         Visitor verified_ID;
         string message_problem_a;
         string message_problem_b;
@@ -82,20 +85,21 @@ class GuideStartTourAdmissionController : Controller
             NextController = this;
             return;
         }
-        
-        
+
+
         //Om toegelaten te worden tot de tour, moet visitor een reservering hebben, en nog geen admission hebben gehad:
 
-        //Getvisitor aanroepen met PersonIDtoVerify geeft een Null Reference exception. 
-        //Daarom verander ik het weer naar method aanroepen met nieuwe instance van visitor. 
+        //Getvisitor aanroepen met PersonIDtoVerify geeft een Null Reference exception.
+        //Daarom verander ik het weer naar method aanroepen met nieuwe instance van visitor.
         //else if (Program.TourService.HasReservation(Program.PeopleService.GetVisitorById(personIDToVerify)) && (Program.TourService.HasAdmission(Program.PeopleService.GetVisitorById(personIDToVerify)) == false))
         if (Program.TourService.HasReservation(verified_ID) && (Program.TourService.HasAdmission(verified_ID) == false))
         {
             //the tour person now has admission:
-            _tour.AddAdmission(verified_ID);
+            Program.TourService.AddTourAdmission(_tour, verified_ID);
+
             //a console beep is played as confirmation:
-            System.Console.Beep();
-            
+            Console.Beep();
+
             //Moet deze reservering gemarkeerd worden als gebruikt?
             // Aanmelden voor deze rondleiding
             var message_success = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeValid");
@@ -113,7 +117,7 @@ class GuideStartTourAdmissionController : Controller
         //Als code niet geldig is:
         //var check_id = Program.PeopleService.GetVisitorById(personIDToVerify);
 
-        if (verified_ID == null)    
+        if (verified_ID == null)
         {
             try
             {
@@ -124,8 +128,8 @@ class GuideStartTourAdmissionController : Controller
             }
             catch (System.Exception)
             {
-                
-            
+
+
             }
             //print: Je bent niet aangemeld. De code is niet geldig. Controleer uw code en probeer het nog eens
 
@@ -136,22 +140,25 @@ class GuideStartTourAdmissionController : Controller
             return;
         }
         //als visitor ID geldig is, maar er geen reservering is:
-        
+
         if (Program.PeopleService.GetVisitorById(personIDToVerify) != null )
         {
-            //Alert: handmatig aanmelden:
-            var message_manual_add = Program.SettingService.GetConsoleText("consoleGuideTourVisitorAddWithoutReservationOption");
-            new AlertView(message_manual_add,ConsoleColor.Blue).Show();
-            //handmarig aanmelden:
-            NextController = new RequestAuthenticationController(_tour);
-            return;
+
+            /* TODO: Nogmaal invoeren personeelscode en vragen om handmatig aanmelden, RequestAuthenticationController kan hier niet gebruikt worden omdat er dan naar de bezoeker flow gegaan word */
+
+            // //Alert: handmatig aanmelden:
+            // var message_manual_add = Program.SettingService.GetConsoleText("consoleGuideTourVisitorAddWithoutReservationOption");
+            // new AlertView(message_manual_add,ConsoleColor.Blue).Show();
+            // //handmarig aanmelden:
+            // NextController = new RequestAuthenticationController(_tour);
+            // return;
 
         }
-        
-        //Als niet alles afgevangen kan worden door de twee hierboven, bijvoorbeeld als code al gebruikt is, of code is geldig maar heeft geen 
+
+        //Als niet alles afgevangen kan worden door de twee hierboven, bijvoorbeeld als code al gebruikt is, of code is geldig maar heeft geen
         //Reservering, dan moet hieronder de reden aangepast worden.
         //Of we kunnen ervoor kiezen om de geldige code hierna naar de controller 'Persoon handmatig toevoegen' te sturen.
-    
+
         message_problem_a = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeNotValid");
         message_problem_b =  Program.SettingService.GetConsoleText("consoleVisitorLogonCodeInvalid");
         message_problem_c = message_problem_a + ". " + message_problem_b;

@@ -71,6 +71,13 @@ namespace HetDepot.Tours
             return false;
         }
 
+        public bool StartTour(Tour tour)
+        {
+            tour.StartedAt = DateTime.Now;
+            WriteTourData();
+            return true;
+        }
+
         public Tour? GetTourByStartTime(DateTime startTime)
         {
             _tours = GetTours();
@@ -128,7 +135,7 @@ namespace HetDepot.Tours
 
             foreach (var time in tourTimes)
             {
-                tours.Add(new Tour(DateTime.Parse(time), maxReservations, new List<Visitor>(), new List<Visitor>()));
+                tours.Add(new Tour(DateTime.Parse(time), maxReservations, new List<Visitor>(), new List<Visitor>(), null));
             }
 
             return tours;
