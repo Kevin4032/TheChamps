@@ -74,6 +74,7 @@ public class ListView<T>
 
                 // Write the title and a line of '=' characters under it
                 Renderer.ConsoleWrite(_title);
+                Renderer.ConsoleNewline();
                 if (null != _subtitle)
                 {
                     Renderer.ConsoleWrite(_subtitle, 0, 0, 0, ' ', ConsoleColor.Gray);
