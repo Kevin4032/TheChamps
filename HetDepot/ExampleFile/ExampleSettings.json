@@ -50,7 +50,7 @@
     "ConsoleGuideTourNoReservationsForTour": "Geen openstaande reserveringen voor de rondleiding",
     "consoleGuideTourVisitorAddWithoutReservationConfirmation": "Bezoeker toegevoegd. {count} van {reservationCount} aangemeld.",
     "ConsoleGuideTourAdmissionTitle": "Aanmelden voor deze rondleiding",
-    "consoleGuideTourAdmissionEnterVisitorCode": "Voer jour unieke code in, of typ \"s\" om de rondleiding te starten", 
+    "consoleGuideTourAdmissionEnterVisitorCode": "Op deze pagina kan je als gids bezoekercodes aanmelden om de rondleiding te beginnen.\nVoer de volgende bezoekercode in.\n Zijn alle deelnemers aangemeld, typ dan \"s\" om de rondleiding te starten", 
     "consoleGuideTourManuallyCreateReservation": "Persoon handmatig toevoegen",
     "consoleGuideTourStarts": "Alle personen hebben zich aangemeld", 
     "consoleGuideTourAdmissionCountZero":"Nog geen bezoeker heeft zich aangemeld.",
