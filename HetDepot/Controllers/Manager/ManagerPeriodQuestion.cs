@@ -18,20 +18,12 @@ public class ManagerPeriodQuestion : Controller
         //     new ListViewItem(Program.SettingService.GetConsoleText("backToOverview"), "back"),
         // });
 
-        var typeQuestion = new ListView<int>(
-            Program.SettingService.GetConsoleText("managerTimeRangeQuestion"),
-            new List<ListableItem<int>>()
-            {
-                new ListViewItem<int>(Program.SettingService.GetConsoleText("perDay"), 0),
-                new ListViewItem<int>(Program.SettingService.GetConsoleText("perWeek"), 1),
-            },
-            new List<ListableItem<int>>()
-            {
-                new ListViewExtraItem<int, Controller>(
-                    Program.SettingService.GetConsoleText("backToHome"),
-                    () => new ShowToursController()),
-            }
-        );
+        var typeQuestion = new ListView<int>(Program.SettingService.GetConsoleText("managerTimeRangeQuestion"), new()
+        {
+            new ListViewItem<int>(Program.SettingService.GetConsoleText("perDay"), 0),
+            new ListViewItem<int>(Program.SettingService.GetConsoleText("perWeek"), 1),
+            new ListViewExtraItem<int, Controller>(Program.SettingService.GetConsoleText("backToHome"), () => new ShowToursController()),
+        });
 
         Controller? otherController;
         int? type = typeQuestion.ShowAndGetResult<Controller>(out otherController);

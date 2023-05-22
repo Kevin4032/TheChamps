@@ -14,20 +14,27 @@ namespace HetDepot.Controllers
 
         public override void Execute()
         {
-            var tours = Program.TourService.Tours;
+            var tours = Program.TourService.GetOpenTours();
 
-            var tourList = tours.ToList<IListableObject<Tour>>();
+            // Genereer lijst van rondleidingen met informatie over aantal vrije plaatsen
+            var tourList = tours.Select(tour => tour.ToListableItem(
+                Program.SettingService.GetConsoleText(
+                    tour.FreeSpaces <= 0 ? "consoleTourNoFreeSpaces" : (tour.FreeSpaces == 1 ? "consoleTourOneFreeSpace" : "consoleTourFreeSpaces"),
+                    new()
+                    {
+                        ["count"] = tour.FreeSpaces.ToString(),
+                    }
+                ),
+                tour.FreeSpaces == 0 // Disabled (niet selecteerbaar) als er geen vrije plaatsen zijn
+            )).ToList();
 
-            var extraOptions = new List<ListableItem<Tour>>
-            {
-                new ListViewExtraItem<Tour,Controller>(Program.SettingService.GetConsoleText("consoleGuideLogin"),
-                    () => new GuideController()),
-                new ListViewExtraItem<Tour,Controller>(Program.SettingService.GetConsoleText("consoleHomeLoginAsManager"),
-                    () => new ManagerController()),
-            };
+            // Extra opties "Inloggen als gids" en "Inloggen als afdelingshoofd":
+            tourList.Add(new ListViewExtraItem<Tour, Controller>("Reservering annuleren", () => new CancelReservationController()));
+            tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("consoleHomeLoginAsGuide"), () => new GuideController()));
+            tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("consoleHomeLoginAsManager"), () => new ManagerController()));
 
-            ListView<Tour> tourOverviewVisitorWithInterface =
-                new(Program.SettingService.GetConsoleText("consoleWelcome"), tourList, extraOptions);
+            //TODO: Opmerking Kevin: Als alle rondleidingen vol zitten, 'hangt' de interface
+            ListView<Tour> tourOverviewVisitorWithInterface = new(Program.SettingService.GetConsoleText("consoleWelcome"), tourList);
 
             Controller? otherController;
             Tour? selectedTour = tourOverviewVisitorWithInterface.ShowAndGetResult<Controller>(out otherController);

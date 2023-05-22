@@ -1,9 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using HetDepot.Errorlogging;
-using HetDepot.People;
 using HetDepot.People.Model;
 using HetDepot.Persistence;
-using HetDepot.Settings;
 using HetDepot.Tours.Model;
 
 namespace HetDepot.Tours
@@ -73,10 +71,22 @@ namespace HetDepot.Tours
             return false;
         }
 
+        public bool StartTour(Tour tour)
+        {
+            tour.StartedAt = DateTime.Now;
+            WriteTourData();
+            return true;
+        }
+
         public Tour? GetTourByStartTime(DateTime startTime)
         {
             _tours = GetTours();
             return _tours.Single(t => t.StartTime == startTime);
+        }
+
+        public List<Tour> GetOpenTours()
+        {
+            return _tours.Where(tour => tour.StartedAt == null).ToList();
         }
 
         public List<List<Tour>> GetAllTours()
@@ -130,10 +140,26 @@ namespace HetDepot.Tours
 
             foreach (var time in tourTimes)
             {
-                tours.Add(new Tour(DateTime.Parse(time), maxReservations, new List<Visitor>(), new List<Visitor>()));
+                tours.Add(new Tour(DateTime.Parse(time), maxReservations, new List<Visitor>(), new List<Visitor>(), null));
             }
 
             return tours;
+        }
+        public Tour? GetNextTour()
+        {
+            /* Geeft de volgende tour-tijd voor gebruik in de GuideShowAndSelectTour Controller */
+            DateTime currentTime = DateTime.Now;
+            var tours = GetTours();
+            // Filter tours that have not yet started
+            var upcomingTours = tours.Where(tour => tour.StartTime > currentTime).ToList();
+
+            // Sort tours by start time in ascending order
+            upcomingTours.Sort((tour1, tour2) => tour1.StartTime.CompareTo(tour2.StartTime));
+
+            // Get the first tour in the sorted list, which will be the next upcoming tour
+            Tour? nextTour = upcomingTours.FirstOrDefault();
+
+            return nextTour;
         }
     }
 }

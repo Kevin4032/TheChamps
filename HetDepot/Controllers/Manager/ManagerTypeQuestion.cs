@@ -23,26 +23,19 @@ public class ManagerTypeQuestion : Controller
         //     new ListViewItem(Program.SettingService.GetConsoleText("backToOverview"), "back"),
         // });
 
-        var typeQuestion = new ListView<int>(
-            Program.SettingService.GetConsoleText("managerTypeQuestion"),
-            new List<ListableItem<int>>()
-            {
-                new ListViewItem<int>(Program.SettingService.GetConsoleText("reservations"), 0),
-                new ListViewItem<int>(Program.SettingService.GetConsoleText("admissions"), 1),
-            },
-            new List<ListableItem<int>>()
-            {
-                new ListViewExtraItem<int, Controller>(
-                    Program.SettingService.GetConsoleText("backToOverview"),
-                    () => new ManagerDaysOverview()),
-            }
-        );
+
+        var typeQuestion = new ListView<int>(Program.SettingService.GetConsoleText("managerTypeQuestion"), new()
+        {
+            new ListViewItem<int>(Program.SettingService.GetConsoleText("reservations"), 0),
+            new ListViewItem<int>(Program.SettingService.GetConsoleText("admissions"), 1),
+            new ListViewExtraItem<int, Controller>(Program.SettingService.GetConsoleText("backToOverview"), () => new ManagerDaysOverview()),
+        });
 
         Controller? otherController;
         int? type = typeQuestion.ShowAndGetResult<Controller>(out otherController);
         NextController = otherController; // Alleen als extra optie gekozen is
 
-        if(otherController == null)
+        if (otherController == null)
             NextController = new ManagerDayOccupancyOverview(tours, (int) type);
     }
 }

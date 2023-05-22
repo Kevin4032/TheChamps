@@ -21,7 +21,7 @@
             return false;
         }
 
-        public bool Equals(Person other)
+        public bool Equals(Person? other)
         {
             if (other == null)
                 return false;
@@ -34,7 +34,7 @@
             return base.GetHashCode();
         }
 
-        public int CompareTo(Person other)
+        public int CompareTo(Person? other)
         {
             if (other == null)
                 return 1;

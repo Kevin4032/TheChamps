@@ -31,32 +31,26 @@ public class ListView<T>
         _listViewItems = listViewItems;
     }
 
-    public ListView(string title, List<ListableItem<T>> listViewItems, List<ListableItem<T>>? extraOptions = null)
-    {
-        _title = title;
-        _listViewItems = listViewItems;
-        if (extraOptions != null) listViewItems!.AddRange(extraOptions);
-    }
+    /*
+        public ListView(string title, List<IListableObject<T>> listViewObjects, List<ListableItem<T>>? extraOptions = null)
+        {
+            _title = title;
 
-    public ListView(string title, List<IListableObject<T>> listViewObjects, List<ListableItem<T>>? extraOptions = null)
-    {
-        _title = title;
+            List<ListableItem<T>> listViewItems = listViewObjects.Select(x => x.ToListableItem()).ToList();
+            if (extraOptions != null) listViewItems!.AddRange(extraOptions);
+            _listViewItems = listViewItems;
+        }
 
-        List<ListableItem<T>> listViewItems = listViewObjects.Select(x => x.ToListableItem()).ToList();
-        if (extraOptions != null) listViewItems!.AddRange(extraOptions);
-        _listViewItems = listViewItems;
-    }
+        public ListView(string title, string subtitle, List<IListableObject<T>> listViewObjects, List<ListableItem<T>>? extraOptions = null)
+        {
+            _title = title;
+            _subtitle = subtitle;
 
-    public ListView(string title, string subtitle, List<IListableObject<T>> listViewObjects,
-        List<ListableItem<T>>? extraOptions = null)
-    {
-        _title = title;
-        _subtitle = subtitle;
-
-        List<ListableItem<T>> listViewItems = listViewObjects.Select(x => x.ToListableItem()).ToList();
-        if (extraOptions != null) listViewItems!.AddRange(extraOptions);
-        _listViewItems = listViewItems;
-    }
+            List<ListableItem<T>> listViewItems = listViewObjects.Select(x => x.ToListableItem()).ToList();
+            if (extraOptions != null) listViewItems!.AddRange(extraOptions);
+            _listViewItems = listViewItems;
+        }
+    */
 
     public T? ShowAndGetResult()
     {
@@ -79,6 +73,7 @@ public class ListView<T>
 
                 // Write the title and a line of '=' characters under it
                 Renderer.ConsoleWrite(_title);
+                Renderer.ConsoleNewline();
                 if (null != _subtitle)
                 {
                     Renderer.ConsoleWrite(_subtitle, 0, 0, 0, ' ', ConsoleColor.Gray);

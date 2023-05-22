@@ -21,16 +21,14 @@ public class ManagerWeeksOverview : Controller
             weekList.Add(new ListViewItem<List<List<Tour>>>(tours[0][0].getYearAndWeek(), tours));
         }
 
+        weekList.Add(new ListViewExtraItem<List<List<Tour>>, Controller>(
+            Program.SettingService.GetConsoleText("back"),
+            () => new ManagerPeriodQuestion())
+        );
 
         ListView<List<List<Tour>>> weeksOverview = new(
             Program.SettingService.GetConsoleText("managerSelectWeekQuestion"),
-            weekList,
-            new List<ListableItem<List<List<Tour>>>>()
-            {
-                new ListViewExtraItem<List<List<Tour>>, Controller>(
-                    Program.SettingService.GetConsoleText("back"),
-                    () => new ManagerPeriodQuestion())
-            }
+            weekList
         );
 
         Controller? otherController;
