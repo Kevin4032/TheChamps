@@ -32,7 +32,6 @@ namespace HetDepot.Controllers
                 textToUser = Program.SettingService.GetConsoleText("consoleLogonOpeningWelcomeForGroup");
             }
 
-            // var success = false;
             Person? person = null;
             string userCode;
 

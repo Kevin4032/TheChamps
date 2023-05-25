@@ -33,10 +33,9 @@ internal class Program
 
     static Program()
     {
-        ErrorLogger = new DepotErrorLogger(new DepotErrorJson());
-
         try
         {
+            ErrorLogger = new DepotErrorLogger(new DepotErrorJson());
             var repository = new Repository(new DepotJson(ErrorLogger), ErrorLogger, new DepotDataValidator());
 
             SettingService = new SettingService(repository, ErrorLogger);

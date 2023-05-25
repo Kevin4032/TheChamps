@@ -37,7 +37,7 @@ namespace HetDepot.Controllers
                 new ListViewItem<bool>("Ja", true),
                 new ListViewItem<bool>("Nee", false),
             });
-            bool cancelReservartion = (bool)replaceCurrentQuestion.ShowAndGetResult();
+            var cancelReservartion = replaceCurrentQuestion.ShowAndGetResult();
 
             if (!cancelReservartion)
             {

@@ -23,7 +23,7 @@ namespace HetDepot.Controllers
             var tourCurrentlySelected = Program.TourService.GetReservation(_visitor);
 
             if (tourCurrentlySelected == null || _tour == null)
-                return; // Kan dit voorkomen? Zo ja, wanneer?
+                return;
 
             var question = Program.SettingService
                 .GetConsoleText(_forGroup ? "consoleVisitorReservationChangeTourInfoForGroup" :

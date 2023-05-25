@@ -36,7 +36,9 @@ namespace HetDepot.Controllers
                         NextController = new ReservationRemoveController(_tour, _visitor, _forGroup);
                     }
                     else
+                    {
                         NextController = new ReservationChangeController(_tour, _visitor, _forGroup);
+                    }
                 }
 
                 if (!visitorHasAdmission && !visitorHasReservation)

@@ -13,9 +13,16 @@
 
         public void LogError(string message)
         {
-            var errorMessage = DateTime.UtcNow.ToString();
-            errorMessage += " - " + message;
-            _depotDataReadWrite.Append<string>(_errorLog, errorMessage);
+            try
+            {
+                var errorMessage = DateTime.UtcNow.ToString();
+                errorMessage += " - " + message;
+                _depotDataReadWrite.Append<string>(_errorLog, errorMessage);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }
