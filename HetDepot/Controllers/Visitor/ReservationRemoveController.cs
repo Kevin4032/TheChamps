@@ -24,13 +24,13 @@ namespace HetDepot.Controllers
 
             if (_forGroup)
             {
-                var message = Program.SettingService.GetConsoleText("consoleVisitorReservationAlreadyHavingOneForGroup");
+                var message = Program.SettingService.GetConsoleText("visitorReservationAlreadyHavingOneForGroup");
                 new AlertView(message, AlertView.Error).Show();
                 NextController = new RequestAuthenticationController(_tour, true);
                 return;
             }
 
-            var question = Program.SettingService.GetConsoleText("consoleVisitorReservationAlreadyHavingOne");
+            var question = Program.SettingService.GetConsoleText("visitorReservationAlreadyHavingOne");
 
             ListView<bool> replaceCurrentQuestion = new(question, new List<ListableItem<bool>>()
             {
@@ -42,7 +42,7 @@ namespace HetDepot.Controllers
             if (!cancelReservartion)
             {
                 var messageNotCancled = Program.SettingService
-                    .GetConsoleText("consoleVisitorReservationChangeNotChanges", new()
+                    .GetConsoleText("visitorReservationChangeNotChanges", new()
                     {
                         ["time"] = _tour.GetTime(),
                     });
@@ -54,7 +54,7 @@ namespace HetDepot.Controllers
 
             Program.TourService.RemoveTourReservation(_tour, _visitor);
 
-            var messageCancled = Program.SettingService.GetConsoleText("consoleVisitorReservationCancellationConfirmation");
+            var messageCancled = Program.SettingService.GetConsoleText("visitorReservationCancellationConfirmation");
 
             new AlertView(messageCancled, AlertView.Info).Show();
         }

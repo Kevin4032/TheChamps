@@ -18,7 +18,7 @@ namespace HetDepot.Controllers
             var nextTour = Program.TourService.GetNextTour();
             if (nextTour == null)
             {
-                var message = Program.SettingService.GetConsoleText("consoleGuideTourNoToursAvailable");
+                var message = Program.SettingService.GetConsoleText("guideTourNoToursAvailable");
 
                 new AlertView(message, AlertView.Info).Show();
 
@@ -46,7 +46,7 @@ namespace HetDepot.Controllers
             // Genereer lijst van rondleidingen met informatie over aantal reserveringen
             var tourList = tours.Select(tour => tour.ToListableItem(
                 Program.SettingService.GetConsoleText(
-                    tour.Reservations.Count <= 0 ? "consoleTourNoReservations" : (tour.Reservations.Count == 1 ? "consoleTourOneReservation" : "consoleTourReservations"),
+                    tour.Reservations.Count <= 0 ? "tourNoReservations" : (tour.Reservations.Count == 1 ? "tourOneReservation" : "tourReservations"),
                     new()
                     {
                         ["count"] = tour.Reservations.Count.ToString(),
@@ -55,12 +55,12 @@ namespace HetDepot.Controllers
             )).ToList();
 
             // Extra optie "Inloggen als gids":
-            tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("consoleBack"), () => new ShowToursController()));
-            ListView<Tour> tourOverviewVisitorWithInterface = new(Program.SettingService.GetConsoleText("consoleGuideTourShowToursToStart"), tourList);
+            tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("back"), () => new ShowToursController()));
+            ListView<Tour> tourOverviewVisitorWithInterface = new(Program.SettingService.GetConsoleText("guideTourShowToursToStart"), tourList);
 
             Controller? otherController;
             Tour? selectedTour = tourOverviewVisitorWithInterface.ShowAndGetResult<Controller>(out otherController);
-            NextController = otherController; // Alleen als extra optie gekozen is
+            NextController = otherController; // Only set if an extra option is selected
 
             if (selectedTour == null)
                 return;

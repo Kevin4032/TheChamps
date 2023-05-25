@@ -26,19 +26,19 @@ namespace HetDepot.Controllers
                 return;
 
             var question = Program.SettingService
-                .GetConsoleText(_forGroup ? "consoleVisitorReservationChangeTourInfoForGroup" :
-                    "consoleVisitorReservationChangeTourInfo", new()
+                .GetConsoleText(_forGroup ? "visitorReservationChangeTourInfoForGroup" :
+                    "visitorReservationChangeTourInfo", new()
                     {
                         ["prevTime"] = tourCurrentlySelected.GetTime(),
                     });
 
             var subquestion = Program.SettingService
-                .GetConsoleText("consoleVisitorReservationCancellationRequestionConfirmation");
+                .GetConsoleText("visitorReservationCancellationRequestionConfirmation");
 
             ListView<bool> replaceCurrentQuestion = new(question, subquestion, new List<ListableItem<bool>>()
             {
-                new ListViewItem<bool>("Ja", true),
-                new ListViewItem<bool>("Nee", false),
+                new ListViewItem<bool>(Program.SettingService.GetConsoleText("yes"), true),
+                new ListViewItem<bool>(Program.SettingService.GetConsoleText("no"), false),
             });
             bool replacePrev = replaceCurrentQuestion.ShowAndGetResult();
 
@@ -47,7 +47,7 @@ namespace HetDepot.Controllers
             if (!replacePrev)
             {
                 var messageNotChanged = Program.SettingService
-                    .GetConsoleText("consoleVisitorReservationChangeNotChanges", new()
+                    .GetConsoleText("visitorReservationChangeNotChanges", new()
                     {
                         ["time"] = tourCurrentlySelected.GetTime(),
                     });
@@ -59,8 +59,8 @@ namespace HetDepot.Controllers
             Program.TourService.AddTourReservation(_tour, _visitor);
 
             var messageChanged = Program.SettingService.GetConsoleText(
-                _forGroup ? "consoleVisitorReservationChangeTourConfirmationForGroup" :
-                    "consoleVisitorReservationChangeTourConfirmation", new()
+                _forGroup ? "visitorReservationChangeTourConfirmationForGroup" :
+                    "visitorReservationChangeTourConfirmation", new()
                     {
                         ["currentTime"] = tourCurrentlySelected.GetTime(),
                         ["newTime"] = _tour.GetTime(),

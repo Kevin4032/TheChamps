@@ -16,29 +16,29 @@ namespace HetDepot.Controllers
         {
             var tours = Program.TourService.GetOpenTours();
 
-            // Genereer lijst van rondleidingen met informatie over aantal vrije plaatsen
+            // Generate list of tours with info on number of free spaces
             var tourList = tours.Select(tour => tour.ToListableItem(
                 Program.SettingService.GetConsoleText(
-                    tour.FreeSpaces <= 0 ? "consoleTourNoFreeSpaces" : (tour.FreeSpaces == 1 ? "consoleTourOneFreeSpace" : "consoleTourFreeSpaces"),
+                    tour.FreeSpaces <= 0 ? "tourNoFreeSpaces" : (tour.FreeSpaces == 1 ? "tourOneFreeSpace" : "tourFreeSpaces"),
                     new()
                     {
                         ["count"] = tour.FreeSpaces.ToString(),
                     }
                 ),
-                tour.FreeSpaces == 0 // Disabled (niet selecteerbaar) als er geen vrije plaatsen zijn
+                tour.FreeSpaces == 0 // Disabled (not selectable) when there are no free spaces
             )).ToList();
 
-            // Extra opties "Inloggen als gids" en "Inloggen als afdelingshoofd":
-            tourList.Add(new ListViewExtraItem<Tour, Controller>("Reservering annuleren", () => new CancelReservationController()));
-            tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("consoleHomeLoginAsGuide"), () => new GuideController()));
-            tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("consoleHomeLoginAsManager"), () => new ManagerController()));
+            // Extra options ("Reservering Annuleren", "Inloggen als gids", "Inloggen als afdelingshoofd")
+            tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("homeCancelReservation"), () => new CancelReservationController()));
+            tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("homeLoginAsGuide"), () => new GuideController()));
+            tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("homeLoginAsManager"), () => new ManagerController()));
 
             //TODO: Opmerking Kevin: Als alle rondleidingen vol zitten, 'hangt' de interface
-            ListView<Tour> tourOverviewVisitorWithInterface = new(Program.SettingService.GetConsoleText("consoleWelcome"), tourList);
+            ListView<Tour> tourOverviewVisitorWithInterface = new(Program.SettingService.GetConsoleText("welcome"), tourList);
 
             Controller? otherController;
             Tour? selectedTour = tourOverviewVisitorWithInterface.ShowAndGetResult<Controller>(out otherController);
-            NextController = otherController; // Alleen als extra optie gekozen is
+            NextController = otherController; // Only set if an extra option is selected
 
             if (selectedTour != null)
                 NextController = new RequestAuthenticationController(selectedTour);

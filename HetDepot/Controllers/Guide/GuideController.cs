@@ -15,27 +15,22 @@ public class GuideController : Controller
     public override void Execute()
     {
         string personnelCode = (new InputView(
-            Program.SettingService.GetConsoleText("consoleGuideTitle"),
-            Program.SettingService.GetConsoleText("consoleGuidePersonnelNumber"))
+            Program.SettingService.GetConsoleText("guideTitle"),
+            Program.SettingService.GetConsoleText("guidePersonnelNumber"))
         ).ShowAndGetResult();
 
-        //check Guide ID (password). From the exampleGuide.json, it is D0000000002
-        //instance of Peopleservice:
+        // Check Guide ID (password). From the exampleGuide.json, it is D0000000002
 
-
-
-        Guide guide = Program.PeopleService.GetGuide();
-        bool isGuide = personnelCode == guide.Id;
+        Guide? guide = Program.PeopleService.GetGuide()!;
+        bool isGuide = guide != null && personnelCode == guide.Id;
 
 
         if (isGuide)
         {
-            // TODO: Create Tour overview
-            //(new AlertView("TODO: Create Tour overview", AlertView.Info)).Show();
             NextController = new GuideShowAndSelectTourController();
             return;
         }
-        else if (isGuide == false)
+        else
         {
             NextController = new EmployeeInvalidLoginController();
         }

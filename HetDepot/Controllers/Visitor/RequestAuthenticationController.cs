@@ -17,19 +17,19 @@ namespace HetDepot.Controllers
 
         public override void Execute()
         {
-            var title = Program.SettingService.GetConsoleText("consoleVisitorRequestCodeSelectedTour", new()
+            var title = Program.SettingService.GetConsoleText("visitorRequestCodeSelectedTour", new()
             {
                 ["time"] = _tour.GetTime(),
             });
-            var textToUser = Program.SettingService.GetConsoleText("consoleLogonOpeningWelcome");
+            var textToUser = Program.SettingService.GetConsoleText("logonOpeningWelcome");
 
             if (_forGroup)
             {
-                title = Program.SettingService.GetConsoleText("consoleVisitorRequestCodeSelectedTourForGroup", new Dictionary<string, string>()
+                title = Program.SettingService.GetConsoleText("visitorRequestCodeSelectedTourForGroup", new Dictionary<string, string>()
                 {
                     ["time"] = _tour.GetTime()
                 });
-                textToUser = Program.SettingService.GetConsoleText("consoleLogonOpeningWelcomeForGroup");
+                textToUser = Program.SettingService.GetConsoleText("logonOpeningWelcomeForGroup");
             }
 
             Person? person = null;
@@ -46,7 +46,7 @@ namespace HetDepot.Controllers
 
                 if (person == null)
                 {
-                    var errorMessage = Program.SettingService.GetConsoleText("consoleVisitorLogonCodeInvalid");
+                    var errorMessage = Program.SettingService.GetConsoleText("visitorLogonCodeInvalid");
                     new AlertView(errorMessage, AlertView.Error).Show();
                 }
             }

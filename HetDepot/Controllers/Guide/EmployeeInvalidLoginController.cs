@@ -15,7 +15,7 @@ class EmployeeInvalidLoginController : Controller
     {
         // Console methods like this should actually go in a View, but for now this will do
 
-        var message = Program.SettingService.GetConsoleText("ConsoleStaffInvalidCode");
+        var message = Program.SettingService.GetConsoleText("staffInvalidCode");
 
         new AlertView(message, AlertView.Info).Show();
 

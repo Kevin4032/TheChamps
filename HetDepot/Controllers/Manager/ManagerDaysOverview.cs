@@ -20,7 +20,7 @@ public class ManagerDaysOverview : Controller
 
         Controller? otherController;
         List<Tour>? selectedTours = daysOverview.ShowAndGetResult<Controller>(out otherController);
-        NextController = otherController; // Alleen als extra optie gekozen is
+        NextController = otherController; // Only set if an extra option is selected
 
         if (selectedTours != null)
             NextController = new ManagerTypeQuestion(selectedTours);
