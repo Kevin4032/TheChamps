@@ -36,6 +36,6 @@ public class ManagerTypeQuestion : Controller
         NextController = otherController; // Alleen als extra optie gekozen is
 
         if (otherController == null)
-            NextController = new ManagerDayOccupancyOverview(tours, (int) type);
+            NextController = new ManagerDayOccupancyOverview(tours, (int)type);
     }
 }

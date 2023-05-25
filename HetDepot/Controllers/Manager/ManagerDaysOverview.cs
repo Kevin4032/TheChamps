@@ -13,7 +13,7 @@ public class ManagerDaysOverview : Controller
         var dayList = allTours.Select(
             dayToursList => new ListViewItem<List<Tour>>(dayToursList[0].StartTime.ToString("dd/MM/yyyy"), dayToursList)
         ).ToList<ListableItem<List<Tour>>>();
-        
+
         dayList.Add(new ListViewExtraItem<List<Tour>, Controller>(Program.SettingService.GetConsoleText("backToHome"), () => new ShowToursController()));
 
         var daysOverview = new ListView<List<Tour>>(Program.SettingService.GetConsoleText("managerSelectDayQuestion"), dayList);

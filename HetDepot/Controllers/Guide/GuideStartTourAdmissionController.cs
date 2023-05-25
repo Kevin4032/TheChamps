@@ -1,11 +1,11 @@
 //GuideStartTourAdmissionController.cs
+using System.Media;
 using HetDepot.People.Model;
+using HetDepot.Tours;
 using HetDepot.Tours.Model;
 using HetDepot.Views;
 using HetDepot.Views.Interface;
 using HetDepot.Views.Parts;
-using System.Media;
-using HetDepot.Tours;
 
 
 namespace HetDepot.Controllers;
@@ -78,7 +78,7 @@ class GuideStartTourAdmissionController : Controller
         catch (System.Exception)
         {
             message_problem_a = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeNotValid");
-            message_problem_b =  Program.SettingService.GetConsoleText("consoleVisitorLogonCodeInvalid");
+            message_problem_b = Program.SettingService.GetConsoleText("consoleVisitorLogonCodeInvalid");
             message_problem_c = message_problem_a + ". " + message_problem_b;
             new AlertView(message_problem_c.ToString(), ConsoleColor.Red).Show();
             //Doorgaan met volgende aanmelding:
@@ -121,10 +121,10 @@ class GuideStartTourAdmissionController : Controller
         {
             try
             {
-            message_problem_a = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeNotValid" + " " +"consoleVisitorLogonCodeInvalid");
-            new AlertView(message, ConsoleColor.Red).Show();
-            //Doorgaan met volgende aanmelding:
-            NextController = this;
+                message_problem_a = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeNotValid" + " " + "consoleVisitorLogonCodeInvalid");
+                new AlertView(message, ConsoleColor.Red).Show();
+                //Doorgaan met volgende aanmelding:
+                NextController = this;
             }
             catch (System.Exception)
             {
@@ -133,15 +133,15 @@ class GuideStartTourAdmissionController : Controller
             }
             //print: Je bent niet aangemeld. De code is niet geldig. Controleer uw code en probeer het nog eens
 
-/*             var message_problem = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeNotValid" + " " +"consoleVisitorLogonCodeInvalid");
-            new AlertView(message, ConsoleColor.Red).Show();
-            //Doorgaan met volgende aanmelding:
-            NextController = this; */
+            /*             var message_problem = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeNotValid" + " " +"consoleVisitorLogonCodeInvalid");
+                        new AlertView(message, ConsoleColor.Red).Show();
+                        //Doorgaan met volgende aanmelding:
+                        NextController = this; */
             return;
         }
         //als visitor ID geldig is, maar er geen reservering is:
 
-        if (Program.PeopleService.GetVisitorById(personIDToVerify) != null )
+        if (Program.PeopleService.GetVisitorById(personIDToVerify) != null)
         {
 
             /* TODO: Nogmaal invoeren personeelscode en vragen om handmatig aanmelden, RequestAuthenticationController kan hier niet gebruikt worden omdat er dan naar de bezoeker flow gegaan word */
@@ -160,7 +160,7 @@ class GuideStartTourAdmissionController : Controller
         //Of we kunnen ervoor kiezen om de geldige code hierna naar de controller 'Persoon handmatig toevoegen' te sturen.
 
         message_problem_a = Program.SettingService.GetConsoleText("consoleGuideAdmissionCodeNotValid");
-        message_problem_b =  Program.SettingService.GetConsoleText("consoleVisitorLogonCodeInvalid");
+        message_problem_b = Program.SettingService.GetConsoleText("consoleVisitorLogonCodeInvalid");
         message_problem_c = message_problem_a + ". " + message_problem_b;
         new AlertView(message_problem_c.ToString(), ConsoleColor.Red).Show();
         //Doorgaan met volgende aanmelding:

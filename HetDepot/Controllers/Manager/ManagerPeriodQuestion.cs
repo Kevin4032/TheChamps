@@ -29,7 +29,7 @@ public class ManagerPeriodQuestion : Controller
         int? type = typeQuestion.ShowAndGetResult<Controller>(out otherController);
         NextController = otherController; // Alleen als extra optie gekozen is
 
-        if(otherController == null)
+        if (otherController == null)
             NextController = type == 0 ? new ManagerDaysOverview() : new ManagerWeeksOverview();
 
     }
