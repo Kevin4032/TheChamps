@@ -66,11 +66,11 @@ namespace HetDepot.Persistence
 
             return result;
         }
-        public List<Tour> GetTours(string alternativeTourPath = null)
+        public List<Tour> GetTours(string alternativeTourPath = "")
         {
             var result = new List<Tour>();
 
-            var tours = _depotDataReadWrite.Read<List<TourJsonModel>>(alternativeTourPath ?? _toursPath);
+            var tours = _depotDataReadWrite.Read<List<TourJsonModel>>(alternativeTourPath == "" ? _toursPath : alternativeTourPath);
 
             if (tours == null)
                 return result;

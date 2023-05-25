@@ -9,7 +9,7 @@ namespace HetDepot.Controllers;
 
 public class CancelReservationController : Controller
 {
-    private Visitor _visitor;
+    private Visitor _visitor = default!;
 
     public override void Execute()
     {
@@ -20,8 +20,9 @@ public class CancelReservationController : Controller
         {
             _visitor = Program.PeopleService.GetVisitorById(visitorCode);
         }
-        catch (Exception e)
+        catch (NullReferenceException)
         {
+            // Visitor not found
             (new AlertView("Code ongeldig", AlertView.Error)).Show();
             NextController = new ShowToursController();
             return;
@@ -31,13 +32,15 @@ public class CancelReservationController : Controller
         {
             (new AlertView("Code ongeldig", AlertView.Error)).Show();
             NextController = new ShowToursController();
+            return;
         }
 
-        Tour tour = Program.TourService.GetReservation(_visitor);
+        Tour tour = Program.TourService.GetReservation(_visitor)!; // Can't be null, or "HasReservation" above would have returned false 
 
         if (tour.StartedAt != null)
         {
             (new AlertView("Tour is al gestart reservering kan niet geannuleerd worden", AlertView.Info)).Show();
+            return;
         }
 
         Program.TourService.RemoveTourReservation(tour, _visitor);
