@@ -35,7 +35,7 @@ namespace HetDepot.Controllers
             Person? person = null;
             string userCode;
 
-            while (person == null)
+            while (person == null || !(person is Visitor))
             {
                 userCode = (new InputView(title, textToUser)).ShowAndGetResult() ?? "";
 
