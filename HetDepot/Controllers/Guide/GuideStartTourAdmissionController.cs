@@ -146,9 +146,9 @@ class GuideStartTourAdmissionController : Controller
 
             // //Alert: handmatig aanmelden:
             var message_manual_add = Program.SettingService.GetConsoleText("guideTourVisitorAddWithoutReservationOption");
-            new AlertView(message_manual_add,ConsoleColor.Blue).Show();
+            new AlertView(message_manual_add, ConsoleColor.Blue).Show();
             // //handmarig aanmelden:
-            NextController = new GuideReservationCreateController(_tour,new Visitor(personIDToVerify));
+            NextController = new GuideReservationCreateController(_tour, new Visitor(personIDToVerify));
             return;
 
         }
