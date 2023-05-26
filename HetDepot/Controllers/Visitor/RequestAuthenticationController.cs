@@ -44,15 +44,15 @@ namespace HetDepot.Controllers
 
                 person = userCode == "" ? null : GetPerson(userCode);
 
-                if (person == null)
+                if (person == null || !(person is Visitor))
                 {
                     var errorMessage = Program.SettingService.GetConsoleText("visitorLogonCodeInvalid");
                     new AlertView(errorMessage, AlertView.Error).Show();
                 }
             }
 
-            NextController = person == null ? new ShowToursController() :
-                new ValidateTourPickController(_tour, person, _forGroup);
+            NextController = person is Visitor ? new ValidateTourPickController(_tour, person, _forGroup) :
+                new ShowToursController();
         }
 
         private Person? GetPerson(string userCode)
