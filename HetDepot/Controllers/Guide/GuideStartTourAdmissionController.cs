@@ -35,21 +35,21 @@ class GuideStartTourAdmissionController : Controller
         var personIDToVerify = string.Empty;
 
 
-        if (_tour.Admissions.Count == 0)
+        if (_tour.Admissions.Count == 0 && _tour.Admissions.Count < _tour.MaxReservations)
         {
             personIDToVerify = new InputView(countZero, message).ShowAndGetResult();
         }
-        else if (_tour.Admissions.Count == 1)
+        else if (_tour.Admissions.Count == 1 && _tour.Admissions.Count < _tour.MaxReservations)
         {
             personIDToVerify = new InputView(countOne, message).ShowAndGetResult();
         }
-        else
+        else if (_tour.Admissions.Count < _tour.MaxReservations)
         {
             personIDToVerify = new InputView(countMul, message).ShowAndGetResult();
         }
 
 
-        if (_tour.Reservations.Count == _tour.MaxReservations || personIDToVerify == "s" || personIDToVerify == "S")
+        if (_tour.Admissions.Count == _tour.MaxReservations || personIDToVerify == "s" || personIDToVerify == "S")
         {
             /*if maxreservations reached or if user chooses start tour anyway while not everyone checked in,
             next controller default voor volgende tour of bezoeker aanmelding.
