@@ -145,11 +145,11 @@ class GuideStartTourAdmissionController : Controller
             /* TODO: Nogmaal invoeren personeelscode en vragen om handmatig aanmelden, RequestAuthenticationController kan hier niet gebruikt worden omdat er dan naar de bezoeker flow gegaan word */
 
             // //Alert: handmatig aanmelden:
-            // var message_manual_add = Program.SettingService.GetConsoleText("guideTourVisitorAddWithoutReservationOption");
-            // new AlertView(message_manual_add,ConsoleColor.Blue).Show();
+            var message_manual_add = Program.SettingService.GetConsoleText("guideTourVisitorAddWithoutReservationOption");
+            new AlertView(message_manual_add,ConsoleColor.Blue).Show();
             // //handmarig aanmelden:
-            // NextController = new RequestAuthenticationController(_tour);
-            // return;
+            NextController = new GuideReservationCreateController(_tour,new Visitor(personIDToVerify));
+            return;
 
         }
 
