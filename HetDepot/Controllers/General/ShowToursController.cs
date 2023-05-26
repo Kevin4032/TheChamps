@@ -29,7 +29,7 @@ namespace HetDepot.Controllers
             )).ToList();
 
             // Extra options ("Reservering Annuleren", "Inloggen als gids", "Inloggen als afdelingshoofd")
-            tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("homeCancelReservation"), () => new CancelReservationController()));
+            tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("homeCancelReservation"), () => new ReservationCancellationController()));
             tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("homeLoginAsGuide"), () => new GuideController()));
             tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("homeLoginAsManager"), () => new ManagerController()));
 
