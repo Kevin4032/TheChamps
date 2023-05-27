@@ -17,7 +17,7 @@ class EmployeeInvalidLoginController : Controller
 
         var message = Program.SettingService.GetConsoleText("staffInvalidCode");
 
-        new AlertView(message, AlertView.Info).Show();
+        new AlertView(message, ConsoleColor.Red).Show();
 
         NextController = new ShowToursController();
 

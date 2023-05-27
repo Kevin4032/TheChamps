@@ -105,11 +105,25 @@ class GuideStartTourAdmissionController : Controller
             //var message = _settingService.GetConsoleText("");
             // in de toekomst vervangen door: var message = _settingService.GetConsoleText("DeCodeIsOngeldig");
 
-            // Gids ziet pop-up met de melding hierboven. Keert terug naar nieuwe instance van deze controller
-            new AlertView(message_success, ConsoleColor.Green).Show();
-            //Doorgaan met volgende aanmelding:
-            NextController = this;
-            return;
+            //Als max aantal aanmeldingen nu bereikt is, start tour:
+            if (_tour.Admissions.Count == _tour.MaxReservations)
+            {
+                Program.TourService.StartTour(_tour);
+
+                //start the tour:
+                var message_Tour_Starts = Program.SettingService.GetConsoleText("guideTourAllReservationsValidated");
+                new AlertView(message_Tour_Starts, ConsoleColor.Blue).Show();
+                NextController = new ShowToursController();
+                return;
+            }
+            else
+            {
+                // Gids ziet pop-up met de melding hierboven. Keert terug naar nieuwe instance van deze controller
+                new AlertView(message_success, ConsoleColor.Green).Show();
+                //Doorgaan met volgende aanmelding:
+                NextController = this;
+                return;
+            }
 
         }
         //Als code niet geldig is:
