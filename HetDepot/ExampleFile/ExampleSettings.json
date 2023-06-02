@@ -84,6 +84,7 @@
     "visitorReservationMaximumForTour": "Het maximum aantal deelnemers is bereikt.",
     "visitorReservationNoMoreTours": "Er zijn geen rondleidingen meer beschikbaar",
     "welcome": "Welkom bij Het Depot",
+    "welcomeInstructions": "Kies een tijdstip om een rondleiding te reserveren",
     "yes": "Ja"
   },
   "TourTimes": [
