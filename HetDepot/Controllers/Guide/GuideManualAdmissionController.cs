@@ -25,16 +25,23 @@ class GuideManualAdmissionController : Controller
     {
         string title = Program.SettingService.GetConsoleText("guideTourManuallyCreateReservation");
         string body = Program.SettingService.GetConsoleText("visitorEnterCode");
+        string goBack = Program.SettingService.GetConsoleText("goBack");
         string message_green = Program.SettingService.GetConsoleText("guideManualAdmissionSuccess");
         string message_red = Program.SettingService.GetConsoleText("GuideManualAdmissionInvalid");
 
 
 
         var personIDToVerify = string.Empty;
+        
 
 
-
-        personIDToVerify = new InputView(title, body).ShowAndGetResult();
+        personIDToVerify = new InputView(title, body+goBack).ShowAndGetResult();
+        
+        if (personIDToVerify == "Q" || personIDToVerify == "q")
+        {
+            NextController = new GuideStartTourAdmissionController(_tour);
+            return;
+        } 
         Visitor verified_ID = Program.PeopleService.GetVisitorById(personIDToVerify);
         string message_problem_a;
         string message_problem_b;

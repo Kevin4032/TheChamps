@@ -11,7 +11,7 @@ class GuideNoReservationsForThisTourController : Controller
 
         Console.WriteLine(Program.SettingService.GetConsoleText("guideTourNoReservationsForTour"));
         // als gids h typt, gaan terug naar niewe instance van guidecontroller.
-        Console.WriteLine("Druk \"h\" om door te gaan.");
+        Console.WriteLine("Typ \"h\" om door te gaan.");
         var pressedH = Console.ReadLine();
         if (pressedH == "H" || pressedH == "h")
         {

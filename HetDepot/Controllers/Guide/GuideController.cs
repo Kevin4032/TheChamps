@@ -19,10 +19,17 @@ public class GuideController : Controller
             Program.SettingService.GetConsoleText("guidePersonnelNumber"))
         ).ShowAndGetResult();
 
+        if (personnelCode == "Q" || personnelCode == "q")
+        {
+            NextController = new ShowToursController();
+            return;
+        }
+
         // Check Guide ID (password). From the exampleGuide.json, it is D0000000002
 
         Guide? guide = Program.PeopleService.GetGuide()!;
         bool isGuide = guide != null && personnelCode == guide.Id;
+
 
 
         if (isGuide)

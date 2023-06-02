@@ -1,4 +1,4 @@
-//GuideStartTourAdmissionController.cs
+﻿//GuideStartTourAdmissionController.cs
 using System.Media;
 using HetDepot.Controllers.General;
 using HetDepot.People.Model;
@@ -35,11 +35,7 @@ class GuideStartTourAdmissionController : Controller
 
         var personIDToVerify = string.Empty;
 
-        if (_tour.Reservations.Count() == 0)
-        {
-            NextController = new GuideNoReservationsForThisTourController();
-            return;
-        }
+
         if (_tour.Admissions.Count == 0 && _tour.Admissions.Count < _tour.MaxReservations)
         {
             personIDToVerify = new InputView(countZero, message).ShowAndGetResult();
@@ -54,7 +50,7 @@ class GuideStartTourAdmissionController : Controller
         }
         if (personIDToVerify == "h" || personIDToVerify == "H")
         {
-            /* TODO: Nogmaal invoeren personeelscode en vragen om handmatig aanmelden, RequestAuthenticationController kan hier niet gebruikt worden omdat er dan naar de bezoeker flow gegaan word */
+            
 
             // //Alert: handmatig aanmelden:
             var message_manual_add = Program.SettingService.GetConsoleText("guideTourVisitorAddWithoutReservationOption");
@@ -66,9 +62,8 @@ class GuideStartTourAdmissionController : Controller
         }
         if (personIDToVerify == "Q" || personIDToVerify == "q")
         {
-            NextController = new GuideShowAndSelectTourController();
-            return;
-        } 
+            NextController = new GuideStartTourAdmissionController(_tour);
+        }
 
 
         if (_tour.Admissions.Count == _tour.MaxReservations || personIDToVerify == "s" || personIDToVerify == "S")
