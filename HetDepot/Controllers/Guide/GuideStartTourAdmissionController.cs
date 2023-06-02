@@ -1,5 +1,6 @@
 //GuideStartTourAdmissionController.cs
 using System.Media;
+using HetDepot.Controllers.General;
 using HetDepot.People.Model;
 using HetDepot.Tours;
 using HetDepot.Tours.Model;
@@ -47,6 +48,18 @@ class GuideStartTourAdmissionController : Controller
         {
             personIDToVerify = new InputView(countMul, message).ShowAndGetResult();
         }
+        if (personIDToVerify == "h" || personIDToVerify == "H")
+        {
+            /* TODO: Nogmaal invoeren personeelscode en vragen om handmatig aanmelden, RequestAuthenticationController kan hier niet gebruikt worden omdat er dan naar de bezoeker flow gegaan word */
+
+            // //Alert: handmatig aanmelden:
+            var message_manual_add = Program.SettingService.GetConsoleText("guideTourVisitorAddWithoutReservationOption");
+            new AlertView(message_manual_add, ConsoleColor.Blue).Show();
+            // //handmarig aanmelden:
+            NextController = new GuideManualAdmissionLoginController(_tour);
+            return;
+
+        }
 
 
         if (_tour.Admissions.Count == _tour.MaxReservations || personIDToVerify == "s" || personIDToVerify == "S")
@@ -63,6 +76,8 @@ class GuideStartTourAdmissionController : Controller
             NextController = new ShowToursController();
             return;
         }
+
+
 
 
         Visitor verified_ID;
@@ -82,6 +97,12 @@ class GuideStartTourAdmissionController : Controller
             //Doorgaan met volgende aanmelding:
             NextController = this;
             return;
+        }
+
+        {
+
+
+
         }
 
 
@@ -153,19 +174,7 @@ class GuideStartTourAdmissionController : Controller
         }
         //als visitor ID geldig is, maar er geen reservering is:
 
-        if (Program.PeopleService.GetVisitorById(personIDToVerify) != null)
-        {
 
-            /* TODO: Nogmaal invoeren personeelscode en vragen om handmatig aanmelden, RequestAuthenticationController kan hier niet gebruikt worden omdat er dan naar de bezoeker flow gegaan word */
-
-            // //Alert: handmatig aanmelden:
-            var message_manual_add = Program.SettingService.GetConsoleText("guideTourVisitorAddWithoutReservationOption");
-            new AlertView(message_manual_add,ConsoleColor.Blue).Show();
-            // //handmarig aanmelden:
-            NextController = new GuideReservationCreateController(_tour,new Visitor(personIDToVerify));
-            return;
-
-        }
 
         //Als niet alles afgevangen kan worden door de twee hierboven, bijvoorbeeld als code al gebruikt is, of code is geldig maar heeft geen
         //Reservering, dan moet hieronder de reden aangepast worden.
