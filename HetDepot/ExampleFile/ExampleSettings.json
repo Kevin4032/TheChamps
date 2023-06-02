@@ -31,6 +31,8 @@
     "guideTourVisitorValidationStarted": "Er zijn {reservationCount}",
     "guideTourVisitorValidationVisitorNextVisitor": "Volgende aanmelding",
     "guideTourVisitorValidationVisitorValidated": "{count} van {reservationCount} aangemeld.",
+    "guideManualAdmissionSuccess": "Persoon aangemeld voor deze rondleiding",
+    "guidemanualAdmissionInvalid" :  "Persoon niet aangemeld: De code is onbekend",
     "homeCancelReservation": "Reservering annuleren",
     "homeLoginAsGuide": "Inloggen als gids",
     "homeLoginAsManager": "Inloggen als afdelingshoofd",
@@ -96,5 +98,6 @@
     "13:40",
     "14:00"
   ],
-  "MaxReservationsPerTour": 13
+  "MaxReservationsPerTour": 2
+
 }
