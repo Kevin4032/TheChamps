@@ -19,7 +19,7 @@ namespace HetDepot.Controllers
         {
             Program.TourService.AddTourReservation(_tour, _visitor);
 
-            var message = Program.SettingService.GetConsoleText("consoleGuideTourManuallyCreateReservation", new()
+            var message = Program.SettingService.GetConsoleText("guideTourManuallyCreateReservation", new()
             {
                 ["time"] = _tour.GetTime(),
             });

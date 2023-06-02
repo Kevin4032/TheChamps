@@ -33,9 +33,9 @@ public class ManagerWeeksOverview : Controller
 
         Controller? otherController;
         List<List<Tour>>? selectedWeek = weeksOverview.ShowAndGetResult<Controller>(out otherController);
-        NextController = otherController; // Alleen als extra optie gekozen is
+        NextController = otherController; // Only set if an extra option is selected
 
-        if (otherController == null)
+        if (otherController == null && selectedWeek != null)
             NextController = new ManagerWeekAnalysis(selectedWeek);
 
     }

@@ -17,26 +17,25 @@ namespace HetDepot.Controllers
 
         public override void Execute()
         {
-            var title = Program.SettingService.GetConsoleText("consoleVisitorRequestCodeSelectedTour", new()
+            var title = Program.SettingService.GetConsoleText("visitorRequestCodeSelectedTour", new()
             {
                 ["time"] = _tour.GetTime(),
             });
-            var textToUser = Program.SettingService.GetConsoleText("consoleLogonOpeningWelcome");
+            var textToUser = Program.SettingService.GetConsoleText("logonOpeningWelcome");
 
             if (_forGroup)
             {
-                title = Program.SettingService.GetConsoleText("consoleVisitorRequestCodeSelectedTourForGroup", new Dictionary<string, string>()
+                title = Program.SettingService.GetConsoleText("visitorRequestCodeSelectedTourForGroup", new Dictionary<string, string>()
                 {
                     ["time"] = _tour.GetTime()
                 });
-                textToUser = Program.SettingService.GetConsoleText("consoleLogonOpeningWelcomeForGroup");
+                textToUser = Program.SettingService.GetConsoleText("logonOpeningWelcomeForGroup");
             }
 
-            // var success = false;
             Person? person = null;
             string userCode;
 
-            while (person == null)
+            while (person == null || !(person is Visitor))
             {
                 userCode = (new InputView(title, textToUser)).ShowAndGetResult() ?? "";
 
@@ -45,15 +44,15 @@ namespace HetDepot.Controllers
 
                 person = userCode == "" ? null : GetPerson(userCode);
 
-                if (person == null)
+                if (person == null || !(person is Visitor))
                 {
-                    var errorMessage = Program.SettingService.GetConsoleText("consoleVisitorLogonCodeInvalid");
+                    var errorMessage = Program.SettingService.GetConsoleText("visitorLogonCodeInvalid");
                     new AlertView(errorMessage, AlertView.Error).Show();
                 }
             }
 
-            NextController = person == null ? new ShowToursController() :
-                new ValidateTourPickController(_tour, person, _forGroup);
+            NextController = person is Visitor ? new ValidateTourPickController(_tour, person, _forGroup) :
+                new ShowToursController();
         }
 
         private Person? GetPerson(string userCode)

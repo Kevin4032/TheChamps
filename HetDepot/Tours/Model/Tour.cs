@@ -10,7 +10,7 @@ namespace HetDepot.Tours.Model
     public class Tour : IListableObject<Tour>
     {
         public DateTime StartTime { get; private set; }
-        public Guide Guide { get; set; }
+        // public Guide Guide { get; set; } // UNUSED ?
 
         public int MaxReservations
         {

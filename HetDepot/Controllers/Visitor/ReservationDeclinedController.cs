@@ -10,7 +10,7 @@ namespace HetDepot.Controllers
 
         public override void Execute()
         {
-            var message = Program.SettingService.GetConsoleText("consoleVisitorAlreadyHasTourAdmission");
+            var message = Program.SettingService.GetConsoleText("visitorAlreadyHasTourAdmission");
 
             new AlertView(message, AlertView.Info).Show();
 

@@ -16,102 +16,41 @@ internal class Program
 
     public static Controller? CurrentController { get; private set; }
 
-    public static readonly IDepotErrorLogger ErrorLogger;
-    public static readonly ITourService TourService;
-    public static readonly IPeopleService PeopleService;
-    public static readonly ISettingService SettingService;
+    // Services that are available everywhere. These are instanciated in the constructor.
+    // If an error occurs, the error is logged and the program terminates. The "default!" value is to prevent a (nonsense) compiler warning
+    // that is caused by the try/catch block
+    public static readonly IDepotErrorLogger ErrorLogger = default!;
+    public static readonly ITourService TourService = default!;
+    public static readonly IPeopleService PeopleService = default!;
+    public static readonly ISettingService SettingService = default!;
 
     private static Controller? _createDefaultController()
     {
         // This creates an instance of the default controller (the "home screen")
         // It's the first screen to be shown and the program returns to it if a controller does not provide a different controller to run next
-        return new DefaultController();
+        return new ShowToursController();
     }
 
     static Program()
     {
-        ErrorLogger = new DepotErrorLogger(new DepotErrorJson());
-        Repository repository = null;
-        
         try
         {
-            repository = new Repository(new DepotJson(ErrorLogger), ErrorLogger, new DepotDataValidator());
-        }
-        catch (Exception ex)
-        {
-            LogError(ex);
-        }
+            ErrorLogger = new DepotErrorLogger(new DepotErrorJson());
+            var repository = new Repository(new DepotJson(ErrorLogger), ErrorLogger, new DepotDataValidator());
 
-        // Het idee van Services is toch dat ze overal beschikbaar zijn? Daarom hier naartoe verplaatst vanuit Controller (Ruben)
-        SettingService = new SettingService(repository, ErrorLogger);
-
-        try
-        {
+            SettingService = new SettingService(repository, ErrorLogger);
             PeopleService = new PeopleService(repository, ErrorLogger);
+            TourService = new TourService(repository, ErrorLogger);
+
+            // Make sure the data in the provided json files is correct 
+            InitChecker.CheckProperInit();
         }
         catch (Exception ex)
         {
-            LogError(ex);
-        }
-
-        // Controle dat data correct is
-        CheckProperInit();
-
-        TourService = new TourService(repository, ErrorLogger);
-    }
-
-    private static void LogError(Exception ex)
-    {
-        Console.WriteLine(ex.Message);
-        Console.WriteLine("Zie 'Errorlog.txt' en los het probleem op");
-        Environment.Exit(1);
-    }
-
-    private static void CheckProperInit()
-    {
-        CheckVisitors();
-        CheckGuide();
-        CheckManager();
-        ManagerAndGuideSameId();
-    }
-
-    private static void CheckVisitors()
-    {
-        try
-        {
-            var visitorCount = Program.PeopleService.GetVisitors().Count;
-            if (visitorCount == 0)
-            {
-                throw new Exception("Geen bezoekers gevonden, zie ExampleVisitors.json");
-            }
-        }
-        catch (Exception ex)
-        {
-            LogError(ex);
-        }
-    }
-
-    private static void CheckGuide()
-    {
-        try
-        {
-            var guide = Program.PeopleService.GetGuide();
-        }
-        catch (Exception ex)
-        {
-            LogError(ex);
-        }
-    }
-
-    private static void CheckManager()
-    {
-        try
-        {
-            var guide = Program.PeopleService.GetManager();
-        }
-        catch (Exception ex)
-        {
-            LogError(ex);
+            ErrorLogger.LogError(ex.Message);
+            Console.WriteLine(ex.Message);
+            Console.WriteLine("Zie 'Errorlog.txt' en los het probleem op");
+            Environment.Exit(1);
         }
     }
 
@@ -130,20 +69,6 @@ internal class Program
             // Set up the next controller (the "NextController" that was set by the controller that just executed, or else the default controller if NextController is null)
             CurrentController = Controller.NextController ?? _createDefaultController();
             Controller.ResetNextController(); // Reset NextController to null
-        }
-    }
-
-    private static void ManagerAndGuideSameId()
-    {
-        var guide = PeopleService.GetGuide();
-        var manager = PeopleService.GetManager();
-
-        if (guide.Equals(manager))
-        {
-            ErrorLogger.LogError("ID van Gids en Afdelingshoofd is gelijk. Zie ExampleManager.json / ExampleGuide.json");
-            Console.WriteLine("ID van Gids en Afdelingshoofd is gelijk.");
-            Console.WriteLine("Zie 'Errorlog.txt' en los het probleem op.");
-            Environment.Exit(1);
         }
     }
 }

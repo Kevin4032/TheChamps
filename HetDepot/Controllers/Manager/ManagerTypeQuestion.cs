@@ -15,15 +15,6 @@ public class ManagerTypeQuestion : Controller
 
     public override void Execute()
     {
-        // var typeQuestion = new ListView<int>(
-        //     Program.SettingService.GetConsoleText("managerTypeQuestion"), new List<ListableItem>()
-        // {
-        //     new ListViewItem(Program.SettingService.GetConsoleText("reservations"), 0),
-        //     new ListViewItem(Program.SettingService.GetConsoleText("admissions"), 1),
-        //     new ListViewItem(Program.SettingService.GetConsoleText("backToOverview"), "back"),
-        // });
-
-
         var typeQuestion = new ListView<int>(Program.SettingService.GetConsoleText("managerTypeQuestion"), new()
         {
             new ListViewItem<int>(Program.SettingService.GetConsoleText("reservations"), 0),
@@ -32,10 +23,10 @@ public class ManagerTypeQuestion : Controller
         });
 
         Controller? otherController;
-        int? type = typeQuestion.ShowAndGetResult<Controller>(out otherController);
-        NextController = otherController; // Alleen als extra optie gekozen is
+        int type = typeQuestion.ShowAndGetResult<Controller>(out otherController);
+        NextController = otherController; // Only set if an extra option is selected
 
         if (otherController == null)
-            NextController = new ManagerDayOccupancyOverview(tours, (int) type);
+            NextController = new ManagerDayOccupancyOverview(tours, type);
     }
 }

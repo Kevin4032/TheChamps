@@ -32,8 +32,8 @@ public class ReservationForGroupController : Controller
         }
 
         ListView<bool> groupReservationQuestion = new(
-            Program.SettingService.GetConsoleText("consoleVisitorReservationForGroupQuestion"),
-            Program.SettingService.GetConsoleText("consoleVisitorReservationForGroupSubquestion", new()
+            Program.SettingService.GetConsoleText("visitorReservationForGroupQuestion"),
+            Program.SettingService.GetConsoleText("visitorReservationForGroupSubquestion", new()
             {
                 ["FreeSpaces"] = freeTourSpaces.ToString(),
             }),

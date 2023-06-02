@@ -35,8 +35,10 @@ public class AlertView
         _inputThread.Start();
     }
 
-    private static void reader() {
-        while (true) {
+    private static void reader()
+    {
+        while (true)
+        {
             _getInput!.WaitOne();
             input = Console.ReadKey();
             _gotInput!.Set();

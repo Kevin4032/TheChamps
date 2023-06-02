@@ -10,8 +10,16 @@ using HetDepot.Views.Parts;
 
 namespace HetDepot.Controllers.General;
 
-public class GuideController : Controller
+public class GuideManualAdmissionLoginController : Controller
 {
+    private Tour _tour;
+
+    public GuideManualAdmissionLoginController(Tour tour) : base()
+    {
+        _tour = tour;
+    }
+
+
     public override void Execute()
     {
         string personnelCode = (new InputView(
@@ -27,7 +35,7 @@ public class GuideController : Controller
 
         if (isGuide)
         {
-            NextController = new GuideShowAndSelectTourController();
+            NextController = new GuideManualAdmissionController(_tour);
             return;
         }
         else
