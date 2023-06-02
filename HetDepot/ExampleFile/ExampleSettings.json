@@ -36,8 +36,8 @@
     "homeCancelReservation": "Reservering annuleren",
     "homeLoginAsGuide": "Inloggen als gids",
     "homeLoginAsManager": "Inloggen als afdelingshoofd",
-    "logonOpeningWelcome": "Voer uw unieke code in van uw entreebewijs of 'Q' om terug te gaan naar het overzicht:",
-    "logonOpeningWelcomeForGroup": "Voer de unieke code in van het entreebewijs van de persoon die u aan wilt melden of 'Q' om terug te gaan naar het overzicht:",
+    "logonOpeningWelcome": "Voer uw unieke code in of 'Q' om terug te gaan naar het overzicht:",
+    "logonOpeningWelcomeForGroup": "Voer de unieke code in van de persoon die u aan wilt melden of 'Q' om terug te gaan naar het overzicht:",
     "managerLogonCodeInvalid": "Uw code is niet geldig.",
     "managerOccupancyForDayTitle": "Bezettingsgraad voor {date}",
     "managerSelectDayQuestion": "Selecteer een dag om bezettingsgraad in te zien",
@@ -84,6 +84,7 @@
     "visitorReservationMaximumForTour": "Het maximum aantal deelnemers is bereikt.",
     "visitorReservationNoMoreTours": "Er zijn geen rondleidingen meer beschikbaar",
     "welcome": "Welkom bij Het Depot",
+    "welcomeInstructions": "Kies een tijdstip om een rondleiding te reserveren",
     "yes": "Ja"
   },
   "TourTimes": [

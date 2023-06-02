@@ -34,7 +34,11 @@ namespace HetDepot.Controllers
             tourList.Add(new ListViewExtraItem<Tour, Controller>(Program.SettingService.GetConsoleText("homeLoginAsManager"), () => new ManagerController()));
 
             //TODO: Opmerking Kevin: Als alle rondleidingen vol zitten, 'hangt' de interface
-            ListView<Tour> tourOverviewVisitorWithInterface = new(Program.SettingService.GetConsoleText("welcome"), tourList);
+            ListView<Tour> tourOverviewVisitorWithInterface = new(
+                Program.SettingService.GetConsoleText("welcome"),
+                Program.SettingService.GetConsoleText("welcomeInstructions"),
+                tourList
+            );
 
             Controller? otherController;
             Tour? selectedTour = tourOverviewVisitorWithInterface.ShowAndGetResult<Controller>(out otherController);
