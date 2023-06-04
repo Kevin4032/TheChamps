@@ -1,13 +1,7 @@
-//GuideStartTourAdmissionController.cs
-using System.Media;
 using HetDepot.Controllers.General;
 using HetDepot.People.Model;
-using HetDepot.Tours;
 using HetDepot.Tours.Model;
 using HetDepot.Views;
-using HetDepot.Views.Interface;
-using HetDepot.Views.Parts;
-
 
 namespace HetDepot.Controllers;
 
@@ -50,8 +44,6 @@ class GuideStartTourAdmissionController : Controller
         }
         if (personIDToVerify == "h" || personIDToVerify == "H")
         {
-            /* TODO: Nogmaal invoeren personeelscode en vragen om handmatig aanmelden, RequestAuthenticationController kan hier niet gebruikt worden omdat er dan naar de bezoeker flow gegaan word */
-
             // //Alert: handmatig aanmelden:
             var message_manual_add = Program.SettingService.GetConsoleText("guideTourVisitorAddWithoutReservationOption");
             new AlertView(message_manual_add, ConsoleColor.Blue).Show();
@@ -64,10 +56,6 @@ class GuideStartTourAdmissionController : Controller
 
         if (_tour.Admissions.Count == _tour.MaxReservations || personIDToVerify == "s" || personIDToVerify == "S")
         {
-            /*if maxreservations reached or if user chooses start tour anyway while not everyone checked in,
-            next controller default voor volgende tour of bezoeker aanmelding.
-            TODO: Remove tour from list? */
-
             Program.TourService.StartTour(_tour);
 
             //start the tour:
@@ -76,9 +64,6 @@ class GuideStartTourAdmissionController : Controller
             NextController = new ShowToursController();
             return;
         }
-
-
-
 
         Visitor verified_ID;
         string message_problem_a;
@@ -98,13 +83,6 @@ class GuideStartTourAdmissionController : Controller
             NextController = this;
             return;
         }
-
-        {
-
-
-
-        }
-
 
         //Om toegelaten te worden tot de tour, moet visitor een reservering hebben, en nog geen admission hebben gehad:
 
@@ -166,10 +144,6 @@ class GuideStartTourAdmissionController : Controller
             }
             //print: Je bent niet aangemeld. De code is niet geldig. Controleer uw code en probeer het nog eens
 
-            /*             var message_problem = Program.SettingService.GetConsoleText("guideAdmissionCodeNotValid" + " " +"visitorLogonCodeInvalid");
-                        new AlertView(message, ConsoleColor.Red).Show();
-                        //Doorgaan met volgende aanmelding:
-                        NextController = this; */
             return;
         }
         //als visitor ID geldig is, maar er geen reservering is:

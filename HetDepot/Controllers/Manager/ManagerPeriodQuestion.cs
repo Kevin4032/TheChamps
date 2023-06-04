@@ -10,14 +10,6 @@ public class ManagerPeriodQuestion : Controller
 {
     public override void Execute()
     {
-        // var typeQuestion = new ListView<int>(
-        //     Program.SettingService.GetConsoleText("managerTypeQuestion"), new List<ListableItem>()
-        // {
-        //     new ListViewItem(Program.SettingService.GetConsoleText("reservations"), 0),
-        //     new ListViewItem(Program.SettingService.GetConsoleText("admissions"), 1),
-        //     new ListViewItem(Program.SettingService.GetConsoleText("backToOverview"), "back"),
-        // });
-
         var typeQuestion = new ListView<int>(Program.SettingService.GetConsoleText("managerTimeRangeQuestion"), new()
         {
             new ListViewItem<int>(Program.SettingService.GetConsoleText("perDay"), 0),
