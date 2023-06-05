@@ -18,27 +18,35 @@ class GuideManualAdmissionController : Controller
     {
         string title = Program.SettingService.GetConsoleText("guideTourManuallyCreateReservation");
         string body = Program.SettingService.GetConsoleText("visitorEnterCode");
+        string goBack = Program.SettingService.GetConsoleText("goBack");
         string message_green = Program.SettingService.GetConsoleText("guideManualAdmissionSuccess");
         string message_red = Program.SettingService.GetConsoleText("GuideManualAdmissionInvalid");
 
 
 
         var personIDToVerify = string.Empty;
+        
 
 
-
-        personIDToVerify = new InputView(title, body).ShowAndGetResult();
-        Visitor verified_ID = Program.PeopleService.GetVisitorById(personIDToVerify);
+        personIDToVerify = new InputView(title, body+" "+goBack).ShowAndGetResult();
+        
+        if (personIDToVerify == "Q" || personIDToVerify == "q")
+        {
+            NextController = new GuideStartTourAdmissionController(_tour);
+            return;
+        } 
+        Visitor? verified_ID;
         string message_problem_a;
         string message_problem_b;
         string message_problem_c;
         try
         {
             verified_ID = Program.PeopleService.GetVisitorById(personIDToVerify);
-            return;
+            // return;
         }
         catch (System.Exception)
         {
+            verified_ID = null;
             message_problem_a = Program.SettingService.GetConsoleText("guideAdmissionCodeNotValid");
             message_problem_b = Program.SettingService.GetConsoleText("visitorLogonCodeInvalid");
             message_problem_c = message_problem_a + ". " + message_problem_b;
@@ -46,7 +54,6 @@ class GuideManualAdmissionController : Controller
             //Nogmaals proberen met deze controller:
             NextController = this;
         }
-
 
         if (verified_ID == null)
         {
@@ -73,10 +80,11 @@ class GuideManualAdmissionController : Controller
                 Program.TourService.AddTourAdmission(_tour,verified_ID);
                 new AlertView(message_green, ConsoleColor.Green).Show();
                 //Doorgaan met volgende aanmelding:
-                NextController = new GuideShowAndSelectTourController();
+                NextController = new GuideStartTourAdmissionController(_tour);
             }
             catch (System.Exception)
             {
+               
             }
 
             return;
