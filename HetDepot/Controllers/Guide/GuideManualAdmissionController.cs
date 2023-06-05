@@ -35,7 +35,7 @@ class GuideManualAdmissionController : Controller
         
 
 
-        personIDToVerify = new InputView(title, body+goBack).ShowAndGetResult();
+        personIDToVerify = new InputView(title, body+" "+goBack).ShowAndGetResult();
         
         if (personIDToVerify == "Q" || personIDToVerify == "q")
         {
@@ -49,7 +49,7 @@ class GuideManualAdmissionController : Controller
         try
         {
             verified_ID = Program.PeopleService.GetVisitorById(personIDToVerify);
-            return;
+            // return;
         }
         catch (System.Exception)
         {
@@ -60,7 +60,6 @@ class GuideManualAdmissionController : Controller
             //Nogmaals proberen met deze controller:
             NextController = this;
         }
-
 
         if (verified_ID == null)
         {
@@ -87,10 +86,11 @@ class GuideManualAdmissionController : Controller
                 Program.TourService.AddTourAdmission(_tour,verified_ID);
                 new AlertView(message_green, ConsoleColor.Green).Show();
                 //Doorgaan met volgende aanmelding:
-                NextController = new GuideShowAndSelectTourController();
+                NextController = new GuideStartTourAdmissionController(_tour);
             }
             catch (System.Exception)
             {
+               
             }
 
             return;

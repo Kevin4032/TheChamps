@@ -71,7 +71,7 @@ class GuideStartTourAdmissionController : Controller
         } 
 
 
-        if (_tour.Admissions.Count == _tour.MaxReservations || personIDToVerify == "s" || personIDToVerify == "S")
+        if (_tour.Admissions.Count >= _tour.MaxReservations || personIDToVerify == "s" || personIDToVerify == "S")
         {
             /*if maxreservations reached or if user chooses start tour anyway while not everyone checked in,
             next controller default voor volgende tour of bezoeker aanmelding.
@@ -107,13 +107,6 @@ class GuideStartTourAdmissionController : Controller
             NextController = this;
             return;
         }
-
-        {
-
-
-
-        }
-
 
         //Om toegelaten te worden tot de tour, moet visitor een reservering hebben, en nog geen admission hebben gehad:
 
