@@ -47,7 +47,9 @@ public class GuideManualAdmissionLoginController : Controller
         }
         else
         {
-            NextController = new EmployeeInvalidLoginController();
+            var message = Program.SettingService.GetConsoleText("staffInvalidCode");
+            new AlertView(message, ConsoleColor.Red).Show();
+            NextController = this;
         }
 
     }

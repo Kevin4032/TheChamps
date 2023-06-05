@@ -42,7 +42,7 @@ class GuideManualAdmissionController : Controller
             NextController = new GuideStartTourAdmissionController(_tour);
             return;
         } 
-        Visitor verified_ID = Program.PeopleService.GetVisitorById(personIDToVerify);
+        Visitor? verified_ID;
         string message_problem_a;
         string message_problem_b;
         string message_problem_c;
@@ -53,6 +53,7 @@ class GuideManualAdmissionController : Controller
         }
         catch (System.Exception)
         {
+            verified_ID = null;
             message_problem_a = Program.SettingService.GetConsoleText("guideAdmissionCodeNotValid");
             message_problem_b = Program.SettingService.GetConsoleText("visitorLogonCodeInvalid");
             message_problem_c = message_problem_a + ". " + message_problem_b;
