@@ -44,7 +44,7 @@ public class ReservationCancellationController : Controller
 
         Tour tour = Program.TourService.GetReservation(_visitor)!; // Can't be null, or "HasReservation" above would have returned false 
         Program.TourService.RemoveTourReservation(tour, _visitor);
-        
+
         (new AlertView(Program.SettingService.GetConsoleText("visitorReservationCancellationConfirmation"), AlertView.Info)).Show();
     }
 }

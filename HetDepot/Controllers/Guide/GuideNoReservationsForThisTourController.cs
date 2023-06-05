@@ -18,6 +18,5 @@ class GuideNoReservationsForThisTourController : Controller
             NextController = new GuideShowAndSelectTourController();
         }
 
-        // NextController = new SomeOtherController();
     }
 }

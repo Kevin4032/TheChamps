@@ -1,13 +1,6 @@
-//GuideStartTourAdmissionController.cs
-using System.Diagnostics.Metrics;
-using System.Media;
 using HetDepot.People.Model;
-using HetDepot.Tours;
 using HetDepot.Tours.Model;
 using HetDepot.Views;
-using HetDepot.Views.Interface;
-using HetDepot.Views.Parts;
-
 
 namespace HetDepot.Controllers;
 

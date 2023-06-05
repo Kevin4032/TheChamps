@@ -1,8 +1,6 @@
-
 using HetDepot.Views;
 
 namespace HetDepot.Controllers;
-
 
 class EmployeeInvalidLoginController : Controller
 {
