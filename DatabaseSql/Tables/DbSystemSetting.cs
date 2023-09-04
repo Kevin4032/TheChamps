@@ -14,7 +14,7 @@ namespace DatabaseSql.Tables
 
 		public string CreateTable { get { return @"
                         create table systemSetting (
-                        id integer not null primary key autoincrement,
+                        id integer not null primary key,
                         name text not null,
                         value text not null,
                         dateAdded text not null,

@@ -13,7 +13,7 @@ namespace DatabaseSql.Tables
 		public string TableName { get { return _tableName; } }
 		public string CreateTable { get { return @"
                 create table tour (
-                id integer not null primary key autoincrement,
+                id integer not null primary key,
                 timeStart text null,
                 guide integer null
             );"; } }

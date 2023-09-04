@@ -16,7 +16,7 @@ namespace DatabaseSql.Tables
 
         public string CreateTable { get { return @"
                         create table person (
-                        id integer not null primary key autoincrement,
+                        id integer not null primary key,
                         personId text not null,
                         personType integer not null,
                         name text not null,

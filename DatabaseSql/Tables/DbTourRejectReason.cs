@@ -14,7 +14,7 @@ namespace DatabaseSql.Tables
 
 		public string CreateTable { get { return @"
                     CREATE TABLE tourRejectReasons (
-                        id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+                        id INTEGER NOT NULL PRIMARY KEY,
                         reason TEXT NOT NULL,
                         dateAdded TEXT NOT NULL,
                         dateDeleted TEXT NULL

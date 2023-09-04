@@ -1,5 +1,6 @@
 ﻿using DatabaseSql.Tables;
 using Microsoft.Data.Sqlite;
+using Npgsql;
 using SQLitePCL;
 using System.Reflection.Metadata;
 
@@ -7,8 +8,10 @@ namespace DatabaseSql
 {
     public class DbController : IPersistence
     {
-        private const string _databasePath = "Data Source=poging20230306_004.db";
-        private List<ITableCreate> _tables;
+        //private const string _databasePath = "Data Source=postgresql://localhost:5432";
+        private const string _databasePath = "Server=127.0.0.1;Port=5432;Database=postgres;User Id=postgres;";
+
+		private List<ITableCreate> _tables;
 			
 
 
@@ -120,7 +123,8 @@ namespace DatabaseSql
 		public void Echt()
         {
 
-            using (var connection = new SqliteConnection(_databasePath))
+            //using (var connection = new SqliteConnection(_databasePath))
+            using (var connection = new NpgsqlConnection(_databasePath))
             {
                 connection.Open();
 
@@ -194,8 +198,8 @@ namespace DatabaseSql
 
         public void KevinInit()
         {
-            //InitAllTables();
-            CheckTableInit();
+            InitAllTables();
+            //CheckTableInit();
         }
 
         private void CheckTableInit()
@@ -223,8 +227,9 @@ namespace DatabaseSql
 
         private void InitAllTables()
         {
-            using (var connection = new SqliteConnection(_databasePath))
-            {
+			//using (var connection = new SqliteConnection(_databasePath))
+			using (var connection = new NpgsqlConnection(_databasePath))
+			{
                 connection.Open();
 
                 var command = connection.CreateCommand();
